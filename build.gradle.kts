@@ -11,7 +11,7 @@ tasks.wrapper {
 }
 
 subprojects {
-    group = "org.cufy.moonkit"
+    group = "org.cufy.mongokt"
 
     repositories {
         mavenCentral()
