@@ -12,14 +12,9 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(project(":bsonkt"))
-
                 implementation(kotlin("stdlib"))
-                implementation(kotlin("reflect"))
-
-                implementation(libs.kotlin.datetime)
                 implementation(libs.kotlin.serialization.json)
-                implementation(libs.kotlin.coroutines.core)
+                implementation(libs.kotlin.datetime)
             }
         }
         commonTest {
@@ -29,8 +24,6 @@ kotlin {
         }
         jvmMain {
             dependencies {
-                implementation(libs.kotlin.coroutines.reactive)
-
                 implementation(libs.mongodb.sync)
                 implementation(libs.mongodb.reactivestreams)
             }

@@ -1,6 +1,5 @@
 [versions]
 kotlin = "1.9.20"
-cufyorg-serialization = "2.0.0-RC.7"
 
 [libraries]
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.6.3" }
@@ -10,7 +9,3 @@ kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version =
 
 mongodb-sync = { module = "org.mongodb:mongodb-driver-sync", version = "4.10.2" }
 mongodb-reactivestreams = { module = "org.mongodb:mongodb-driver-reactivestreams", version = "4.10.2" }
-
-cufyorg-bson = { module = "org.cufy.serialization:cufyorg-bson", version.ref = "cufyorg-serialization" }
-cufyorg-PED-core = { module = "org.cufy.serialization:cufyorg-PED-core", version.ref = "cufyorg-serialization" }
-cufyorg-PED-bson = { module = "org.cufy.serialization:cufyorg-PED-bson", version.ref = "cufyorg-serialization" }
