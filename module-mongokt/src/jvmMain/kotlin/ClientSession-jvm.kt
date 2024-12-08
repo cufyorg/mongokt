@@ -17,6 +17,8 @@
 
 package org.cufy.mongodb
 
+import kotlinx.coroutines.reactive.awaitSingle
+
 /* ============= ------------------ ============= */
 
 actual data class ClientSession(val java: JavaClientSession) {
@@ -33,5 +35,29 @@ actual data class ClientSession(val java: JavaClientSession) {
  */
 val JavaClientSession.kt: ClientSession
     get() = ClientSession(this)
+
+/* ============= ------------------ ============= */
+
+actual val ClientSession.hasActiveTransaction: Boolean
+    get() = java.hasActiveTransaction()
+
+actual val ClientSession.transactionOptions: TransactionOptions
+    get() = java.transactionOptions.kt
+
+/* ============= ------------------ ============= */
+
+actual fun ClientSession.startTransaction(
+    options: TransactionOptions,
+) {
+    java.startTransaction(options.java)
+}
+
+actual suspend fun ClientSession.commitTransaction() {
+    java.commitTransaction().awaitSingle()
+}
+
+actual suspend fun ClientSession.abortTransaction() {
+    java.abortTransaction().awaitSingle()
+}
 
 /* ============= ------------------ ============= */

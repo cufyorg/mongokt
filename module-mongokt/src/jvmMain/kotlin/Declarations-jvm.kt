@@ -20,6 +20,7 @@ import org.cufy.bson.BsonDocument
 import org.cufy.bson.java
 import org.cufy.bson.kt
 import java.util.concurrent.TimeUnit
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -297,6 +298,15 @@ val TransactionOptions.java: JavaTransactionOptions
             .maxCommitTime(maxCommitTime?.inWholeMilliseconds, TimeUnit.MILLISECONDS)
             .build()
     }
+
+val JavaTransactionOptions.kt: TransactionOptions
+    get() = TransactionOptions(
+        readConcern = readConcern?.kt,
+        writeConcern = writeConcern?.kt,
+        readPreference = readPreference,
+        maxCommitTime = getMaxCommitTime(TimeUnit.MILLISECONDS)
+            ?.milliseconds,
+    )
 
 /* ============= ------------------ ============= */
 
