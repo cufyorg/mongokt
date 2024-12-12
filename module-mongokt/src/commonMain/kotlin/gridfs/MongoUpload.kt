@@ -43,7 +43,7 @@ import org.cufy.mongodb.ExperimentalMongodbApi
  * @since 2.0.0
  */
 @ExperimentalMongodbApi
-expect class MongoUpload : Deferred<Unit>, AutoCloseable {
+expect class MongoUpload : AutoCloseable {
     /**
      * True, if the upload is closed for writing.
      */
@@ -61,6 +61,8 @@ expect class MongoUpload : Deferred<Unit>, AutoCloseable {
      * @since 2.0.0
      */
     val id: Deferred<BsonElement>
+
+    suspend fun await()
 
     /**
      * Close the upload channel.

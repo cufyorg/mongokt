@@ -37,10 +37,14 @@ import kotlin.math.min
 actual class MongoDownload internal constructor(
     actual val file: Deferred<MongoFile>,
     actual val bufferSizeBytes: Int,
-    job: Deferred<Unit>,
+    private val job: Deferred<Unit>,
     private val channel: ReceiveChannel<ByteBuffer>,
     private val onClose: () -> Unit,
-) : Deferred<Unit> by job, AutoCloseable {
+) : AutoCloseable {
+    actual suspend fun await() {
+        job.await()
+    }
+
     actual override fun close() {
         leftover.set(null)
         onClose()
@@ -48,7 +52,7 @@ actual class MongoDownload internal constructor(
 
     actual suspend fun closeAndAwait(): MongoFile {
         close()
-        await()
+        job.await()
         return file.await()
     }
 

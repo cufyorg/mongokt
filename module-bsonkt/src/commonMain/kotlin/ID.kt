@@ -47,7 +47,7 @@ data class ID<T>(val value: String) : CharSequence by value {
  * @author LSafer
  * @since 2.0.0
  */
-typealias AnyID = ID<out Any?>
+typealias AnyID = ID<Any?>
 
 /* ============= ------------------ ============= */
 

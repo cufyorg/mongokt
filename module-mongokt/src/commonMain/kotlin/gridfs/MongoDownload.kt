@@ -43,7 +43,7 @@ import org.cufy.mongodb.ExperimentalMongodbApi
  * @since 2.0.0
  */
 @ExperimentalMongodbApi
-expect class MongoDownload : Deferred<Unit>, AutoCloseable {
+expect class MongoDownload : AutoCloseable {
     /**
      * The preferred download buffer size as set in the
      * [DownloadOptions].
@@ -57,6 +57,8 @@ expect class MongoDownload : Deferred<Unit>, AutoCloseable {
      * @since 2.0.0
      */
     val file: Deferred<MongoFile>
+
+    suspend fun await()
 
     /**
      * Close the download channel.

@@ -19,6 +19,7 @@
 package org.cufy.mongodb.gridfs
 
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.consumeEach
@@ -37,16 +38,22 @@ import java.nio.ByteBuffer
 actual class MongoUpload internal constructor(
     actual val id: Deferred<BsonElement>,
     actual val chunkSizeBytes: Int,
-    job: Deferred<Unit>,
+    private val job: Deferred<Unit>,
     private val channel: SendChannel<ByteBuffer>,
     private val onClose: () -> Unit,
-) : Deferred<Unit> by job, AutoCloseable {
+) : AutoCloseable {
+    @OptIn(DelicateCoroutinesApi::class)
     actual val isClosedForWrite get() = channel.isClosedForSend
+
+    actual suspend fun await() {
+        job.await()
+    }
+
     actual override fun close() = onClose()
 
     actual suspend fun closeAndAwait(): BsonElement {
         close()
-        await()
+        job.await()
         return id.await()
     }
 
