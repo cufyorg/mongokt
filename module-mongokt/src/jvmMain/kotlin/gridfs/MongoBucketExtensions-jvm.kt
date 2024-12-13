@@ -23,7 +23,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ClosedSendChannelException
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.reactive.awaitFirstOrNull
-import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.reactive.collect
 import org.cufy.bson.BsonDocument
 import org.cufy.bson.BsonElement
@@ -121,7 +120,9 @@ actual suspend fun MongoBucket.asyncDownload(
     val fileJob = CompletableDeferred<MongoFile>()
     val job = CoroutineScope(Dispatchers.IO).async {
         val publisher = java.downloadToPublisher0(id, options, session)
-        fileJob.complete(publisher.gridFSFile.awaitSingle().kt)
+        publisher.gridFSFile.awaitFirstOrNull()?.let {
+            fileJob.complete(it.kt)
+        }
         try {
             publisher.collect { channel.send(it) }
         } catch (_: ClosedSendChannelException) {
@@ -172,7 +173,7 @@ actual suspend fun MongoBucket.asyncDownload(
     val fileJob = CompletableDeferred<MongoFile>()
     val job = CoroutineScope(Dispatchers.IO).async {
         val publisher = java.downloadToPublisher0(filename, options, revision, session)
-        fileJob.complete(publisher.gridFSFile.awaitSingle().kt)
+        publisher.gridFSFile.awaitFirstOrNull()?.let { fileJob.complete(it.kt) }
         try {
             publisher.collect { channel.send(it) }
         } catch (_: ClosedSendChannelException) {
