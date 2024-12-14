@@ -15,13 +15,13 @@
  */
 package org.cufy.mongodb.gridfs
 
-import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ClosedSendChannelException
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.reactive.asPublisher
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import kotlinx.coroutines.reactive.collect
 import org.cufy.bson.BsonDocument
@@ -41,28 +41,29 @@ actual suspend fun MongoBucket.asyncUpload(
     metadata: BsonDocument,
     options: UploadOptions,
     session: ClientSession?,
+    coroutineScope: CoroutineScope,
 ): MongoUpload {
     val chunkSize = options.chunkSizeBytes ?: chunkSizeBytes
     val channel = Channel<ByteBuffer>()
-    val idJob = CompletableDeferred<BsonElement>()
-    val job = CoroutineScope(Dispatchers.IO).async<Unit> {
-        val publisher = java.uploadFromPublisher0(channel.receiveAsFlow(), filename, metadata, options, session)
-        idJob.complete(publisher.id.kt)
+    val publisher = java.uploadFromPublisher0(
+        source = channel.receiveAsFlow().asPublisher(),
+        filename = filename,
+        metadata = metadata,
+        options = options,
+        session = session,
+    )
+    val job = coroutineScope.async<Unit> {
         publisher.awaitFirstOrNull()
     }
-
-    job.invokeOnCompletion { error ->
-        channel.close()
-        error?.let {
-            idJob.completeExceptionally(it)
-        }
-    }
-
-    return MongoUpload(idJob, chunkSize, job, channel) {
-        // no need to close the job.
-        // the job already depends on the channel
+    job.invokeOnCompletion {
         channel.close()
     }
+    return MongoUpload(
+        chunkSizeBytes = chunkSize,
+        id = publisher.id.kt,
+        channel = channel,
+        job = job,
+    )
 }
 
 @ExperimentalMongodbApi
@@ -72,127 +73,100 @@ actual suspend fun MongoBucket.asyncUpload(
     metadata: BsonDocument,
     options: UploadOptions,
     session: ClientSession?,
+    coroutineScope: CoroutineScope,
 ): MongoUpload {
     val chunkSize = options.chunkSizeBytes ?: chunkSizeBytes
     val channel = Channel<ByteBuffer>()
-    val idJob = CompletableDeferred(id)
-    val job = CoroutineScope(Dispatchers.IO).async<Unit> {
-        val publisher = java.uploadFromPublisher0(channel.receiveAsFlow(), filename, id, metadata, options, session)
+    val publisher = java.uploadFromPublisher0(
+        source = channel.receiveAsFlow().asPublisher(),
+        filename = filename,
+        id = id,
+        metadata = metadata,
+        options = options,
+        session = session,
+    )
+    val job = coroutineScope.async<Unit> {
         publisher.awaitFirstOrNull()
     }
-
     job.invokeOnCompletion {
         channel.close()
-        // no need to notify idJob
     }
-
-    return MongoUpload(idJob, chunkSize, job, channel) {
-        // no need to close the job.
-        // the job already depends on the channel
-        channel.close()
-    }
+    return MongoUpload(
+        chunkSizeBytes = chunkSize,
+        id = publisher.id.kt,
+        channel = channel,
+        job = job,
+    )
 }
 
-/**
- * Downloads the contents of the stored file specified by [id]
- * and return an instance of [MongoDownload] to complete the
- * download process.
- *
- * **Note: don't forget to [close][MongoDownload.close] the
- * returned instance to complete the download and close the
- * resources**
- *
- * @param session the client session with which to associate this operation.
- * @param id the id of the file to be downloaded.
- * @param options the download options.
- * @return a download instance to complete the download process.
- * @see com.mongodb.reactivestreams.client.gridfs.GridFSBucket.downloadToPublisher
- * @since 2.0.0
- */
 @ExperimentalMongodbApi
 actual suspend fun MongoBucket.asyncDownload(
     id: BsonElement,
     options: DownloadOptions,
     session: ClientSession?,
+    coroutineScope: CoroutineScope,
 ): MongoDownload {
     val chunkSize = options.bufferSizeBytes ?: chunkSizeBytes
     val channel = Channel<ByteBuffer>()
-    val fileJob = CompletableDeferred<MongoFile>()
-    val job = CoroutineScope(Dispatchers.IO).async {
-        val publisher = java.downloadToPublisher0(id, options, session)
-        publisher.gridFSFile.awaitFirstOrNull()?.let {
-            fileJob.complete(it.kt)
-        }
+    val publisher = java.downloadToPublisher0(
+        id = id,
+        options = options,
+        session = session,
+    )
+    val job = coroutineScope.async {
         try {
             publisher.collect { channel.send(it) }
         } catch (_: ClosedSendChannelException) {
             // it is completely ok to close mid-download
         }
     }
-
-    job.invokeOnCompletion { error ->
+    job.invokeOnCompletion {
         channel.close()
-        error?.let {
-            fileJob.completeExceptionally(it)
-        }
     }
-
-    return MongoDownload(fileJob, chunkSize, job, channel) {
-        // no need to close the job.
-        // the job already depends on the channel
-        channel.cancel()
-    }
+    return MongoDownload(
+        bufferSizeBytes = chunkSize,
+        file = coroutineScope.async(start = CoroutineStart.LAZY) {
+            publisher.gridFSFile.awaitFirstOrNull()?.kt
+        },
+        channel = channel,
+        job = job,
+    )
 }
 
-/**
- * Downloads the contents of the stored file specified by [filename] and [revision]
- * and return an instance of [MongoDownload] to complete the
- * download process.
- *
- * **Note: don't forget to [close][MongoDownload.close] the
- * returned instance to complete the download and close the
- * resources**
- *
- * @param session the client session with which to associate this operation.
- * @param filename the name of the file to be downloaded.
- * @param revision the revision of the file to be downloaded.
- * @param options the download options.
- * @return a download instance to complete the download process.
- * @see com.mongodb.reactivestreams.client.gridfs.GridFSBucket.downloadToPublisher
- * @since 2.0.0
- */
 @ExperimentalMongodbApi
 actual suspend fun MongoBucket.asyncDownload(
     filename: String,
     options: DownloadOptions,
     revision: FileRevision,
     session: ClientSession?,
+    coroutineScope: CoroutineScope,
 ): MongoDownload {
     val chunkSize = options.bufferSizeBytes ?: chunkSizeBytes
     val channel = Channel<ByteBuffer>()
-    val fileJob = CompletableDeferred<MongoFile>()
-    val job = CoroutineScope(Dispatchers.IO).async {
-        val publisher = java.downloadToPublisher0(filename, options, revision, session)
-        publisher.gridFSFile.awaitFirstOrNull()?.let { fileJob.complete(it.kt) }
+    val publisher = java.downloadToPublisher0(
+        filename = filename,
+        options = options,
+        revision = revision,
+        session = session,
+    )
+    val job = coroutineScope.async {
         try {
             publisher.collect { channel.send(it) }
         } catch (_: ClosedSendChannelException) {
             // it is completely ok to close mid-download
         }
     }
-
-    job.invokeOnCompletion { error ->
+    job.invokeOnCompletion {
         channel.close()
-        error?.let {
-            fileJob.completeExceptionally(error)
-        }
     }
-
-    return MongoDownload(fileJob, chunkSize, job, channel) {
-        // no need to close the job.
-        // the job already depends on the channel
-        channel.cancel()
-    }
+    return MongoDownload(
+        bufferSizeBytes = chunkSize,
+        file = coroutineScope.async(start = CoroutineStart.LAZY) {
+            publisher.gridFSFile.awaitFirstOrNull()?.kt
+        },
+        channel = channel,
+        job = job,
+    )
 }
 
 /* ============= ------------------ ============= */

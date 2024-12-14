@@ -18,18 +18,17 @@ package org.cufy.mongodb.gridfs.internal
 import com.mongodb.client.gridfs.model.GridFSDownloadOptions
 import com.mongodb.reactivestreams.client.gridfs.GridFSDownloadPublisher
 import com.mongodb.reactivestreams.client.gridfs.GridFSUploadPublisher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.reactive.asPublisher
 import org.bson.Document
 import org.cufy.bson.BsonDocument
 import org.cufy.bson.BsonElement
 import org.cufy.bson.java
 import org.cufy.mongodb.ClientSession
 import org.cufy.mongodb.gridfs.*
+import org.reactivestreams.Publisher
 import java.nio.ByteBuffer
 
 internal fun JavaMongoBucket.uploadFromPublisher0(
-    source: Flow<ByteBuffer>,
+    source: Publisher<ByteBuffer>,
     filename: String,
     metadata: BsonDocument,
     options: UploadOptions,
@@ -37,14 +36,14 @@ internal fun JavaMongoBucket.uploadFromPublisher0(
 ): GridFSUploadPublisher<org.bson.types.ObjectId> {
     val opts = options.java.metadata(Document(metadata.java))
     val publisher = when (session) {
-        null -> uploadFromPublisher(filename, source.asPublisher(), opts)
-        else -> uploadFromPublisher(session.java, filename, source.asPublisher(), opts)
+        null -> uploadFromPublisher(filename, source, opts)
+        else -> uploadFromPublisher(session.java, filename, source, opts)
     }
     return publisher
 }
 
 internal fun JavaMongoBucket.uploadFromPublisher0(
-    source: Flow<ByteBuffer>,
+    source: Publisher<ByteBuffer>,
     filename: String,
     id: BsonElement,
     metadata: BsonDocument,
@@ -53,8 +52,8 @@ internal fun JavaMongoBucket.uploadFromPublisher0(
 ): GridFSUploadPublisher<Void> {
     val opts = options.java.metadata(Document(metadata.java))
     val publisher = when (session) {
-        null -> uploadFromPublisher(id.java, filename, source.asPublisher(), opts)
-        else -> uploadFromPublisher(session.java, id.java, filename, source.asPublisher(), opts)
+        null -> uploadFromPublisher(id.java, filename, source, opts)
+        else -> uploadFromPublisher(session.java, id.java, filename, source, opts)
     }
     return publisher
 }

@@ -5,6 +5,7 @@ import org.cufy.mongodb.*
 import org.cufy.mongodb.gridfs.*
 import java.io.File
 import java.io.InputStream
+import java.nio.ByteBuffer
 import java.util.*
 import kotlin.io.path.createTempFile
 import kotlin.test.AfterTest
@@ -45,12 +46,60 @@ class GridFSTest {
             // UPLOADING
             val upload = bucket.asyncUpload("abc1def2")
             upload.writeFrom(input)
-            val id = upload.closeAndAwait()
+            upload.close()
+            upload.await()
 
             // DOWNLOADING
-            val download = bucket.asyncDownload(id)
+            val download = bucket.asyncDownload(upload.id)
             download.writeTo(output)
-            val file = download.closeAndAwait()
+            download.close()
+            download.await()
+
+            assertTrue(diff(input, output), "Input does not equal output")
+        }
+    }
+
+    @Test
+    @ExperimentalMongodbApi
+    fun `upload using a single buffer`() {
+        runBlocking {
+            val input = createTempFile().toFile()
+            val output = createTempFile().toFile()
+
+            input.fillWithGarbage()
+
+            // UPLOADING
+            val upload = bucket.asyncUpload("abc1def2")
+            input.inputStream().use { inStream ->
+                val buffer = ByteBuffer.allocate(1024)
+
+                while (true) {
+                    val n = inStream.read(buffer.array())
+                    if (n == -1) break
+                    buffer.limit(n)
+                    // no need to flip
+                    upload.write(buffer)
+                    buffer.rewind()
+                }
+            }
+            upload.close()
+            upload.await()
+
+            // DOWNLOADING
+            val download = bucket.asyncDownload(upload.id)
+            output.outputStream().use { outStream ->
+                while (true) {
+                    val buffer = download.read()
+                    buffer ?: break
+                    outStream.write(
+                        buffer.array(),
+                        buffer.position(),
+                        buffer.limit(),
+                    )
+                }
+            }
+            download.close()
+            download.await()
 
             assertTrue(diff(input, output), "Input does not equal output")
         }

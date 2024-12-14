@@ -54,10 +54,19 @@ expect class MongoDownload : AutoCloseable {
      * The file data. Can be awaited without the
      * need to await the whole job.
      *
+     * If the download operation has failed,
+     * this yields `null`.
+     *
      * @since 2.0.0
      */
-    val file: Deferred<MongoFile>
+    val file: Deferred<MongoFile?>
 
+    /**
+     * Await the completion of the download operation.
+     *
+     * If the download operation has failed, this function
+     * will throw the fail cause.
+     */
     suspend fun await()
 
     /**
@@ -66,23 +75,14 @@ expect class MongoDownload : AutoCloseable {
      * After calling this function, the download
      * channel will be closed causing the download
      * job to finish and the download operation to
-     * be completed and the download result to be
-     * accessible through [await].
+     * be canceled.
+     *
+     * Calling this function would not cause [await]
+     * to throw an exception.
      *
      * @since 2.0.0
      */
     override fun close()
-
-    /**
-     * Close the download channel and **await** the results.
-     *
-     * If the download has failed this function will
-     * throw the failure cause.
-     *
-     * @return the download results.
-     * @since 2.0.0
-     */
-    suspend fun closeAndAwait(): MongoFile
 
     /**
      * Read the next bytes into the given [dest] array.

@@ -36,11 +36,10 @@ import java.nio.ByteBuffer
 
 @ExperimentalMongodbApi
 actual class MongoUpload internal constructor(
-    actual val id: Deferred<BsonElement>,
     actual val chunkSizeBytes: Int,
-    private val job: Deferred<Unit>,
+    actual val id: BsonElement,
     private val channel: SendChannel<ByteBuffer>,
-    private val onClose: () -> Unit,
+    private val job: Deferred<Unit>,
 ) : AutoCloseable {
     @OptIn(DelicateCoroutinesApi::class)
     actual val isClosedForWrite get() = channel.isClosedForSend
@@ -49,12 +48,8 @@ actual class MongoUpload internal constructor(
         job.await()
     }
 
-    actual override fun close() = onClose()
-
-    actual suspend fun closeAndAwait(): BsonElement {
-        close()
-        job.await()
-        return id.await()
+    actual override fun close() {
+        channel.close()
     }
 
     actual suspend fun write(src: ByteArray) {

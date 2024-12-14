@@ -23,10 +23,7 @@ import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.reactive.asFlow
-import kotlinx.coroutines.reactive.awaitFirstOrNull
-import kotlinx.coroutines.reactive.awaitSingle
-import kotlinx.coroutines.reactive.collect
+import kotlinx.coroutines.reactive.*
 import org.cufy.bson.*
 import org.cufy.mongodb.*
 import org.cufy.mongodb.gridfs.internal.downloadToPublisher0
@@ -87,7 +84,13 @@ actual suspend fun MongoBucket.upload(
     options: UploadOptions,
     session: ClientSession?,
 ): BsonObjectId {
-    val publisher = java.uploadFromPublisher0(channel.receiveAsFlow(), filename, metadata, options, session)
+    val publisher = java.uploadFromPublisher0(
+        source = channel.receiveAsFlow().asPublisher(),
+        filename = filename,
+        metadata = metadata,
+        options = options,
+        session = session,
+    )
     return publisher.awaitSingle().kt.bson
 }
 
@@ -100,8 +103,14 @@ actual suspend fun MongoBucket.upload(
     options: UploadOptions,
     session: ClientSession?,
 ) {
-    val publisher = java.uploadFromPublisher0(channel.receiveAsFlow(), filename, id, metadata, options, session)
-
+    val publisher = java.uploadFromPublisher0(
+        source = channel.receiveAsFlow().asPublisher(),
+        filename = filename,
+        id = id,
+        metadata = metadata,
+        options = options,
+        session = session,
+    )
     publisher.awaitFirstOrNull()
 }
 

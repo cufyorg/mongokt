@@ -15,6 +15,8 @@
  */
 package org.cufy.mongodb.gridfs
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import org.cufy.bson.BsonDocument
 import org.cufy.bson.BsonDocumentBlock
 import org.cufy.bson.BsonElement
@@ -33,13 +35,10 @@ over the same functions in `MongoBucket.kt`
  * returns a [MongoUpload] instance to complete the upload
  * process.
  *
- * **Note: don't forget to [close][MongoUpload.close] the
- * returned instance to complete the upload and close the
- * resources**
- *
- * @param session the client session with which to associate this operation.
  * @param filename the filename.
  * @param metadata user provided data for the `metadata` field of the files collection document.
+ * @param session the client session with which to associate this operation.
+ * @param coroutineScope the scope to execute the upload in the background in.
  * @param options  the upload options.
  * @return an upload instance to complete the upload process.
  * @see com.mongodb.reactivestreams.client.gridfs.GridFSBucket.uploadFromPublisher
@@ -51,6 +50,7 @@ expect suspend fun MongoBucket.asyncUpload(
     metadata: BsonDocument = BsonDocument.Empty,
     options: UploadOptions = UploadOptions(),
     session: ClientSession? = null,
+    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
 ): MongoUpload
 
 /**
@@ -58,14 +58,11 @@ expect suspend fun MongoBucket.asyncUpload(
  * returns a [MongoUpload] instance to complete the upload
  * process.
  *
- * **Note: don't forget to [close][MongoUpload.close] the
- * returned instance to complete the upload and close the
- * resources**
- *
- * @param session the client session with which to associate this operation.
  * @param id       the custom id value of the file.
  * @param filename the filename.
  * @param metadata user provided data for the `metadata` field of the files collection document.
+ * @param session the client session with which to associate this operation.
+ * @param coroutineScope the scope to execute the upload in the background in.
  * @param options  the upload options.
  * @return an upload instance to complete the upload process.
  * @see com.mongodb.reactivestreams.client.gridfs.GridFSBucket.uploadFromPublisher
@@ -78,6 +75,7 @@ expect suspend fun MongoBucket.asyncUpload(
     metadata: BsonDocument = BsonDocument.Empty,
     options: UploadOptions = UploadOptions(),
     session: ClientSession? = null,
+    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
 ): MongoUpload
 
 /**
@@ -85,13 +83,10 @@ expect suspend fun MongoBucket.asyncUpload(
  * returns a [MongoUpload] instance to complete the upload
  * process.
  *
- * **Note: don't forget to [close][MongoUpload.close] the
- * returned instance to complete the upload and close the
- * resources**
- *
- * @param session the client session with which to associate this operation.
  * @param filename the filename.
  * @param metadata user provided data for the `metadata` field of the files collection document.
+ * @param session the client session with which to associate this operation.
+ * @param coroutineScope the scope to execute the upload in the background in.
  * @param options  the upload options.
  * @return an upload instance to complete the upload process.
  * @see com.mongodb.reactivestreams.client.gridfs.GridFSBucket.uploadFromPublisher
@@ -102,13 +97,15 @@ suspend fun MongoBucket.asyncUpload(
     filename: String,
     metadata: BsonDocumentBlock,
     session: ClientSession? = null,
+    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
     options: UploadOptions.() -> Unit = {},
 ): MongoUpload {
     return asyncUpload(
         filename = filename,
         metadata = BsonDocument(metadata),
         options = UploadOptions(options),
-        session = session
+        session = session,
+        coroutineScope = coroutineScope,
     )
 }
 
@@ -117,14 +114,11 @@ suspend fun MongoBucket.asyncUpload(
  * returns a [MongoUpload] instance to complete the upload
  * process.
  *
- * **Note: don't forget to [close][MongoUpload.close] the
- * returned instance to complete the upload and close the
- * resources**
- *
- * @param session the client session with which to associate this operation.
  * @param id       the custom id value of the file.
  * @param filename the filename.
  * @param metadata user provided data for the `metadata` field of the files collection document.
+ * @param session the client session with which to associate this operation.
+ * @param coroutineScope the scope to execute the upload in the background in.
  * @param options  the upload options.
  * @return an upload instance to complete the upload process.
  * @see com.mongodb.reactivestreams.client.gridfs.GridFSBucket.uploadFromPublisher
@@ -136,6 +130,7 @@ suspend fun MongoBucket.asyncUpload(
     id: BsonElement,
     metadata: BsonDocumentBlock,
     session: ClientSession? = null,
+    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
     options: UploadOptions.() -> Unit = {},
 ): MongoUpload {
     return asyncUpload(
@@ -143,7 +138,8 @@ suspend fun MongoBucket.asyncUpload(
         id = id,
         metadata = BsonDocument(metadata),
         options = UploadOptions(options),
-        session = session
+        session = session,
+        coroutineScope = coroutineScope,
     )
 }
 
@@ -154,12 +150,9 @@ suspend fun MongoBucket.asyncUpload(
  * and return an instance of [MongoDownload] to complete the
  * download process.
  *
- * **Note: don't forget to [close][MongoDownload.close] the
- * returned instance to complete the download and close the
- * resources**
- *
- * @param session the client session with which to associate this operation.
  * @param id the id of the file to be downloaded.
+ * @param session the client session with which to associate this operation.
+ * @param coroutineScope the scope to execute the download in the background in.
  * @param options the download options.
  * @return a download instance to complete the download process.
  * @see com.mongodb.reactivestreams.client.gridfs.GridFSBucket.downloadToPublisher
@@ -170,6 +163,7 @@ expect suspend fun MongoBucket.asyncDownload(
     id: BsonElement,
     options: DownloadOptions = DownloadOptions(),
     session: ClientSession? = null,
+    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
 ): MongoDownload
 
 /**
@@ -177,13 +171,10 @@ expect suspend fun MongoBucket.asyncDownload(
  * and return an instance of [MongoDownload] to complete the
  * download process.
  *
- * **Note: don't forget to [close][MongoDownload.close] the
- * returned instance to complete the download and close the
- * resources**
- *
- * @param session the client session with which to associate this operation.
  * @param filename the name of the file to be downloaded.
  * @param revision the revision of the file to be downloaded.
+ * @param session the client session with which to associate this operation.
+ * @param coroutineScope the scope to execute the download in the background in.
  * @param options the download options.
  * @return a download instance to complete the download process.
  * @see com.mongodb.reactivestreams.client.gridfs.GridFSBucket.downloadToPublisher
@@ -195,6 +186,7 @@ expect suspend fun MongoBucket.asyncDownload(
     options: DownloadOptions = DownloadOptions(),
     revision: FileRevision = FileRevision.Latest,
     session: ClientSession? = null,
+    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
 ): MongoDownload
 
 /**
@@ -202,12 +194,9 @@ expect suspend fun MongoBucket.asyncDownload(
  * and return an instance of [MongoDownload] to complete the
  * download process.
  *
- * **Note: don't forget to [close][MongoDownload.close] the
- * returned instance to complete the download and close the
- * resources**
- *
- * @param session the client session with which to associate this operation.
  * @param id the id of the file to be downloaded.
+ * @param session the client session with which to associate this operation.
+ * @param coroutineScope the scope to execute the download in the background in.
  * @param options the download options.
  * @return a download instance to complete the download process.
  * @see com.mongodb.reactivestreams.client.gridfs.GridFSBucket.downloadToPublisher
@@ -217,12 +206,14 @@ expect suspend fun MongoBucket.asyncDownload(
 suspend fun MongoBucket.asyncDownload(
     id: BsonElement,
     session: ClientSession? = null,
+    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
     options: DownloadOptions.() -> Unit,
 ): MongoDownload {
     return asyncDownload(
         id = id,
         options = DownloadOptions(options),
-        session = session
+        session = session,
+        coroutineScope = coroutineScope,
     )
 }
 
@@ -231,13 +222,10 @@ suspend fun MongoBucket.asyncDownload(
  * and return an instance of [MongoDownload] to complete the
  * download process.
  *
- * **Note: don't forget to [close][MongoDownload.close] the
- * returned instance to complete the download and close the
- * resources**
- *
- * @param session the client session with which to associate this operation.
  * @param filename the name of the file to be downloaded.
  * @param revision the revision of the file to be downloaded.
+ * @param session the client session with which to associate this operation.
+ * @param coroutineScope the scope to execute the download in the background in.
  * @param options the download options.
  * @return a download instance to complete the download process.
  * @see com.mongodb.reactivestreams.client.gridfs.GridFSBucket.downloadToPublisher
@@ -248,13 +236,15 @@ suspend fun MongoBucket.asyncDownload(
     filename: String,
     revision: FileRevision = FileRevision.Latest,
     session: ClientSession? = null,
+    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
     options: DownloadOptions.() -> Unit,
 ): MongoDownload {
     return asyncDownload(
         filename = filename,
         options = DownloadOptions(options),
         revision = revision,
-        session = session
+        session = session,
+        coroutineScope = coroutineScope,
     )
 }
 

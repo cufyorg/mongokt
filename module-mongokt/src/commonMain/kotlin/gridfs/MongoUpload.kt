@@ -60,8 +60,14 @@ expect class MongoUpload : AutoCloseable {
      *
      * @since 2.0.0
      */
-    val id: Deferred<BsonElement>
+    val id: BsonElement
 
+    /**
+     * Await the completion of the upload operation.
+     *
+     * If the upload operation has failed, this function
+     * will throw the fail cause.
+     */
     suspend fun await()
 
     /**
@@ -76,17 +82,6 @@ expect class MongoUpload : AutoCloseable {
      * @since 2.0.0
      */
     override fun close()
-
-    /**
-     * Close the upload channel and **await** the results.
-     *
-     * If the upload has failed this function will
-     * throw the failure cause.
-     *
-     * @return the upload results.
-     * @since 2.0.0
-     */
-    suspend fun closeAndAwait(): BsonElement
 
     /**
      * Write from the given [src] and **suspend**
