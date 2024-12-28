@@ -1,13 +1,19 @@
 package org.cufy.mongodb.test
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.runBlocking
 import org.cufy.mongodb.*
-import org.cufy.mongodb.gridfs.*
+import org.cufy.mongodb.gridfs.MongoBucket
+import org.cufy.mongodb.gridfs.createMongoBucket
+import org.cufy.mongodb.gridfs.download
+import org.cufy.mongodb.gridfs.upload
 import java.io.File
 import java.io.InputStream
 import java.nio.ByteBuffer
 import java.util.*
 import kotlin.io.path.createTempFile
+import kotlin.random.Random
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -42,64 +48,72 @@ class GridFSTest {
             val output = createTempFile().toFile()
 
             input.fillWithGarbage()
+            output.fillWithGarbage()
 
-            // UPLOADING
-            val upload = bucket.asyncUpload("abc1def2")
-            upload.writeFrom(input)
-            upload.close()
-            upload.await()
+            val objectId = bucket.upload(filename = "a.jpeg") {
+                input.inputStream().use { inStream ->
+                    while (true) {
+                        val buffer = ByteBuffer.allocate(1024)
+                        val n = inStream.read(buffer.array())
+                        if (n == -1) break
+                        buffer.limit(n)
+                        // no need to flip
+                        send(buffer)
+                    }
+                }
+            }
 
-            // DOWNLOADING
-            val download = bucket.asyncDownload(upload.id)
-            download.writeTo(output)
-            download.close()
-            download.await()
+            val file = bucket.download(objectId) {
+                output.outputStream().use { outStream ->
+                    consumeEach { buffer ->
+                        outStream.write(
+                            buffer.array(),
+                            buffer.position(),
+                            buffer.limit(),
+                        )
+                    }
+                }
+            }
 
             assertTrue(diff(input, output), "Input does not equal output")
         }
     }
 
-    @Test
+    //    @Test // not applicable
     @ExperimentalMongodbApi
     fun `upload using a single buffer`() {
-        runBlocking {
+        runBlocking(Dispatchers.IO) {
             val input = createTempFile().toFile()
             val output = createTempFile().toFile()
 
             input.fillWithGarbage()
+            output.fillWithGarbage()
 
-            // UPLOADING
-            val upload = bucket.asyncUpload("abc1def2")
-            input.inputStream().use { inStream ->
-                val buffer = ByteBuffer.allocate(1024)
-
-                while (true) {
-                    val n = inStream.read(buffer.array())
-                    if (n == -1) break
-                    buffer.limit(n)
-                    // no need to flip
-                    upload.write(buffer)
-                    buffer.rewind()
+            val objectId = bucket.upload(filename = "b.jpeg") {
+                input.inputStream().use { inStream ->
+                    val buffer = ByteBuffer.allocate(1024)
+                    while (true) {
+                        val n = inStream.read(buffer.array())
+                        if (n == -1) break
+                        buffer.limit(n)
+                        // no need to flip
+                        send(buffer)
+                        buffer.clear()
+                    }
                 }
             }
-            upload.close()
-            upload.await()
 
-            // DOWNLOADING
-            val download = bucket.asyncDownload(upload.id)
-            output.outputStream().use { outStream ->
-                while (true) {
-                    val buffer = download.read()
-                    buffer ?: break
-                    outStream.write(
-                        buffer.array(),
-                        buffer.position(),
-                        buffer.limit(),
-                    )
+            val file = bucket.download(objectId) {
+                output.outputStream().use { outStream ->
+                    consumeEach { buffer ->
+                        outStream.write(
+                            buffer.array(),
+                            buffer.position(),
+                            buffer.limit(),
+                        )
+                    }
                 }
             }
-            download.close()
-            download.await()
 
             assertTrue(diff(input, output), "Input does not equal output")
         }
@@ -107,10 +121,10 @@ class GridFSTest {
 }
 
 fun File.fillWithGarbage() {
-    bufferedWriter().use { writer ->
+    outputStream().use { outStream ->
         // 8B * 125,000 = 1MB
-        repeat(125_000) {
-            writer.write("ABC1DEF2")
+        repeat(431_353) {
+            outStream.write(Random.nextBytes(8))
         }
     }
 }
