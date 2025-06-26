@@ -1,5 +1,4 @@
 [versions]
-kotlinx-datetime = "0.6.1"
 kotlin = "2.2.0"
 kotlinx-serialization = "1.8.1"
 kotlinx-coroutines = "1.10.2"
@@ -10,7 +9,6 @@ mongodb = "5.5.1"
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-reactive = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactive", version.ref = "kotlinx-coroutines" }
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
 mongodb-sync = { module = "org.mongodb:mongodb-driver-sync", version.ref = "mongodb" }
 mongodb-reactivestreams = { module = "org.mongodb:mongodb-driver-reactivestreams", version.ref = "mongodb" }

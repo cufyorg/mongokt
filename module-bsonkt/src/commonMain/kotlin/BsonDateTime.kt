@@ -15,7 +15,7 @@
  */
 package org.cufy.bson
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 /* ============= ------------------ ============= */
 

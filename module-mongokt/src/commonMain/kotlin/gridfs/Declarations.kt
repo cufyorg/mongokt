@@ -15,7 +15,7 @@
  */
 package org.cufy.mongodb.gridfs
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import org.cufy.bson.BsonDocument
 import org.cufy.bson.BsonElement
 
