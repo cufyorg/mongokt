@@ -17,7 +17,7 @@
 
 package org.cufy.mongodb
 
-import kotlinx.coroutines.reactive.awaitSingle
+import kotlinx.coroutines.reactive.awaitFirstOrNull
 
 /* ============= ------------------ ============= */
 
@@ -53,11 +53,11 @@ actual fun ClientSession.startTransaction(
 }
 
 actual suspend fun ClientSession.commitTransaction() {
-    java.commitTransaction().awaitSingle()
+    java.commitTransaction().awaitFirstOrNull()
 }
 
 actual suspend fun ClientSession.abortTransaction() {
-    java.abortTransaction().awaitSingle()
+    java.abortTransaction().awaitFirstOrNull()
 }
 
 /* ============= ------------------ ============= */
