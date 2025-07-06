@@ -247,7 +247,7 @@ expect suspend fun MongoDatabase.drop(
  */
 expect suspend fun MongoDatabase.createCollection(
     name: String,
-    options: CreateCollectionOptions = CreateCollectionOptions(),
+    options: CreateCollectionOptions,
     session: ClientSession? = null,
 )
 

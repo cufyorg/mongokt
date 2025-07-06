@@ -38,7 +38,7 @@ import org.cufy.bson.BsonDocumentBlock
  */
 suspend fun MongoCollection.deleteOneById(
     id: AnyID,
-    options: DeleteOptions = DeleteOptions(),
+    options: DeleteOptions,
     session: ClientSession? = null,
 ): DeleteResult {
     return deleteOne(
