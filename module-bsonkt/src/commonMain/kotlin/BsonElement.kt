@@ -58,7 +58,7 @@ enum class BsonType(val value: Int) {
      */
     Array(0x04),
 
-    //    Binary(0x05),
+    Binary(0x05),
 
     /**
      * The type for [BsonUndefined].
@@ -121,7 +121,12 @@ enum class BsonType(val value: Int) {
      */
     Int32(0x10),
 
-    //    Timestamp(0x11),
+    /**
+     * The type for [BsonTimestamp]
+     *
+     * @see org.bson.BsonType.TIMESTAMP
+     */
+    Timestamp(0x11),
 
     /**
      * The type for [BsonInt64].

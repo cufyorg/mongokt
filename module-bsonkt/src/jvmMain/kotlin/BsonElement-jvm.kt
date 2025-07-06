@@ -32,8 +32,10 @@ val BsonElement.java: JavaBsonElement
         is BsonDouble -> java
         is BsonDecimal128 -> java
         is BsonDateTime -> java
+        is BsonTimestamp -> java
         is BsonBoolean -> java
         is BsonUndefined -> java
+        is BsonBinary -> java
         is BsonNull -> java
     }
 
@@ -52,9 +54,11 @@ val JavaBsonElement.kt: BsonElement
         is JavaBsonDouble -> kt
         is JavaBsonDecimal128 -> kt
         is JavaBsonDateTime -> kt
+        is JavaBsonTimestamp -> kt
         is JavaBsonBoolean -> kt
         is JavaBsonUndefined -> kt
         is JavaBsonNull -> kt
+        is JavaBsonBinary -> kt
         else -> error("Unsupported bson element: $bsonType")
     }
 
