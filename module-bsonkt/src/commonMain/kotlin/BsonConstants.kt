@@ -106,6 +106,8 @@ val Boolean?.bson: BsonElement get() = this?.let { bson } ?: null.bson
 @Suppress("UnusedReceiverParameter")
 inline val Nothing?.bson: BsonNull get() = BsonNull
 
+inline val BsonElement?.orNull: BsonElement get() = this ?: BsonNull
+
 /**
  * Return [BsonUndefined].
  *
@@ -118,5 +120,7 @@ inline val Nothing?.bson: BsonNull get() = BsonNull
  */
 @Suppress("UnusedReceiverParameter")
 inline val Unit.bson: BsonUndefined get() = BsonUndefined
+
+inline val BsonElement?.orUndefined: BsonUndefined get() = BsonUndefined
 
 /* ============= ------------------ ============= */
