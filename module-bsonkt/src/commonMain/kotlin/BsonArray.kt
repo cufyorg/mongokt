@@ -72,7 +72,7 @@ inline fun BsonArray(): BsonArray {
  * function will result to an undefined behaviour.**
  */
 inline fun BsonArray(block: BsonArrayBlock): BsonArray {
-    val content = mutableBsonArrayOf()
+    val content = mutableListOf<BsonElement>()
     content.apply(block)
     return BsonArray(content)
 }

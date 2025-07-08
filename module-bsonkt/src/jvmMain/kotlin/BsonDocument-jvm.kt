@@ -31,6 +31,6 @@ val BsonDocument.java: JavaBsonDocument
  * Return the kotlin version of this bson element.
  */
 val JavaBsonDocument.kt: BsonDocument
-    get() = BsonDocument { this@kt.mapValuesTo(this) { it.value.kt } }
+    get() = BsonDocument(mapValuesTo(mutableMapOf()) { it.value.kt })
 
 /* ============= ------------------ ============= */

@@ -27,6 +27,6 @@ val BsonArray.java: JavaBsonArray
  * Return the kotlin version of this bson element.
  */
 val JavaBsonArray.kt: BsonArray
-    get() = BsonArray { this@kt.mapTo(this) { it.kt } }
+    get() = BsonArray(mapTo(mutableListOf()) { it.kt })
 
 /* ============= ------------------ ============= */

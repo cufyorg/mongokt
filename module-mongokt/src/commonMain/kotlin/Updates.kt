@@ -33,7 +33,8 @@ import org.cufy.bson.*
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.SET(block: BsonDocumentBlock) {
+context(_: BsonDocumentBuilder)
+fun SET(block: BsonDocumentBlock) {
     `$set` by block
 }
 
@@ -49,7 +50,8 @@ fun MutableBsonDocumentLike.SET(block: BsonDocumentBlock) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.SET(block: BsonDocumentBlock) {
+context(builder: BsonArrayBuilder)
+fun SET(block: BsonDocumentBlock) {
     by { SET(block) }
 }
 
@@ -67,7 +69,8 @@ fun MutableBsonArrayLike.SET(block: BsonDocumentBlock) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.SET(name: String, value: BsonElement) {
+context(_: BsonDocumentBuilder)
+fun SET(name: String, value: BsonElement) {
     `$set` by { name by value }
 }
 
@@ -83,7 +86,8 @@ fun MutableBsonDocumentLike.SET(name: String, value: BsonElement) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.SET(name: String, value: BsonElement) {
+context(_: BsonArrayBuilder)
+fun SET(name: String, value: BsonElement) {
     by { SET(name, value) }
 }
 
@@ -100,8 +104,8 @@ fun MutableBsonArrayLike.SET(name: String, value: BsonElement) {
  * @see com.mongodb.client.model.Updates.unset
  */
 @BsonMarker2
-@ExperimentalMongodbApi
-fun MutableBsonDocumentLike.UNSET(block: BsonDocumentBlock) {
+context(_: BsonDocumentBuilder)
+fun UNSET(block: BsonDocumentBlock) {
     `$unset` by block
 }
 
@@ -117,7 +121,8 @@ fun MutableBsonDocumentLike.UNSET(block: BsonDocumentBlock) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.UNSET(block: BsonDocumentBlock) {
+context(_: BsonArrayBuilder)
+fun UNSET(block: BsonDocumentBlock) {
     by { UNSET(block) }
 }
 
@@ -135,7 +140,8 @@ fun MutableBsonArrayLike.UNSET(block: BsonDocumentBlock) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.UNSET(name: String, value: BsonElement) {
+context(_: BsonDocumentBuilder)
+fun UNSET(name: String, value: BsonElement) {
     `$unset` by { name by value }
 }
 
@@ -151,7 +157,8 @@ fun MutableBsonDocumentLike.UNSET(name: String, value: BsonElement) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.UNSET(name: String, value: BsonElement) {
+context(_: BsonArrayBuilder)
+fun UNSET(name: String, value: BsonElement) {
     by { UNSET(name, value) }
 }
 
@@ -169,7 +176,8 @@ fun MutableBsonArrayLike.UNSET(name: String, value: BsonElement) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.SET_ON_INSERT(block: BsonDocumentBlock) {
+context(_: BsonDocumentBuilder)
+fun SET_ON_INSERT(block: BsonDocumentBlock) {
     `$setOnInsert` by block
 }
 
@@ -185,7 +193,8 @@ fun MutableBsonDocumentLike.SET_ON_INSERT(block: BsonDocumentBlock) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.SET_ON_INSERT(block: BsonDocumentBlock) {
+context(_: BsonArrayBuilder)
+fun SET_ON_INSERT(block: BsonDocumentBlock) {
     by { SET_ON_INSERT(block) }
 }
 
@@ -203,7 +212,8 @@ fun MutableBsonArrayLike.SET_ON_INSERT(block: BsonDocumentBlock) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.SET_ON_INSERT(name: String, value: BsonElement) {
+context(_: BsonDocumentBuilder)
+fun SET_ON_INSERT(name: String, value: BsonElement) {
     `$setOnInsert` by { name by value }
 }
 
@@ -219,7 +229,8 @@ fun MutableBsonDocumentLike.SET_ON_INSERT(name: String, value: BsonElement) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.SET_ON_INSERT(name: String, value: BsonElement) {
+context(_: BsonArrayBuilder)
+fun SET_ON_INSERT(name: String, value: BsonElement) {
     by { SET_ON_INSERT(name, value) }
 }
 
@@ -237,7 +248,8 @@ fun MutableBsonArrayLike.SET_ON_INSERT(name: String, value: BsonElement) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.RENAME(name: String, value: String) {
+context(_: BsonDocumentBuilder)
+fun RENAME(name: String, value: String) {
     `$rename` by { name by value }
 }
 
@@ -253,7 +265,8 @@ fun MutableBsonDocumentLike.RENAME(name: String, value: String) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.RENAME(name: String, value: String) {
+context(_: BsonArrayBuilder)
+fun RENAME(name: String, value: String) {
     by { RENAME(name, value) }
 }
 
@@ -271,7 +284,8 @@ fun MutableBsonArrayLike.RENAME(name: String, value: String) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.INC(name: String, value: BsonNumber) {
+context(_: BsonDocumentBuilder)
+fun INC(name: String, value: BsonNumber) {
     `$inc` by { name by value }
 }
 
@@ -287,7 +301,8 @@ fun MutableBsonDocumentLike.INC(name: String, value: BsonNumber) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.INC(name: String, value: BsonNumber) {
+context(_: BsonArrayBuilder)
+fun INC(name: String, value: BsonNumber) {
     by { INC(name, value) }
 }
 
@@ -305,7 +320,8 @@ fun MutableBsonArrayLike.INC(name: String, value: BsonNumber) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.MUL(name: String, value: BsonNumber) {
+context(_: BsonDocumentBuilder)
+fun MUL(name: String, value: BsonNumber) {
     `$mul` by { name by value }
 }
 
@@ -321,7 +337,8 @@ fun MutableBsonDocumentLike.MUL(name: String, value: BsonNumber) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.MUL(name: String, value: BsonNumber) {
+context(_: BsonArrayBuilder)
+fun MUL(name: String, value: BsonNumber) {
     by { MUL(name, value) }
 }
 
@@ -339,7 +356,8 @@ fun MutableBsonArrayLike.MUL(name: String, value: BsonNumber) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.MIN(name: String, value: BsonNumber) {
+context(_: BsonDocumentBuilder)
+fun MIN(name: String, value: BsonNumber) {
     `$min` by { name by value }
 }
 
@@ -355,7 +373,8 @@ fun MutableBsonDocumentLike.MIN(name: String, value: BsonNumber) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.MIN(name: String, value: BsonNumber) {
+context(_: BsonArrayBuilder)
+fun MIN(name: String, value: BsonNumber) {
     by { MIN(name, value) }
 }
 
@@ -373,7 +392,8 @@ fun MutableBsonArrayLike.MIN(name: String, value: BsonNumber) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.MAX(name: String, value: BsonNumber) {
+context(_: BsonDocumentBuilder)
+fun MAX(name: String, value: BsonNumber) {
     `$max` by { name by value }
 }
 
@@ -389,7 +409,8 @@ fun MutableBsonDocumentLike.MAX(name: String, value: BsonNumber) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.MAX(name: String, value: BsonNumber) {
+context(_: BsonArrayBuilder)
+fun MAX(name: String, value: BsonNumber) {
     by { MAX(name, value) }
 }
 
@@ -407,7 +428,8 @@ fun MutableBsonArrayLike.MAX(name: String, value: BsonNumber) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.CURRENT_DATE(name: String) {
+context(_: BsonDocumentBuilder)
+fun CURRENT_DATE(name: String) {
     `$currentDate` by { name by true }
 }
 
@@ -423,7 +445,8 @@ fun MutableBsonDocumentLike.CURRENT_DATE(name: String) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.CURRENT_DATE(name: String) {
+context(_: BsonArrayBuilder)
+fun CURRENT_DATE(name: String) {
     by { CURRENT_DATE(name) }
 }
 
@@ -441,7 +464,8 @@ fun MutableBsonArrayLike.CURRENT_DATE(name: String) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.CURRENT_TIMESTAMP(name: String) {
+context(_: BsonDocumentBuilder)
+fun CURRENT_TIMESTAMP(name: String) {
     `$currentDate` by { name by { `$type` by "timestamp" } }
 }
 
@@ -457,7 +481,8 @@ fun MutableBsonDocumentLike.CURRENT_TIMESTAMP(name: String) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.CURRENT_TIMESTAMP(name: String) {
+context(_: BsonArrayBuilder)
+fun CURRENT_TIMESTAMP(name: String) {
     by { CURRENT_TIMESTAMP(name) }
 }
 
@@ -475,7 +500,8 @@ fun MutableBsonArrayLike.CURRENT_TIMESTAMP(name: String) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.ADD_TO_SET(block: BsonDocumentBlock) {
+context(_: BsonDocumentBuilder)
+fun ADD_TO_SET(block: BsonDocumentBlock) {
     `$addToSet` by block
 }
 
@@ -491,7 +517,8 @@ fun MutableBsonDocumentLike.ADD_TO_SET(block: BsonDocumentBlock) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.ADD_TO_SET(block: BsonDocumentBlock) {
+context(_: BsonArrayBuilder)
+fun ADD_TO_SET(block: BsonDocumentBlock) {
     by { ADD_TO_SET(block) }
 }
 
@@ -509,7 +536,8 @@ fun MutableBsonArrayLike.ADD_TO_SET(block: BsonDocumentBlock) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.ADD_TO_SET(name: String, value: BsonElement) {
+context(_: BsonDocumentBuilder)
+fun ADD_TO_SET(name: String, value: BsonElement) {
     `$addToSet` by { name by value }
 }
 
@@ -525,7 +553,8 @@ fun MutableBsonDocumentLike.ADD_TO_SET(name: String, value: BsonElement) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.ADD_TO_SET(name: String, value: BsonElement) {
+context(_: BsonArrayBuilder)
+fun ADD_TO_SET(name: String, value: BsonElement) {
     by { ADD_TO_SET(name, value) }
 }
 
@@ -543,7 +572,8 @@ fun MutableBsonArrayLike.ADD_TO_SET(name: String, value: BsonElement) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.ADD_EACH_TO_SET(name: String, block: BsonArrayBlock) {
+context(_: BsonDocumentBuilder)
+fun ADD_EACH_TO_SET(name: String, block: BsonArrayBlock) {
     `$addToSet` by { name by { `$each` by array(block) } }
 }
 
@@ -559,7 +589,8 @@ fun MutableBsonDocumentLike.ADD_EACH_TO_SET(name: String, block: BsonArrayBlock)
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.ADD_EACH_TO_SET(name: String, block: BsonArrayBlock) {
+context(_: BsonArrayBuilder)
+fun ADD_EACH_TO_SET(name: String, block: BsonArrayBlock) {
     by { ADD_EACH_TO_SET(name, block) }
 }
 
@@ -577,7 +608,8 @@ fun MutableBsonArrayLike.ADD_EACH_TO_SET(name: String, block: BsonArrayBlock) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.PUSH(block: BsonDocumentBlock) {
+context(_: BsonDocumentBuilder)
+fun PUSH(block: BsonDocumentBlock) {
     `$push` by block
 }
 
@@ -593,7 +625,8 @@ fun MutableBsonDocumentLike.PUSH(block: BsonDocumentBlock) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.PUSH(block: BsonDocumentBlock) {
+context(_: BsonArrayBuilder)
+fun PUSH(block: BsonDocumentBlock) {
     by { PUSH(block) }
 }
 
@@ -611,7 +644,8 @@ fun MutableBsonArrayLike.PUSH(block: BsonDocumentBlock) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.PUSH(name: String, value: BsonElement) {
+context(_: BsonDocumentBuilder)
+fun PUSH(name: String, value: BsonElement) {
     `$push` by { name by value }
 }
 
@@ -627,7 +661,8 @@ fun MutableBsonDocumentLike.PUSH(name: String, value: BsonElement) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.PUSH(name: String, value: BsonElement) {
+context(_: BsonArrayBuilder)
+fun PUSH(name: String, value: BsonElement) {
     by { PUSH(name, value) }
 }
 
@@ -645,7 +680,8 @@ fun MutableBsonArrayLike.PUSH(name: String, value: BsonElement) {
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.PUSH_EACH(name: String, options: PushOptions = PushOptions(), block: BsonArrayBlock) {
+context(_: BsonDocumentBuilder)
+fun PUSH_EACH(name: String, options: PushOptions = PushOptions(), block: BsonArrayBlock) {
     `$push` by {
         name by {
             `$each` by array(block)
@@ -668,7 +704,8 @@ fun MutableBsonDocumentLike.PUSH_EACH(name: String, options: PushOptions = PushO
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.PUSH_EACH(name: String, options: PushOptions = PushOptions(), block: BsonArrayBlock) {
+context(_: BsonArrayBuilder)
+fun PUSH_EACH(name: String, options: PushOptions = PushOptions(), block: BsonArrayBlock) {
     by { PUSH_EACH(name, options, block) }
 }
 
@@ -686,7 +723,8 @@ fun MutableBsonArrayLike.PUSH_EACH(name: String, options: PushOptions = PushOpti
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonDocumentLike.PUSH_EACH(name: String, options: PushOptions.() -> Unit, block: BsonArrayBlock) {
+context(_: BsonDocumentBuilder)
+fun PUSH_EACH(name: String, options: PushOptions.() -> Unit, block: BsonArrayBlock) {
     PUSH_EACH(name, PushOptions(options), block)
 }
 
@@ -702,7 +740,8 @@ fun MutableBsonDocumentLike.PUSH_EACH(name: String, options: PushOptions.() -> U
  */
 @BsonMarker2
 @ExperimentalMongodbApi
-fun MutableBsonArrayLike.PUSH_EACH(name: String, options: PushOptions.() -> Unit, block: BsonArrayBlock) {
+context(_: BsonArrayBuilder)
+fun PUSH_EACH(name: String, options: PushOptions.() -> Unit, block: BsonArrayBlock) {
     by { PUSH_EACH(name, options, block) }
 }
 

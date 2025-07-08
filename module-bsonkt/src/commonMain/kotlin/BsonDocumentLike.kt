@@ -16,7 +16,6 @@
 package org.cufy.bson
 
 import kotlin.time.Instant
-import kotlin.reflect.KCallable
 
 /* ============= ------------------ ============= */
 
@@ -30,18 +29,19 @@ typealias BsonDocumentLike = Map<String, BsonElement>
 /**
  * A mutable map containing only items of type [BsonElement].
  *
- * TODO: change to MutableMap<String, BsonElement> when context receivers are stable.
- *
  * @since 2.0.0
  */
-typealias MutableBsonDocumentLike = IMutableBsonDocumentLike
+typealias MutableBsonDocumentLike = MutableMap<String, BsonElement>
+
+@BsonMarker2
+typealias BsonDocumentBuilder = MutableBsonDocumentLike
 
 /**
  * A block of code building a bson document.
  *
  * @since 2.0.0
  */
-typealias BsonDocumentBlock = MutableBsonDocumentLike.() -> Unit
+typealias BsonDocumentBlock = context(BsonDocumentBuilder) () -> Unit
 
 /* ============= ------------------ ============= */
 
@@ -54,9 +54,8 @@ typealias BsonDocumentBlock = MutableBsonDocumentLike.() -> Unit
  * @see toMutableMap
  * @since 2.0.0
  */
-fun Map<String, BsonElement>.toMutableBsonDocument(): MutableBsonDocumentLike {
-    return toMutableMap().asMutableBsonDocument()
-}
+@Deprecated("Deprecated because of context parameters", ReplaceWith("this.toMutableMap()"))
+fun Map<String, BsonElement>.toMutableBsonDocument(): MutableBsonDocumentLike = toMutableMap()
 
 /**
  * Obtain a mutable bson map backed by this map.
@@ -66,21 +65,8 @@ fun Map<String, BsonElement>.toMutableBsonDocument(): MutableBsonDocumentLike {
  *
  * @since 2.0.0
  */
-fun MutableMap<String, BsonElement>.asMutableBsonDocument(): MutableBsonDocumentLike {
-    val content = this
-    return object : MutableBsonDocumentLike, MutableMap<String, BsonElement> by content {
-        override fun equals(other: Any?) =
-            content == other
-
-        override fun hashCode() =
-            content.hashCode()
-
-        override fun toString() =
-            content.entries.joinToString(",", "{", "}") {
-                """"${it.key}":${it.value}"""
-            }
-    }
-}
+@Deprecated("Deprecated because of context parameters", ReplaceWith("this"))
+fun MutableMap<String, BsonElement>.asMutableBsonDocument(): MutableBsonDocumentLike = this
 
 /* ============= ------------------ ============= */
 
@@ -93,10 +79,11 @@ fun MutableMap<String, BsonElement>.asMutableBsonDocument(): MutableBsonDocument
  * @see mutableMapOf
  * @since 2.0.0
  */
-fun mutableBsonDocumentOf(): MutableBsonDocumentLike {
-    return mutableMapOf<String, BsonElement>()
-        .asMutableBsonDocument()
-}
+@Deprecated(
+    "Deprecated because of context parameters",
+    ReplaceWith("mutableMapOf<String, BsonElement>()", imports = ["org.cufy.bson.BsonElement"])
+)
+fun mutableBsonDocumentOf(): MutableBsonDocumentLike = mutableMapOf()
 
 /**
  * Returns a new [MutableBsonDocumentLike] with the given pairs.
@@ -107,808 +94,301 @@ fun mutableBsonDocumentOf(): MutableBsonDocumentLike {
  * @see mutableMapOf
  * @since 2.0.0
  */
-fun mutableBsonDocumentOf(vararg pairs: Pair<String, BsonElement>): MutableBsonDocumentLike {
-    return mutableMapOf(*pairs)
-        .asMutableBsonDocument()
+@Deprecated(
+    "Deprecated because of context parameters",
+    ReplaceWith("mutableMapOf<String, BsonElement>(*pairs)", imports = ["org.cufy.bson.BsonElement"])
+)
+fun mutableBsonDocumentOf(vararg pairs: Pair<String, BsonElement>): MutableBsonDocumentLike = mutableMapOf(*pairs)
+
+/* ============= ------------------ ============= */
+
+/**
+ * Static (pure) utility function to prettify
+ * creating arrays within the dsl.
+ *
+ * Usage:
+ * ```
+ * BsonDocument {
+ *     "name" by array {
+ *         by(100L)
+ *         by("item")
+ *         /* ... */
+ *     }
+ * }
+ * ```
+ *
+ * @return an array built with the given [block].
+ * @since 2.0.0
+ */
+@BsonMarker2
+context(_: BsonDocumentBuilder)
+fun array(block: BsonArrayBlock) = BsonArray(block)
+
+/**
+ * Static (pure) utility function to prettify
+ * creating arrays within the dsl.
+ *
+ * Usage:
+ * ```
+ * BsonDocument {
+ *     "name" by array(
+ *         100L.bson,
+ *         "item".bson,
+ *         /* ... */
+ *     )
+ * }
+ * ```
+ *
+ * @return an array with the given [elements].
+ * @since 2.0.0
+ */
+@BsonMarker2
+context(_: BsonDocumentBuilder)
+fun array(vararg elements: BsonElement) = BsonArray(*elements)
+
+/**
+ * Static (pure) utility function to prettify
+ * creating documents within the dsl.
+ *
+ * Usage:
+ * ```
+ * BsonDocument {
+ *     "a" by document {
+ *         "a" by 100L
+ *         "b" by "item"
+ *         /* ... */
+ *     }
+ * }
+ * ```
+ *
+ * @return a document built with the given [block].
+ * @since 2.0.0
+ */
+@BsonMarker2
+context(_: BsonDocumentBuilder)
+fun document(block: BsonDocumentBlock) = BsonDocument(block)
+
+/* ============= ------------------ ============= */
+
+/**
+ * Set the field with the name [this] to the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: BsonElement?) {
+    value ?: return run { builder[this] = null.bson }
+    builder[this] = value
+}
+
+/**
+ * Set the field with the name [this] to the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: BsonDocument?) {
+    value ?: return run { builder[this] = null.bson }
+    builder[this] = value
+}
+
+/**
+ * Set the field with the name [this] to the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: BsonArray?) {
+    value ?: return run { builder[this] = null.bson }
+    builder[this] = value
+}
+
+//
+
+/**
+ * Set the field with the name [this] to the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonDocument].
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: BsonDocumentLike?) {
+    value ?: return run { builder[this] = null.bson }
+    builder[this] = value.toBsonDocument()
+}
+
+/**
+ * Set the field with the name [this] to the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonArray].
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: BsonArrayLike?) {
+    value ?: return run { builder[this] = null.bson }
+    builder[this] = value.toBsonArray()
+}
+
+/**
+ * Put all the mappings in the given [map].
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+fun byAll(map: BsonDocumentLike) {
+    builder += map
+}
+
+/**
+ * Set the field with the name [this] to the value from invoking the given [block]
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(block: BsonDocumentBlock) {
+    builder[this] = BsonDocument(block)
 }
 
 /* ============= ------------------ ============= */
 
 /**
- * An interface allowing custom receivers for
- * [by][IMutableBsonDocumentLike.by].
+ * Set the field with the name [this] to the given [value].
  *
- * This interface will be useless after context
- * receivers is released for production.
- * This interface will be removed gradually after
- * context receivers is released for production.
+ * If [value] is null then [BsonNull] will be set instead.
  *
- * @author LSafer
- * @since 2.0.0
+ * The given [value] will be wrapped with [BsonString].
  */
-interface MutableBsonMapField<T> {
-    /**
-     * The name of the field.
-     */
-    val name: String
-
-    /**
-     * Encode the given [value] to a bson value.
-     */
-    fun encode(value: T): BsonElement?
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: String?) {
+    builder[this] = value.bson
 }
 
 /**
- * A builder building a [BsonDocument].
+ * Set the field with the name [this] to the given [value].
  *
- * This interface will be removed and its functions will be
- * extensions of [MutableBsonDocumentLike] once kotlin context
- * receivers is stable.
+ * If [value] is null then [BsonNull] will be set instead.
  *
- * @author LSafer
- * @since 2.0.0
+ * The given [value] will be wrapped with [BsonBoolean].
  */
 @BsonMarker2
-@DeprecatedWithContextParameters
-interface IMutableBsonDocumentLike : BsonDocumentLike, MutableMap<String, BsonElement> {
-    /* ============= ------------------ ============= */
-
-    /**
-     * Static (pure) utility function to prettify
-     * creating arrays within the dsl.
-     *
-     * Usage:
-     * ```
-     * BsonDocument {
-     *     "name" by array {
-     *         by(100L)
-     *         by("item")
-     *         /* ... */
-     *     }
-     * }
-     * ```
-     *
-     * @return an array built with the given [block].
-     * @since 2.0.0
-     */
-    @BsonMarker2
-    fun array(block: BsonArrayBlock) = BsonArray(block)
-
-    /**
-     * Static (pure) utility function to prettify
-     * creating arrays within the dsl.
-     *
-     * Usage:
-     * ```
-     * BsonDocument {
-     *     "name" by array(
-     *         100L.bson,
-     *         "item".bson,
-     *         /* ... */
-     *     )
-     * }
-     * ```
-     *
-     * @return an array with the given [elements].
-     * @since 2.0.0
-     */
-    @BsonMarker2
-    fun array(vararg elements: BsonElement) = BsonArray(*elements)
-
-    /**
-     * Static (pure) utility function to prettify
-     * creating documents within the dsl.
-     *
-     * Usage:
-     * ```
-     * BsonDocument {
-     *     "a" by document {
-     *         "a" by 100L
-     *         "b" by "item"
-     *         /* ... */
-     *     }
-     * }
-     * ```
-     *
-     * @return a document built with the given [block].
-     * @since 2.0.0
-     */
-    @BsonMarker2
-    fun document(block: BsonDocumentBlock) = BsonDocument(block)
-
-    /* ============= ------------------ ============= */
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     */
-    @BsonMarker2
-    infix fun String.by(value: BsonElement?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: BsonElement?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: BsonElement?) {
-        name by value
-    }
-
-    //
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     */
-    @BsonMarker2
-    infix fun String.by(value: BsonDocument?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: BsonDocument?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: BsonDocument?) {
-        name by value
-    }
-
-    //
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     */
-    @BsonMarker2
-    infix fun String.by(value: BsonArray?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: BsonArray?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: BsonArray?) {
-        name by value
-    }
-
-    /* ============= ------------------ ============= */
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDocument].
-     */
-    @BsonMarker2
-    infix fun String.by(value: Map<String, BsonElement>?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value.toBsonDocument()
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDocument].
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: Map<String, BsonElement>?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDocument].
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: Map<String, BsonElement>?) {
-        name by value
-    }
-
-    //
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonArray].
-     */
-    @BsonMarker2
-    infix fun String.by(value: List<BsonElement>?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value.toBsonArray()
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonArray].
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: List<BsonElement>?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonArray].
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: List<BsonElement>?) {
-        name by value
-    }
-
-    //
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonString].
-     */
-    @BsonMarker2
-    infix fun String.by(value: String?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value.bson
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonString].
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: String?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonString].
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: String?) {
-        name by value
-    }
-
-    //
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonObjectId].
-     */
-    @BsonMarker2
-    infix fun String.by(value: ObjectId?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value.bson
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonObjectId].
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: ObjectId?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonObjectId].
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: ObjectId?) {
-        name by value
-    }
-
-    //
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped using [ID.bson].
-     *
-     */
-    @BsonMarker2
-    infix fun String.by(value: AnyID?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value.bson
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped using [ID.bson].
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: AnyID?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped using [ID.bson].
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: AnyID?) {
-        name by value
-    }
-
-    //
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped using [BsonArray] and [ID.bson].
-     */
-    @Suppress("INAPPLICABLE_JVM_NAME")
-    @JvmName("byIDList")
-    @BsonMarker2
-    infix fun String.by(value: List<AnyID>?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value.map { it.bson }.toBsonArray()
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped using [BsonArray] and [ID.bson].
-     */
-    @Suppress("INAPPLICABLE_JVM_NAME")
-    @JvmName("byIDList")
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: List<AnyID>?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped using [BsonArray] and [ID.bson].
-     */
-    @Suppress("INAPPLICABLE_JVM_NAME")
-    @JvmName("byIDList")
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: List<AnyID>?) {
-        name by value
-    }
-
-    //
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDecimal128].
-     */
-    @BsonMarker2
-    infix fun String.by(value: Decimal128?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value.bson
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDecimal128].
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: Decimal128?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDecimal128].
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: Decimal128?) {
-        name by value
-    }
-
-//    /**
-//     * Set the field with the name [this] to the given [value].
-//     *
-//     * If [value] is null then [BsonNull] will be set instead.
-//     *
-//     * The given [value] will be wrapped with [BsonDecimal128].
-//     */
-//    @BsonConstructorMarker
-//    infix fun String.by(value: BigDecimal?) {
-//        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-//        this@IMutableBsonDocumentLike[this] = value.bson
-//    }
-//
-//    /**
-//     * Set the field with the name [this] to the given [value].
-//     *
-//     * If [value] is null then [BsonNull] will be set instead.
-//     *
-//     * The given [value] will be wrapped with [BsonDecimal128].
-//     */
-//    @BsonConstructorMarker
-//    infix fun KCallable<*>.by(value: BigDecimal?) {
-//        name by value
-//    }
-//
-//    /**
-//     * Set the field with the name [this] to the given [value].
-//     *
-//     * If [value] is null then [BsonNull] will be set instead.
-//     *
-//     * The given [value] will be wrapped with [BsonDecimal128].
-//     */
-//    @BsonConstructorMarker
-//    infix fun MutableBsonMapField<*>.byname(value: BigDecimal?) {
-//        name by value
-//    }
-
-//    /**
-//     * Set the field with the name [this] to the given [value].
-//     *
-//     * If [value] is null then [BsonNull] will be set instead.
-//     *
-//     * The given [value] will be wrapped with [BsonDateTime].
-//     */
-//    @BsonConstructorMarker
-//    infix fun String.by(value: Date?) {
-//        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-//        this@IMutableBsonDocumentLike[this] = value.bson
-//    }
-//
-//    /**
-//     * Set the field with the name [this] to the given [value].
-//     *
-//     * If [value] is null then [BsonNull] will be set instead.
-//     *
-//     * The given [value] will be wrapped with [BsonDateTime].
-//     */
-//    @BsonConstructorMarker
-//    infix fun KCallable<*>.by(value: Date?) {
-//        name by value
-//    }
-//
-//    /**
-//     * Set the field with the name [this] to the given [value].
-//     *
-//     * If [value] is null then [BsonNull] will be set instead.
-//     *
-//     * The given [value] will be wrapped with [BsonDateTime].
-//     */
-//    @BsonConstructorMarker
-//    infix fun MutableBsonMapField<*>.byname(value: Date?) {
-//        name by value
-//    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDateTime].
-     */
-    @BsonMarker2
-    infix fun String.by(value: Instant?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value.bson
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDateTime].
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: Instant?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDateTime].
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: Instant?) {
-        name by value
-    }
-
-    /* ============= ------------------ ============= */
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonBoolean].
-     */
-    @BsonMarker2
-    infix fun String.by(value: Boolean?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value.bson
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonBoolean].
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: Boolean?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonBoolean].
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: Boolean?) {
-        name by value
-    }
-
-    //
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonInt32].
-     */
-    @BsonMarker2
-    infix fun String.by(value: Int?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value.bson
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonInt32].
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: Int?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonInt32].
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: Int?) {
-        name by value
-    }
-
-    //
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonInt64].
-     */
-    @BsonMarker2
-    infix fun String.by(value: Long?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value.bson
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonInt64].
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: Long?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonInt64].
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: Long?) {
-        name by value
-    }
-
-    //
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDouble].
-     */
-    @BsonMarker2
-    infix fun String.by(value: Double?) {
-        value ?: return run { this@IMutableBsonDocumentLike[this] = null.bson }
-        this@IMutableBsonDocumentLike[this] = value.bson
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDouble].
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(value: Double?) {
-        name by value
-    }
-
-    /**
-     * Set the field with the name [this] to the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDouble].
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(value: Double?) {
-        name by value
-    }
-
-    /* ============= ------------------ ============= */
-
-    /**
-     * Set the field with the name [this] to the value from invoking the given [block]
-     */
-    @BsonMarker2
-    infix fun String.by(block: BsonDocumentBlock) {
-        this@IMutableBsonDocumentLike[this] = BsonDocument(block)
-    }
-
-    /**
-     * Set the field with the name [this] to the value from invoking the given [block]
-     */
-    @BsonMarker2
-    infix fun KCallable<*>.by(block: BsonDocumentBlock) {
-        name by block
-    }
-
-    /**
-     * Set the field with the name [this] to the value from invoking the given [block]
-     */
-    @BsonMarker2
-    infix fun MutableBsonMapField<*>.byname(block: BsonDocumentBlock) {
-        name by block
-    }
-
-    /* ============= ------------------ ============= */
-
-    /**
-     * Set the field represented by the [receiver][this] to the given [value].
-     */
-    @BsonMarker2
-    infix fun <T> MutableBsonMapField<T>.by(value: T) {
-        this@IMutableBsonDocumentLike[name] = encode(value) ?: null.bson
-    }
-
-    /* ============= ------------------ ============= */
-
-    /**
-     * Put all the mappings in the given [map].
-     */
-    @BsonMarker2
-    fun byAll(map: Map<String, BsonElement>) {
-        this@IMutableBsonDocumentLike += map
-    }
-
-    /* ============= ------------------ ============= */
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: Boolean?) {
+    builder[this] = value.bson
+}
+
+/**
+ * Set the field with the name [this] to the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonInt32].
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: Int?) {
+    builder[this] = value.bson
+}
+
+/**
+ * Set the field with the name [this] to the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonInt64].
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: Long?) {
+    builder[this] = value.bson
+}
+
+/**
+ * Set the field with the name [this] to the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonDouble].
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: Double?) {
+    builder[this] = value.bson
+}
+
+/**
+ * Set the field with the name [this] to the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonDecimal128].
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: Decimal128?) {
+    builder[this] = value.bson
+}
+
+/* ============= ------------------ ============= */
+
+/**
+ * Set the field with the name [this] to the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonObjectId].
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: ObjectId?) {
+    builder[this] = value.bson
+}
+
+/**
+ * Set the field with the name [this] to the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped using [ID.bson].
+ *
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: AnyID?) {
+    builder[this] = value.bson
+}
+
+/**
+ * Set the field with the name [this] to the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped using [BsonArray] and [ID.bson].
+ */
+@JvmName("byIDList")
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: List<AnyID>?) {
+    value ?: return run { builder[this] = null.bson }
+    builder[this] = value.map { it.bson }.toBsonArray()
+}
+
+/**
+ * Set the field with the name [this] to the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonDateTime].
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(value: Instant?) {
+    builder[this] = value.bson
 }
 
 /* ============= ------------------ ============= */

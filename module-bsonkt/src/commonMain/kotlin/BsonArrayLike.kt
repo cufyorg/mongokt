@@ -16,7 +16,6 @@
 package org.cufy.bson
 
 import kotlin.time.Instant
-import kotlin.jvm.JvmName
 
 /* ============= ------------------ ============= */
 
@@ -30,18 +29,19 @@ typealias BsonArrayLike = List<BsonElement>
 /**
  * A mutable list containing only items of type [BsonElement].
  *
- * TODO: change to MutableList<BsonDocument> when context receivers are stable.
- *
  * @since 2.0.0
  */
-typealias MutableBsonArrayLike = IMutableBsonArrayLike
+typealias MutableBsonArrayLike = MutableList<BsonElement>
+
+@BsonMarker2
+typealias BsonArrayBuilder = MutableBsonArrayLike
 
 /**
  * A block of code building a bson array.
  *
  * @since 2.0.0
  */
-typealias BsonArrayBlock = MutableBsonArrayLike.() -> Unit
+typealias BsonArrayBlock = context(BsonArrayBuilder) () -> Unit
 
 /* ============= ------------------ ============= */
 
@@ -54,9 +54,8 @@ typealias BsonArrayBlock = MutableBsonArrayLike.() -> Unit
  * @see toMutableList
  * @since 2.0.0
  */
-fun Iterable<BsonElement>.toMutableBsonArray(): MutableBsonArrayLike {
-    return toMutableList().asMutableBsonArray()
-}
+@Deprecated("Deprecated because of context parameters", ReplaceWith("this.toMutableList()"))
+fun Iterable<BsonElement>.toMutableBsonArray(): MutableBsonArrayLike = toMutableList()
 
 /**
  * Obtain a mutable bson list backed by this list.
@@ -66,19 +65,8 @@ fun Iterable<BsonElement>.toMutableBsonArray(): MutableBsonArrayLike {
  *
  * @since 2.0.0
  */
-fun MutableList<BsonElement>.asMutableBsonArray(): MutableBsonArrayLike {
-    val content = this
-    return object : MutableBsonArrayLike, MutableList<BsonElement> by content {
-        override fun equals(other: Any?) =
-            content == other
-
-        override fun hashCode() =
-            content.hashCode()
-
-        override fun toString() =
-            content.joinToString(",", "[", "]")
-    }
-}
+@Deprecated("Deprecated because of context parameters", ReplaceWith("this"))
+fun MutableList<BsonElement>.asMutableBsonArray(): MutableBsonArrayLike = this
 
 /* ============= ------------------ ============= */
 
@@ -91,10 +79,11 @@ fun MutableList<BsonElement>.asMutableBsonArray(): MutableBsonArrayLike {
  * @see mutableListOf
  * @since 2.0.0
  */
-fun mutableBsonArrayOf(): MutableBsonArrayLike {
-    return mutableListOf<BsonElement>()
-        .asMutableBsonArray()
-}
+@Deprecated(
+    "Deprecated because of context parameters",
+    ReplaceWith("mutableListOf<BsonElement>()", imports = ["org.cufy.bson.BsonElement"])
+)
+fun mutableBsonArrayOf(): MutableBsonArrayLike = mutableListOf()
 
 /**
  * Returns a new [MutableBsonArrayLike] with the given elements.
@@ -105,334 +94,300 @@ fun mutableBsonArrayOf(): MutableBsonArrayLike {
  * @see mutableListOf
  * @since 2.0.0
  */
-fun mutableBsonArrayOf(vararg elements: BsonElement): MutableBsonArrayLike {
-    return mutableListOf(*elements)
-        .asMutableBsonArray()
+@Deprecated(
+    "Deprecated because of context parameters",
+    ReplaceWith("mutableListOf<BsonElement>(*elements)", imports = ["org.cufy.bson.BsonElement"])
+)
+fun mutableBsonArrayOf(vararg elements: BsonElement): MutableBsonArrayLike = mutableListOf(*elements)
+
+/* ============= ------------------ ============= */
+
+/**
+ * Static (pure) utility function to prettify
+ * creating arrays within the dsl.
+ *
+ * Usage:
+ * ```
+ * BsonArray {
+ *     by(array {
+ *         by(100L)
+ *         by("item")
+ *         /* ... */
+ *     })
+ * }
+ * ```
+ *
+ * @return an array built with the given [block].
+ * @since 2.0.0
+ */
+@BsonMarker2
+context(_: BsonArrayBuilder)
+fun array(block: BsonArrayBlock) = BsonArray(block)
+
+/**
+ * Static (pure) utility function to prettify
+ * creating arrays within the dsl.
+ *
+ * Usage:
+ * ```
+ * BsonArray {
+ *     by(array(
+ *         100L.bson,
+ *         "item".bson,
+ *         /* ... */
+ *     ))
+ * }
+ * ```
+ *
+ * @return an array with the given [elements].
+ * @since 2.0.0
+ */
+@BsonMarker2
+context(_: BsonArrayBuilder)
+fun array(vararg elements: BsonElement) = BsonArray(*elements)
+
+/**
+ * Static (pure) utility function to prettify
+ * creating documents within the dsl.
+ *
+ * Usage:
+ * ```
+ * BsonArray {
+ *     by(document {
+ *         "a" by 100L
+ *         "b" by "item"
+ *         /* ... */
+ *     })
+ * }
+ * ```
+ *
+ * @return a document built with the given [block].
+ * @since 2.0.0
+ */
+@BsonMarker2
+context(_: BsonArrayBuilder)
+fun document(block: BsonDocumentBlock) = BsonDocument(block)
+
+/* ============= ------------------ ============= */
+
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: BsonElement?) {
+    value ?: return run { builder += null.bson }
+    builder += value
+}
+
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: BsonDocument?) {
+    value ?: return run { builder += null.bson }
+    builder += value
+}
+
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: BsonArray?) {
+    value ?: return run { builder += null.bson }
+    builder.add(value)
+}
+
+//
+
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonDocument].
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: BsonDocumentLike?) {
+    value ?: return run { builder += null.bson }
+    builder += value.toBsonDocument()
+}
+
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonArray].
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: BsonArrayLike?) {
+    value ?: return run { builder += null.bson }
+    builder.add(value.toBsonArray())
+}
+
+/**
+ * Put all the items in the given [list].
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun byAll(list: BsonArrayLike) {
+    builder += list
+}
+
+/**
+ * Add the value from invoking the given [block].
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(block: BsonDocumentBlock) {
+    builder += BsonDocument(block)
 }
 
 /* ============= ------------------ ============= */
 
 /**
- * A mutable list containing only items of type [BsonElement].
+ * Add the given [value].
  *
- * This interface will be removed and its functions will be
- * extensions of [MutableBsonArrayLike] once kotlin context
- * receivers is stable.
+ * If [value] is null then [BsonNull] will be set instead.
  *
- * @since 2.0.0
+ * The given [value] will be wrapped with [BsonString].
  */
 @BsonMarker2
-@DeprecatedWithContextParameters
-interface IMutableBsonArrayLike : BsonArrayLike, MutableList<BsonElement> {
-    /* ============= ------------------ ============= */
+context(builder: BsonArrayBuilder)
+fun by(value: String?) {
+    builder += value.bson
+}
 
-    /**
-     * Static (pure) utility function to prettify
-     * creating arrays within the dsl.
-     *
-     * Usage:
-     * ```
-     * BsonArray {
-     *     by(array {
-     *         by(100L)
-     *         by("item")
-     *         /* ... */
-     *     })
-     * }
-     * ```
-     *
-     * @return an array built with the given [block].
-     * @since 2.0.0
-     */
-    @BsonMarker2
-    fun array(block: BsonArrayBlock) = BsonArray(block)
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonBoolean].
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: Boolean?) {
+    builder += value.bson
+}
 
-    /**
-     * Static (pure) utility function to prettify
-     * creating arrays within the dsl.
-     *
-     * Usage:
-     * ```
-     * BsonArray {
-     *     by(array(
-     *         100L.bson,
-     *         "item".bson,
-     *         /* ... */
-     *     ))
-     * }
-     * ```
-     *
-     * @return an array with the given [elements].
-     * @since 2.0.0
-     */
-    @BsonMarker2
-    fun array(vararg elements: BsonElement) = BsonArray(*elements)
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonInt32].
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: Int?) {
+    builder += value.bson
+}
 
-    /**
-     * Static (pure) utility function to prettify
-     * creating documents within the dsl.
-     *
-     * Usage:
-     * ```
-     * BsonArray {
-     *     by(document {
-     *         "a" by 100L
-     *         "b" by "item"
-     *         /* ... */
-     *     })
-     * }
-     * ```
-     *
-     * @return a document built with the given [block].
-     * @since 2.0.0
-     */
-    @BsonMarker2
-    fun document(block: BsonDocumentBlock) = BsonDocument(block)
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonInt64].
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: Long?) {
+    builder += value.bson
+}
 
-    /* ============= ------------------ ============= */
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonDouble].
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: Double?) {
+    builder += value.bson
+}
 
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     */
-    @BsonMarker2
-    fun by(value: BsonElement?) {
-        value ?: return run { this += null.bson }
-        this += value
-    }
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonDecimal128].
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: Decimal128?) {
+    builder += value.bson
+}
 
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     */
-    @BsonMarker2
-    fun by(value: BsonDocument?) {
-        value ?: return run { this += null.bson }
-        this += value
-    }
+/* ============= ------------------ ============= */
 
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     */
-    @BsonMarker2
-    fun by(value: BsonArray?) {
-        value ?: return run { this += null.bson }
-        this.add(value)
-    }
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonObjectId].
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: ObjectId?) {
+    builder += value.bson
+}
 
-    /* ============= ------------------ ============= */
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped using [ID.bson].
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: AnyID?) {
+    builder += value.bson
+}
 
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDocument].
-     */
-    @BsonMarker2
-    fun by(value: Map<String, BsonElement>?) {
-        value ?: return run { this += null.bson }
-        this += value.toBsonDocument()
-    }
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped using [BsonArray] and [ID.bson].
+ */
+@JvmName("byIDList")
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: List<AnyID>?) {
+    value ?: return run { builder += null.bson }
+    builder.add(value.map { it.bson }.toBsonArray())
+}
 
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonArray].
-     */
-    @BsonMarker2
-    fun by(value: List<BsonElement>?) {
-        value ?: return run { this += null.bson }
-        this.add(value.toBsonArray())
-    }
-
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonString].
-     */
-    @BsonMarker2
-    fun by(value: String?) {
-        value ?: return run { this += null.bson }
-        this += value.bson
-    }
-
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonObjectId].
-     */
-    @BsonMarker2
-    fun by(value: ObjectId?) {
-        value ?: return run { this += null.bson }
-        this += value.bson
-    }
-
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped using [ID.bson].
-     */
-    @BsonMarker2
-    fun by(value: AnyID?) {
-        value ?: return run { this += null.bson }
-        this += value.bson
-    }
-
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped using [BsonArray] and [ID.bson].
-     */
-    @Suppress("INAPPLICABLE_JVM_NAME")
-    @JvmName("byIDList")
-    @BsonMarker2
-    fun by(value: List<AnyID>?) {
-        value ?: return run { this += null.bson }
-        this.add(value.map { it.bson }.toBsonArray())
-    }
-
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDecimal128].
-     */
-    @BsonMarker2
-    fun by(value: Decimal128?) {
-        value ?: return run { this += null.bson }
-        this += value.bson
-    }
-
-//    /**
-//     * Add the given [value].
-//     *
-//     * If [value] is null then [BsonNull] will be set instead.
-//     *
-//     * The given [value] will be wrapped with [BsonDecimal128].
-//     */
-//    @BsonConstructorMarker
-//    fun by(value: BigDecimal?) {
-//        value ?: return run { this += null.bson }
-//        this += value.bson
-//    }
-//
-//    /**
-//     * Add the given [value].
-//     *
-//     * If [value] is null then [BsonNull] will be set instead.
-//     *
-//     * The given [value] will be wrapped with [BsonDateTime].
-//     */
-//    @BsonConstructorMarker
-//    fun by(value: Date?) {
-//        value ?: return run { this += null.bson }
-//        this += value.bson
-//    }
-
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDateTime].
-     */
-    @BsonMarker2
-    fun by(value: Instant?) {
-        value ?: return run { this += null.bson }
-        this += value.bson
-    }
-
-    /* ============= ------------------ ============= */
-
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonBoolean].
-     */
-    @BsonMarker2
-    fun by(value: Boolean?) {
-        value ?: return run { this += null.bson }
-        this += value.bson
-    }
-
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonInt32].
-     */
-    @BsonMarker2
-    fun by(value: Int?) {
-        value ?: return run { this += null.bson }
-        this += value.bson
-    }
-
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonInt64].
-     */
-    @BsonMarker2
-    fun by(value: Long?) {
-        value ?: return run { this += null.bson }
-        this += value.bson
-    }
-
-    /**
-     * Add the given [value].
-     *
-     * If [value] is null then [BsonNull] will be set instead.
-     *
-     * The given [value] will be wrapped with [BsonDouble].
-     */
-    @BsonMarker2
-    fun by(value: Double?) {
-        value ?: return run { this += null.bson }
-        this += value.bson
-    }
-
-    /* ============= ------------------ ============= */
-
-    /**
-     * Add the value from invoking the given [block].
-     */
-    @BsonMarker2
-    fun by(block: BsonDocumentBlock) {
-        this += BsonDocument(block)
-    }
-
-    /* ============= ------------------ ============= */
-
-    /**
-     * Put all the items in the given [list].
-     */
-    @BsonMarker2
-    fun byAll(list: List<BsonElement>) {
-        this += list
-    }
-
-    /* ============= ------------------ ============= */
+/**
+ * Add the given [value].
+ *
+ * If [value] is null then [BsonNull] will be set instead.
+ *
+ * The given [value] will be wrapped with [BsonDateTime].
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun by(value: Instant?) {
+    builder += value.bson
 }
 
 /* ============= ------------------ ============= */

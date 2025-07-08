@@ -16,18 +16,24 @@
 package org.cufy.bson
 
 /**
- * Marks the annotated component as deprecated
- * only after context parameters are stable.
- */
-annotation class DeprecatedWithContextParameters
-
-/**
  * INTERNAL: A marker for bson build functions.
  *
  * @author LSafer
  * @since 2.0.0
  */
 @DslMarker
+@Target(
+    AnnotationTarget.CLASS,
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.LOCAL_VARIABLE,
+    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.CONSTRUCTOR,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.TYPEALIAS,
+)
 annotation class BsonMarker2
 
 /**
