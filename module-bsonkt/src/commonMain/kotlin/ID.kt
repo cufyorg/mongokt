@@ -104,6 +104,8 @@ fun AnyID.toObjectIdOrNull(): ObjectId? {
     return null
 }
 
+//
+
 /**
  * Return an [ID] instance from the value of this.
  */
@@ -114,10 +116,12 @@ inline fun <T> String.toID(): ID<T> {
 /**
  * Return an [AnyId] instance from the value of this.
  */
-@JvmName("toAnyId")
+@JvmName("toAnyID")
 inline fun String.toID(): AnyID {
     return AnyID(this)
 }
+
+//
 
 /**
  * Return an [ID] instance from the value of this.
@@ -129,10 +133,12 @@ inline fun <T> ObjectId.toID(): ID<T> {
 /**
  * Return an [AnyId] instance from the value of this.
  */
-@JvmName("toAnyId")
+@JvmName("toAnyID")
 inline fun ObjectId.toID(): AnyID {
     return AnyID(this)
 }
+
+//
 
 /**
  * Cast this [ID] to an id of [T].
@@ -144,9 +150,28 @@ inline fun <T> AnyID.toID(): ID<T> {
 /**
  * Cast this [ID] to [AnyId].
  */
-@JvmName("toAnyId")
+@JvmName("toAnyID")
 inline fun AnyID.toID(): AnyID {
     return AnyID(this)
+}
+
+//
+
+fun <T> BsonElement.toIDOrNull(): ID<T>? {
+    return when (this) {
+        is BsonString -> ID(this.value)
+        is BsonObjectId -> ID(this.value)
+        else -> null
+    }
+}
+
+@JvmName("toAnyIDOrNull")
+fun BsonElement.toIDOrNull(): AnyID? {
+    return when (this) {
+        is BsonString -> AnyID(this.value)
+        is BsonObjectId -> AnyID(this.value)
+        else -> null
+    }
 }
 
 /* ============= ------------------ ============= */
