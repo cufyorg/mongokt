@@ -13,7 +13,7 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-@file:Suppress("ObjectPropertyName", "FunctionName")
+@file:Suppress("ObjectPropertyName", "FunctionName", "unused")
 
 package org.cufy.mongodb
 
@@ -32,7 +32,7 @@ package org.cufy.mongodb
  *
  * @since 2.0.0
  */
-const val `$elemMatch` = "\$elemMatch"
+const val `$elemMatch` = $$"$elemMatch"
 
 /**
  * Projects the first element in an array that
@@ -49,7 +49,7 @@ const val `$elemMatch` = "\$elemMatch"
  *
  * @since 2.0.0
  */
-const val `$` = "\$"
+const val `$` = "$"
 
 /**
  * Limits the number of elements projected from an
@@ -66,7 +66,7 @@ const val `$` = "\$"
  *
  * @since 2.0.0
  */
-const val `$slice` = "\$slice"
+const val `$slice` = $$"$slice"
 
 /**
  * Sets the value of a field in a document.
@@ -88,7 +88,7 @@ const val `$slice` = "\$slice"
  *
  * @since 2.0.0
  */
-const val `$set` = "\$set"
+const val `$set` = $$"$set"
 
 /**
  * Modifies the $push operator to reorder
@@ -107,7 +107,7 @@ const val `$set` = "\$set"
  *
  * @since 2.0.0
  */
-const val `$sort` = "\$sort"
+const val `$sort` = $$"$sort"
 
 /**
  * Removes the specified field from a document.
@@ -125,7 +125,7 @@ const val `$sort` = "\$sort"
  *
  * @since 2.0.0
  */
-const val `$unset` = "\$unset"
+const val `$unset` = $$"$unset"
 
 /**
  * Matches values that are equal to a specified
@@ -134,7 +134,7 @@ const val `$unset` = "\$unset"
  * [$eq](https://www.mongodb.com/docs/manual/reference/operator/query/eq/#mongodb-query-op.-eq)
  * @since 2.0.0
  */
-const val `$eq` = "\$eq"
+const val `$eq` = $$"$eq"
 
 /**
  * Matches values that are greater than a
@@ -143,7 +143,7 @@ const val `$eq` = "\$eq"
  * [$gt](https://www.mongodb.com/docs/manual/reference/operator/query/gt/#mongodb-query-op.-gt)
  * @since 2.0.0
  */
-const val `$gt` = "\$gt"
+const val `$gt` = $$"$gt"
 
 /**
  * Matches values that are greater than or equal
@@ -152,7 +152,7 @@ const val `$gt` = "\$gt"
  * [$gte](https://www.mongodb.com/docs/manual/reference/operator/query/gte/#mongodb-query-op.-gte)
  * @since 2.0.0
  */
-const val `$gte` = "\$gte"
+const val `$gte` = $$"$gte"
 
 /**
  * Matches any of the values specified in an array.
@@ -160,7 +160,7 @@ const val `$gte` = "\$gte"
  * [$in](https://www.mongodb.com/docs/manual/reference/operator/query/in/#mongodb-query-op.-in)
  * @since 2.0.0
  */
-const val `$in` = "\$in"
+const val `$in` = $$"$in"
 
 /**
  * Matches values that are less than a specified
@@ -169,7 +169,7 @@ const val `$in` = "\$in"
  * [$lt](https://www.mongodb.com/docs/manual/reference/operator/query/lt/#mongodb-query-op.-lt)
  * @since 2.0.0
  */
-const val `$lt` = "\$lt"
+const val `$lt` = $$"$lt"
 
 /**
  * Matches values that are less than or equal to a
@@ -178,7 +178,7 @@ const val `$lt` = "\$lt"
  * [$lte](https://www.mongodb.com/docs/manual/reference/operator/query/lte/#mongodb-query-op.-lte)
  * @since 2.0.0
  */
-const val `$lte` = "\$lte"
+const val `$lte` = $$"$lte"
 
 /**
  * Matches all values that are not equal to a
@@ -187,7 +187,7 @@ const val `$lte` = "\$lte"
  * [$ne](https://www.mongodb.com/docs/manual/reference/operator/query/ne/#mongodb-query-op.-ne)
  * @since 2.0.0
  */
-const val `$ne` = "\$ne"
+const val `$ne` = $$"$ne"
 
 /**
  * Matches none of the values specified in an
@@ -196,7 +196,7 @@ const val `$ne` = "\$ne"
  * [$nin](https://www.mongodb.com/docs/manual/reference/operator/query/nin/#mongodb-query-op.-nin)
  * @since 2.0.0
  */
-const val `$nin` = "\$nin"
+const val `$nin` = $$"$nin"
 
 /**
  * Joins query clauses with a logical AND returns
@@ -206,7 +206,7 @@ const val `$nin` = "\$nin"
  * [$and](https://www.mongodb.com/docs/manual/reference/operator/query/and/#mongodb-query-op.-and)
  * @since 2.0.0
  */
-const val `$and` = "\$and"
+const val `$and` = $$"$and"
 
 /**
  * Inverts the effect of a query expression and
@@ -216,7 +216,7 @@ const val `$and` = "\$and"
  * [$not](https://www.mongodb.com/docs/manual/reference/operator/query/not/#mongodb-query-op.-not)
  * @since 2.0.0
  */
-const val `$not` = "\$not"
+const val `$not` = $$"$not"
 
 /**
  * Joins query clauses with a logical NOR returns
@@ -225,7 +225,7 @@ const val `$not` = "\$not"
  * [$nor](https://www.mongodb.com/docs/manual/reference/operator/query/nor/#mongodb-query-op.-nor)
  * @since 2.0.0
  */
-const val `$nor` = "\$nor"
+const val `$nor` = $$"$nor"
 
 /**
  * Joins query clauses with a logical OR returns
@@ -234,7 +234,7 @@ const val `$nor` = "\$nor"
  * [$or](https://www.mongodb.com/docs/manual/reference/operator/query/or/#mongodb-query-op.-or)
  * @since 2.0.0
  */
-const val `$or` = "\$or"
+const val `$or` = $$"$or"
 
 /**
  * Matches documents that have the specified field.
@@ -242,7 +242,7 @@ const val `$or` = "\$or"
  * [$exists](https://www.mongodb.com/docs/manual/reference/operator/query/exists/#mongodb-query-op.-exists)
  * @since 2.0.0
  */
-const val `$exists` = "\$exists"
+const val `$exists` = $$"$exists"
 
 /**
  * Selects documents if a field is of the
@@ -251,7 +251,7 @@ const val `$exists` = "\$exists"
  * [$type](https://www.mongodb.com/docs/manual/reference/operator/query/type/#mongodb-query-op.-type)
  * @since 2.0.0
  */
-const val `$type` = "\$type"
+const val `$type` = $$"$type"
 
 /**
  * Allows use of aggregation expressions within
@@ -260,7 +260,7 @@ const val `$type` = "\$type"
  * [$expr](https://www.mongodb.com/docs/manual/reference/operator/query/expr/#mongodb-query-op.-expr)
  * @since 2.0.0
  */
-const val `$expr` = "\$expr"
+const val `$expr` = $$"$expr"
 
 /**
  * Validate documents against the given JSON
@@ -269,7 +269,7 @@ const val `$expr` = "\$expr"
  * [$jsonSchema](https://www.mongodb.com/docs/manual/reference/operator/query/jsonSchema/#mongodb-query-op.-jsonSchema)
  * @since 2.0.0
  */
-const val `$jsonSchema` = "\$jsonSchema"
+const val `$jsonSchema` = $$"$jsonSchema"
 
 /**
  * Performs a modulo operation on the value of a
@@ -279,7 +279,7 @@ const val `$jsonSchema` = "\$jsonSchema"
  * [$mod](https://www.mongodb.com/docs/manual/reference/operator/query/mod/#mongodb-query-op.-mod)
  * @since 2.0.0
  */
-const val `$mod` = "\$mod"
+const val `$mod` = $$"$mod"
 
 /**
  * Selects documents where values match a
@@ -288,7 +288,7 @@ const val `$mod` = "\$mod"
  * [$regex](https://www.mongodb.com/docs/manual/reference/operator/query/regex/#mongodb-query-op.-regex)
  * @since 2.0.0
  */
-const val `$regex` = "\$regex"
+const val `$regex` = $$"$regex"
 
 /**
  * Performs text search.
@@ -296,7 +296,7 @@ const val `$regex` = "\$regex"
  * [$text](https://www.mongodb.com/docs/manual/reference/operator/query/text/#mongodb-query-op.-text)
  * @since 2.0.0
  */
-const val `$text` = "\$text"
+const val `$text` = $$"$text"
 
 /**
  * Matches documents that satisfy a JavaScript
@@ -305,7 +305,7 @@ const val `$text` = "\$text"
  * [$where](https://www.mongodb.com/docs/manual/reference/operator/query/where/#mongodb-query-op.-where)
  * @since 2.0.0
  */
-const val `$where` = "\$where"
+const val `$where` = $$"$where"
 
 /**
  * Selects geometries that intersect with a
@@ -315,7 +315,7 @@ const val `$where` = "\$where"
  * [$geoIntersects](https://www.mongodb.com/docs/manual/reference/operator/query/geoIntersects/#mongodb-query-op.-geoIntersects)
  * @since 2.0.0
  */
-const val `$geoIntersects` = "\$geoIntersects"
+const val `$geoIntersects` = $$"$geoIntersects"
 
 /**
  * Selects geometries within a bounding GeoJSON
@@ -325,7 +325,7 @@ const val `$geoIntersects` = "\$geoIntersects"
  * [$geoWithin](https://www.mongodb.com/docs/manual/reference/operator/query/geoWithin/#mongodb-query-op.-geoWithin)
  * @since 2.0.0
  */
-const val `$geoWithin` = "\$geoWithin"
+const val `$geoWithin` = $$"$geoWithin"
 
 /**
  * Returns geospatial objects in proximity to a
@@ -335,7 +335,7 @@ const val `$geoWithin` = "\$geoWithin"
  * [$near](https://www.mongodb.com/docs/manual/reference/operator/query/near/#mongodb-query-op.-near)
  * @since 2.0.0
  */
-const val `$near` = "\$near"
+const val `$near` = $$"$near"
 
 /**
  * Returns geospatial objects in proximity to a
@@ -345,7 +345,7 @@ const val `$near` = "\$near"
  * [$nearSphere](https://www.mongodb.com/docs/manual/reference/operator/query/nearSphere/#mongodb-query-op.-nearSphere)
  * @since 2.0.0
  */
-const val `$nearSphere` = "\$nearSphere"
+const val `$nearSphere` = $$"$nearSphere"
 
 /**
  * Matches arrays that contain all elements
@@ -354,7 +354,7 @@ const val `$nearSphere` = "\$nearSphere"
  * [$all](https://www.mongodb.com/docs/manual/reference/operator/query/all/#mongodb-query-op.-all)
  * @since 2.0.0
  */
-const val `$all` = "\$all"
+const val `$all` = $$"$all"
 
 /**
  * Selects documents if the array field is a
@@ -363,7 +363,7 @@ const val `$all` = "\$all"
  * [$size](https://www.mongodb.com/docs/manual/reference/operator/query/size/#mongodb-query-op.-size)
  * @since 2.0.0
  */
-const val `$size` = "\$size"
+const val `$size` = $$"$size"
 
 /**
  * Matches numeric or binary values in which a set
@@ -372,7 +372,7 @@ const val `$size` = "\$size"
  * [$bitsAllClear](https://www.mongodb.com/docs/manual/reference/operator/query/bitsAllClear/#mongodb-query-op.-bitsAllClear)
  * @since 2.0.0
  */
-const val `$bitsAllClear` = "\$bitsAllClear"
+const val `$bitsAllClear` = $$"$bitsAllClear"
 
 /**
  * Matches numeric or binary values in which a set
@@ -381,7 +381,7 @@ const val `$bitsAllClear` = "\$bitsAllClear"
  * [$bitsAllSet](https://www.mongodb.com/docs/manual/reference/operator/query/bitsAllSet/#mongodb-query-op.-bitsAllSet)
  * @since 2.0.0
  */
-const val `$bitsAllSet` = "\$bitsAllSet"
+const val `$bitsAllSet` = $$"$bitsAllSet"
 
 /**
  * Matches numeric or binary values in which any
@@ -390,7 +390,7 @@ const val `$bitsAllSet` = "\$bitsAllSet"
  * [$bitsAnyClear](https://www.mongodb.com/docs/manual/reference/operator/query/bitsAnyClear/#mongodb-query-op.-bitsAnyClear)
  * @since 2.0.0
  */
-const val `$bitsAnyClear` = "\$bitsAnyClear"
+const val `$bitsAnyClear` = $$"$bitsAnyClear"
 
 /**
  * Matches numeric or binary values in which any
@@ -399,7 +399,7 @@ const val `$bitsAnyClear` = "\$bitsAnyClear"
  * [$bitsAnySet](https://www.mongodb.com/docs/manual/reference/operator/query/bitsAnySet/#mongodb-query-op.-bitsAnySet)
  * @since 2.0.0
  */
-const val `$bitsAnySet` = "\$bitsAnySet"
+const val `$bitsAnySet` = $$"$bitsAnySet"
 
 /**
  * Projects the document's score assigned during $text operation.
@@ -407,7 +407,7 @@ const val `$bitsAnySet` = "\$bitsAnySet"
  * [$meta](https://www.mongodb.com/docs/manual/reference/operator/aggregation/meta/#mongodb-expression-exp.-meta)
  * @since 2.0.0
  */
-const val `$meta` = "\$meta"
+const val `$meta` = $$"$meta"
 
 /**
  * Adds a comment to a query predicate.
@@ -415,7 +415,7 @@ const val `$meta` = "\$meta"
  * [$comment](https://www.mongodb.com/docs/manual/reference/operator/query/comment/#mongodb-query-op.-comment)
  * @since 2.0.0
  */
-const val `$comment` = "\$comment"
+const val `$comment` = $$"$comment"
 
 /**
  * Generates a random float between 0 and 1.
@@ -423,7 +423,7 @@ const val `$comment` = "\$comment"
  * [$rand](https://www.mongodb.com/docs/manual/reference/operator/query/rand/#mongodb-query-op.-rand)
  * @since 2.0.0
  */
-const val `$rand` = "\$rand"
+const val `$rand` = $$"$rand"
 
 /**
  * Sets the value of a field to current date,
@@ -432,7 +432,7 @@ const val `$rand` = "\$rand"
  * [$currentDate](https://www.mongodb.com/docs/manual/reference/operator/update/currentDate/#mongodb-update-up.-currentDate)
  * @since 2.0.0
  */
-const val `$currentDate` = "\$currentDate"
+const val `$currentDate` = $$"$currentDate"
 
 /**
  * Increments the value of the field by the
@@ -441,7 +441,7 @@ const val `$currentDate` = "\$currentDate"
  * [$inc](https://www.mongodb.com/docs/manual/reference/operator/update/inc/#mongodb-update-up.-inc)
  * @since 2.0.0
  */
-const val `$inc` = "\$inc"
+const val `$inc` = $$"$inc"
 
 /**
  * Only updates the field if the specified value
@@ -450,7 +450,7 @@ const val `$inc` = "\$inc"
  * [$min](https://www.mongodb.com/docs/manual/reference/operator/update/min/#mongodb-update-up.-min)
  * @since 2.0.0
  */
-const val `$min` = "\$min"
+const val `$min` = $$"$min"
 
 /**
  * Only updates the field if the specified value
@@ -459,7 +459,7 @@ const val `$min` = "\$min"
  * [$max](https://www.mongodb.com/docs/manual/reference/operator/update/max/#mongodb-update-up.-max)
  * @since 2.0.0
  */
-const val `$max` = "\$max"
+const val `$max` = $$"$max"
 
 /**
  * Multiplies the value of the field by the
@@ -468,7 +468,7 @@ const val `$max` = "\$max"
  * [$mul](https://www.mongodb.com/docs/manual/reference/operator/update/mul/#mongodb-update-up.-mul)
  * @since 2.0.0
  */
-const val `$mul` = "\$mul"
+const val `$mul` = $$"$mul"
 
 /**
  * Renames a field.
@@ -476,7 +476,7 @@ const val `$mul` = "\$mul"
  * [$rename](https://www.mongodb.com/docs/manual/reference/operator/update/rename/#mongodb-update-up.-rename)
  * @since 2.0.0
  */
-const val `$rename` = "\$rename"
+const val `$rename` = $$"$rename"
 
 /**
  * Sets the value of a field if an update results
@@ -487,7 +487,7 @@ const val `$rename` = "\$rename"
  * [$setOnInsert](https://www.mongodb.com/docs/manual/reference/operator/update/setOnInsert/#mongodb-update-up.-setOnInsert)
  * @since 2.0.0
  */
-const val `$setOnInsert` = "\$setOnInsert"
+const val `$setOnInsert` = $$"$setOnInsert"
 
 /**
  * Acts as a placeholder to update all elements in
@@ -497,7 +497,7 @@ const val `$setOnInsert` = "\$setOnInsert"
  * [$&#x5B;&#x5D;](https://www.mongodb.com/docs/manual/reference/operator/update/positional-all/#mongodb-update-up.---)
  * @since 2.0.0
  */
-fun `$`() = "\$[]"
+fun `$`() = "$[]"
 
 /**
  * Acts as a placeholder to update all elements
@@ -507,7 +507,7 @@ fun `$`() = "\$[]"
  * [$&#x5B;&#x3C;identifier&#x3E;&#x5D;](https://www.mongodb.com/docs/manual/reference/operator/update/positional-filtered/#mongodb-update-up.---identifier--)
  * @since 2.0.0
  */
-fun `$`(identifier: String) = "\$[$identifier]"
+fun `$`(identifier: String) = $$"$[$$identifier]"
 
 /**
  * Adds elements to an array only if they do not
@@ -516,7 +516,7 @@ fun `$`(identifier: String) = "\$[$identifier]"
  * [$addToSet](https://www.mongodb.com/docs/manual/reference/operator/update/addToSet/#mongodb-update-up.-addToSet)
  * @since 2.0.0
  */
-const val `$addToSet` = "\$addToSet"
+const val `$addToSet` = $$"$addToSet"
 
 /**
  * Removes the first or last item of an array.
@@ -524,7 +524,7 @@ const val `$addToSet` = "\$addToSet"
  * [$pop](https://www.mongodb.com/docs/manual/reference/operator/update/pop/#mongodb-update-up.-pop)
  * @since 2.0.0
  */
-const val `$pop` = "\$pop"
+const val `$pop` = $$"$pop"
 
 /**
  * Removes all array elements that match a
@@ -533,7 +533,7 @@ const val `$pop` = "\$pop"
  * [$pull](https://www.mongodb.com/docs/manual/reference/operator/update/pull/#mongodb-update-up.-pull)
  * @since 2.0.0
  */
-const val `$pull` = "\$pull"
+const val `$pull` = $$"$pull"
 
 /**
  * Adds an item to an array.
@@ -541,7 +541,7 @@ const val `$pull` = "\$pull"
  * [$push](https://www.mongodb.com/docs/manual/reference/operator/update/push/#mongodb-update-up.-push)
  * @since 2.0.0
  */
-const val `$push` = "\$push"
+const val `$push` = $$"$push"
 
 /**
  * Removes all matching values from an array.
@@ -549,7 +549,7 @@ const val `$push` = "\$push"
  * [$pullAll](https://www.mongodb.com/docs/manual/reference/operator/update/pullAll/#mongodb-update-up.-pullAll)
  * @since 2.0.0
  */
-const val `$pullAll` = "\$pullAll"
+const val `$pullAll` = $$"$pullAll"
 
 /**
  * Modifies the $push and $addToSet operators to
@@ -558,7 +558,7 @@ const val `$pullAll` = "\$pullAll"
  * [$each](https://www.mongodb.com/docs/manual/reference/operator/update/each/#mongodb-update-up.-each)
  * @since 2.0.0
  */
-const val `$each` = "\$each"
+const val `$each` = $$"$each"
 
 /**
  * Modifies the $push operator to specify the
@@ -567,7 +567,7 @@ const val `$each` = "\$each"
  * [$position](https://www.mongodb.com/docs/manual/reference/operator/update/position/#mongodb-update-up.-position)
  * @since 2.0.0
  */
-const val `$position` = "\$position"
+const val `$position` = $$"$position"
 
 /**
  * Performs bitwise AND, OR, and XOR updates of
@@ -576,7 +576,7 @@ const val `$position` = "\$position"
  * [$bit](https://www.mongodb.com/docs/manual/reference/operator/update/bit/#mongodb-update-up.-bit)
  * @since 2.0.0
  */
-const val `$bit` = "\$bit"
+const val `$bit` = $$"$bit"
 
 /**
  * Adds new fields to documents. Similar to
@@ -591,7 +591,7 @@ const val `$bit` = "\$bit"
  * [$addFields](https://www.mongodb.com/docs/manual/reference/operator/aggregation/addFields/#mongodb-pipeline-pipe.-addFields)
  * @since 2.0.0
  */
-const val `$addFields` = "\$addFields"
+const val `$addFields` = $$"$addFields"
 
 /**
  * Categorizes incoming documents into groups,
@@ -601,7 +601,7 @@ const val `$addFields` = "\$addFields"
  * [$bucket](https://www.mongodb.com/docs/manual/reference/operator/aggregation/bucket/#mongodb-pipeline-pipe.-bucket)
  * @since 2.0.0
  */
-const val `$bucket` = "\$bucket"
+const val `$bucket` = $$"$bucket"
 
 /**
  * Categorizes incoming documents into a specific
@@ -614,7 +614,7 @@ const val `$bucket` = "\$bucket"
  * [$bucketAuto](https://www.mongodb.com/docs/manual/reference/operator/aggregation/bucketAuto/#mongodb-pipeline-pipe.-bucketAuto)
  * @since 2.0.0
  */
-const val `$bucketAuto` = "\$bucketAuto"
+const val `$bucketAuto` = $$"$bucketAuto"
 
 /**
  * Returns statistics regarding a collection or
@@ -623,7 +623,7 @@ const val `$bucketAuto` = "\$bucketAuto"
  * [$collStats](https://www.mongodb.com/docs/manual/reference/operator/aggregation/collStats/#mongodb-pipeline-pipe.-collStats)
  * @since 2.0.0
  */
-const val `$collStats` = "\$collStats"
+const val `$collStats` = $$"$collStats"
 
 /**
  * Returns a count of the number of documents at
@@ -635,7 +635,7 @@ const val `$collStats` = "\$collStats"
  * [$count](https://www.mongodb.com/docs/manual/reference/operator/aggregation/count/#mongodb-pipeline-pipe.-count)
  * @since 2.0.0
  */
-const val `$count` = "\$count"
+const val `$count` = $$"$count"
 
 /**
  * Processes multiple aggregation pipelines within
@@ -648,7 +648,7 @@ const val `$count` = "\$count"
  * [$facet](https://www.mongodb.com/docs/manual/reference/operator/aggregation/facet/#mongodb-pipeline-pipe.-facet)
  * @since 2.0.0
  */
-const val `$facet` = "\$facet"
+const val `$facet` = $$"$facet"
 
 /**
  * Returns an ordered stream of documents based on
@@ -662,7 +662,7 @@ const val `$facet` = "\$facet"
  * [$geoNear](https://www.mongodb.com/docs/manual/reference/operator/aggregation/geoNear/#mongodb-pipeline-pipe.-geoNear)
  * @since 2.0.0
  */
-const val `$geoNear` = "\$geoNear"
+const val `$geoNear` = $$"$geoNear"
 
 /**
  * Performs a recursive search on a collection. To
@@ -673,7 +673,7 @@ const val `$geoNear` = "\$geoNear"
  * [$graphLookup](https://www.mongodb.com/docs/manual/reference/operator/aggregation/graphLookup/#mongodb-pipeline-pipe.-graphLookup)
  * @since 2.0.0
  */
-const val `$graphLookup` = "\$graphLookup"
+const val `$graphLookup` = $$"$graphLookup"
 
 /**
  * Groups input documents by a specified
@@ -688,7 +688,7 @@ const val `$graphLookup` = "\$graphLookup"
  * [$group](https://www.mongodb.com/docs/manual/reference/operator/aggregation/group/#mongodb-pipeline-pipe.-group)
  * @since 2.0.0
  */
-const val `$group` = "\$group"
+const val `$group` = $$"$group"
 
 /**
  * Returns statistics regarding the use of each
@@ -697,7 +697,7 @@ const val `$group` = "\$group"
  * [$indexStats](https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexStats/#mongodb-pipeline-pipe.-indexStats)
  * @since 2.0.0
  */
-const val `$indexStats` = "\$indexStats"
+const val `$indexStats` = $$"$indexStats"
 
 /**
  * Passes the first n documents unmodified to the
@@ -709,7 +709,7 @@ const val `$indexStats` = "\$indexStats"
  * [$limit](https://www.mongodb.com/docs/manual/reference/operator/aggregation/limit/#mongodb-pipeline-pipe.-limit)
  * @since 2.0.0
  */
-const val `$limit` = "\$limit"
+const val `$limit` = $$"$limit"
 
 /**
  * Lists all sessions that have been active long
@@ -719,7 +719,7 @@ const val `$limit` = "\$limit"
  * [$listSessions](https://www.mongodb.com/docs/manual/reference/operator/aggregation/listSessions/#mongodb-pipeline-pipe.-listSessions)
  * @since 2.0.0
  */
-const val `$listSessions` = "\$listSessions"
+const val `$listSessions` = $$"$listSessions"
 
 /**
  * Performs a left outer join to another
@@ -730,7 +730,7 @@ const val `$listSessions` = "\$listSessions"
  * [$lookup](https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#mongodb-pipeline-pipe.-lookup)
  * @since 2.0.0
  */
-const val `$lookup` = "\$lookup"
+const val `$lookup` = $$"$lookup"
 
 /**
  * Filters the document stream to allow only
@@ -743,7 +743,7 @@ const val `$lookup` = "\$lookup"
  * [$match](https://www.mongodb.com/docs/manual/reference/operator/aggregation/match/#mongodb-pipeline-pipe.-match)
  * @since 2.0.0
  */
-const val `$match` = "\$match"
+const val `$match` = $$"$match"
 
 /**
  * Writes the resulting documents of the
@@ -761,7 +761,7 @@ const val `$match` = "\$match"
  * [$merge](https://www.mongodb.com/docs/manual/reference/operator/aggregation/merge/#mongodb-pipeline-pipe.-merge)
  * @since 2.0.0
  */
-const val `$merge` = "\$merge"
+const val `$merge` = $$"$merge"
 
 /**
  * Writes the resulting documents of the
@@ -772,7 +772,7 @@ const val `$merge` = "\$merge"
  * [$out](https://www.mongodb.com/docs/manual/reference/operator/aggregation/out/#mongodb-pipeline-pipe.-out)
  * @since 2.0.0
  */
-const val `$out` = "\$out"
+const val `$out` = $$"$out"
 
 /**
  * Returns plan cache information for a collection.
@@ -780,7 +780,7 @@ const val `$out` = "\$out"
  * [$planCacheStats](https://www.mongodb.com/docs/manual/reference/operator/aggregation/planCacheStats/#mongodb-pipeline-pipe.-planCacheStats)
  * @since 2.0.0
  */
-const val `$planCacheStats` = "\$planCacheStats"
+const val `$planCacheStats` = $$"$planCacheStats"
 
 /**
  * Reshapes each document in the stream, such as
@@ -793,7 +793,7 @@ const val `$planCacheStats` = "\$planCacheStats"
  * [$project](https://www.mongodb.com/docs/manual/reference/operator/aggregation/project/#mongodb-pipeline-pipe.-project)
  * @since 2.0.0
  */
-const val `$project` = "\$project"
+const val `$project` = $$"$project"
 
 /**
  * Reshapes each document in the stream by
@@ -807,7 +807,7 @@ const val `$project` = "\$project"
  * [$redact](https://www.mongodb.com/docs/manual/reference/operator/aggregation/redact/#mongodb-pipeline-pipe.-redact)
  * @since 2.0.0
  */
-const val `$redact` = "\$redact"
+const val `$redact` = $$"$redact"
 
 /**
  * Replaces a document with the specified embedded
@@ -822,7 +822,7 @@ const val `$redact` = "\$redact"
  * [$replaceRoot](https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceRoot/#mongodb-pipeline-pipe.-replaceRoot)
  * @since 2.0.0
  */
-const val `$replaceRoot` = "\$replaceRoot"
+const val `$replaceRoot` = $$"$replaceRoot"
 
 /**
  * Replaces a document with the specified embedded
@@ -837,7 +837,7 @@ const val `$replaceRoot` = "\$replaceRoot"
  * [$replaceWith](https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceWith/#mongodb-pipeline-pipe.-replaceWith)
  * @since 2.0.0
  */
-const val `$replaceWith` = "\$replaceWith"
+const val `$replaceWith` = $$"$replaceWith"
 
 /**
  * Randomly selects the specified number of
@@ -846,7 +846,7 @@ const val `$replaceWith` = "\$replaceWith"
  * [$sample](https://www.mongodb.com/docs/manual/reference/operator/aggregation/sample/#mongodb-pipeline-pipe.-sample)
  * @since 2.0.0
  */
-const val `$sample` = "\$sample"
+const val `$sample` = $$"$sample"
 
 /**
  * Performs a full-text search of the field or
@@ -859,7 +859,7 @@ const val `$sample` = "\$sample"
  * [$search](https://www.mongodb.com/docs/atlas/atlas-search/query-syntax/#mongodb-pipeline-pipe.-search)
  * @since 2.0.0
  */
-const val `$search` = "\$search"
+const val `$search` = $$"$search"
 
 /**
  * Groups documents into windows and applies one
@@ -871,7 +871,7 @@ const val `$search` = "\$search"
  * [$setWindowFields](https://www.mongodb.com/docs/manual/reference/operator/aggregation/setWindowFields/#mongodb-pipeline-pipe.-setWindowFields)
  * @since 2.0.0
  */
-const val `$setWindowFields` = "\$setWindowFields"
+const val `$setWindowFields` = $$"$setWindowFields"
 
 /**
  * Skips the first n documents where n is the
@@ -884,7 +884,7 @@ const val `$setWindowFields` = "\$setWindowFields"
  * [$skip](https://www.mongodb.com/docs/manual/reference/operator/aggregation/skip/#mongodb-pipeline-pipe.-skip)
  * @since 2.0.0
  */
-const val `$skip` = "\$skip"
+const val `$skip` = $$"$skip"
 
 /**
  * Groups incoming documents based on the value of
@@ -894,7 +894,7 @@ const val `$skip` = "\$skip"
  * [$sortByCount](https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortByCount/#mongodb-pipeline-pipe.-sortByCount)
  * @since 2.0.0
  */
-const val `$sortByCount` = "\$sortByCount"
+const val `$sortByCount` = $$"$sortByCount"
 
 /**
  * Performs a union of two collections; i.e.
@@ -906,7 +906,7 @@ const val `$sortByCount` = "\$sortByCount"
  * [$unionWith](https://www.mongodb.com/docs/manual/reference/operator/aggregation/unionWith/#mongodb-pipeline-pipe.-unionWith)
  * @since 2.0.0
  */
-const val `$unionWith` = "\$unionWith"
+const val `$unionWith` = $$"$unionWith"
 
 /**
  * Deconstructs an array field from the input
@@ -919,7 +919,7 @@ const val `$unionWith` = "\$unionWith"
  * [$unwind](https://www.mongodb.com/docs/manual/reference/operator/aggregation/unwind/#mongodb-pipeline-pipe.-unwind)
  * @since 2.0.0
  */
-const val `$unwind` = "\$unwind"
+const val `$unwind` = $$"$unwind"
 
 /**
  * Returns information on active and/or dormant
@@ -928,7 +928,7 @@ const val `$unwind` = "\$unwind"
  * [$currentOp](https://www.mongodb.com/docs/manual/reference/operator/aggregation/currentOp/#mongodb-pipeline-pipe.-currentOp)
  * @since 2.0.0
  */
-const val `$currentOp` = "\$currentOp"
+const val `$currentOp` = $$"$currentOp"
 
 /**
  * Lists all active sessions recently in use on
@@ -939,7 +939,7 @@ const val `$currentOp` = "\$currentOp"
  * [$listLocalSessions](https://www.mongodb.com/docs/manual/reference/operator/aggregation/listLocalSessions/#mongodb-pipeline-pipe.-listLocalSessions)
  * @since 2.0.0
  */
-const val `$listLocalSessions` = "\$listLocalSessions"
+const val `$listLocalSessions` = $$"$listLocalSessions"
 
 /*---------------------------------------------*/
 
@@ -949,7 +949,7 @@ const val `$listLocalSessions` = "\$listLocalSessions"
  * [$abs](https://www.mongodb.com/docs/manual/reference/operator/aggregation/abs/#mongodb-expression-exp.-abs)
  * @since 2.0.0
  */
-const val `$abs` = "\$abs"
+const val `$abs` = $$"$abs"
 
 /**
  * Returns the result of a user-defined accumulator function.
@@ -957,7 +957,7 @@ const val `$abs` = "\$abs"
  * [$accumulator](https://www.mongodb.com/docs/manual/reference/operator/aggregation/accumulator/#mongodb-group-grp.-accumulator)
  * @since 2.0.0
  */
-const val `$accumulator` = "\$accumulator"
+const val `$accumulator` = $$"$accumulator"
 
 /**
  * Returns the inverse cosine (arc cosine) of a value in radians.
@@ -965,7 +965,7 @@ const val `$accumulator` = "\$accumulator"
  * [$acos](https://www.mongodb.com/docs/manual/reference/operator/aggregation/acos/#mongodb-expression-exp.-acos)
  * @since 2.0.0
  */
-const val `$acos` = "\$acos"
+const val `$acos` = $$"$acos"
 
 /**
  * Returns the inverse hyperbolic cosine (hyperbolic arc cosine) of a value in radians.
@@ -973,7 +973,7 @@ const val `$acos` = "\$acos"
  * [$acosh](https://www.mongodb.com/docs/manual/reference/operator/aggregation/acos/#mongodb-expression-exp.-acosh)
  * @since 2.0.0
  */
-const val `$acosh` = "\$acosh"
+const val `$acosh` = $$"$acosh"
 
 /**
  * Adds numbers to return the sum, or adds numbers
@@ -986,24 +986,24 @@ const val `$acosh` = "\$acosh"
  * [$add](https://www.mongodb.com/docs/manual/reference/operator/aggregation/add/#mongodb-expression-exp.-add)
  * @since 2.0.0
  */
-const val `$add` = "\$add"
+const val `$add` = $$"$add"
 
 /*---------------------------------------------*/
 
-const val `$allElementsTrue` = "\$allElementsTrue"
-const val `$anyElementTrue` = "\$anyElementTrue"
-const val `$arrayElemAt` = "\$arrayElemAt"
-const val `$arrayToObject` = "\$arrayToObject"
-const val `$asin` = "\$asin"
-const val `$asinh` = "\$asinh"
-const val `$atan` = "\$atan"
-const val `$atan2` = "\$atan2"
-const val `$atanh` = "\$atanh"
-const val `$avg` = "\$avg"
-const val `$binarySize` = "\$binarySize"
-const val `$bottom` = "\$bottom"
-const val `$bottomN` = "\$bottomN"
-const val `$bsonSize` = "\$bsonSize"
+const val `$allElementsTrue` = $$"$allElementsTrue"
+const val `$anyElementTrue` = $$"$anyElementTrue"
+const val `$arrayElemAt` = $$"$arrayElemAt"
+const val `$arrayToObject` = $$"$arrayToObject"
+const val `$asin` = $$"$asin"
+const val `$asinh` = $$"$asinh"
+const val `$atan` = $$"$atan"
+const val `$atan2` = $$"$atan2"
+const val `$atanh` = $$"$atanh"
+const val `$avg` = $$"$avg"
+const val `$binarySize` = $$"$binarySize"
+const val `$bottom` = $$"$bottom"
+const val `$bottomN` = $$"$bottomN"
+const val `$bsonSize` = $$"$bsonSize"
 
 /**
  * Returns the smallest integer greater than or
@@ -1012,54 +1012,54 @@ const val `$bsonSize` = "\$bsonSize"
  * [$ceil](https://www.mongodb.com/docs/manual/reference/operator/aggregation/ceil/#mongodb-expression-exp.-ceil)
  * @since 2.0.0
  */
-const val `$ceil` = "\$ceil"
+const val `$ceil` = $$"$ceil"
 
-const val `$cmp` = "\$cmp"
-const val `$concat` = "\$concat"
-const val `$concatArrays` = "\$concatArrays"
-const val `$cond` = "\$cond"
-const val `$convert` = "\$convert"
-const val `$cos` = "\$cos"
-const val `$cosh` = "\$cosh"
-const val `$covariancePop` = "\$covariancePop"
-const val `$covarianceSamp` = "\$covarianceSamp"
-const val `$dateAdd` = "\$dateAdd"
-const val `$dateDiff` = "\$dateDiff"
-const val `$dateFromParts` = "\$dateFromParts"
-const val `$dateSubtract` = "\$dateSubtract"
-const val `$dateTrunc` = "\$dateTrunc"
-const val `$dateToParts` = "\$dateToParts"
-const val `$dateFromString` = "\$dateFromString"
-const val `$dateToString` = "\$dateToString"
-const val `$dayOfMonth` = "\$dayOfMonth"
-const val `$dayOfWeek` = "\$dayOfWeek"
-const val `$dayOfYear` = "\$dayOfYear"
-const val `$degreesToRadians` = "\$degreesToRadians"
-const val `$denseRank` = "\$denseRank"
-const val `$derivative` = "\$derivative"
-const val `$divide` = "\$divide"
-const val `$documentNumber` = "\$documentNumber"
-const val `$exp` = "\$exp"
-const val `$expMovingAvg` = "\$expMovingAvg"
-const val `$filter` = "\$filter"
-const val `$first` = "\$first"
-const val `$firstN` = "\$firstN"
-const val `$floor` = "\$floor"
-const val `$function` = "\$function"
-const val `$getField` = "\$getField"
-const val `$hour` = "\$hour"
-const val `$ifNull` = "\$ifNull"
-const val `$indexOfArray` = "\$indexOfArray"
-const val `$indexOfBytes` = "\$indexOfBytes"
-const val `$indexOfCP` = "\$indexOfCP"
-const val `$integral` = "\$integral"
-const val `$isArray` = "\$isArray"
-const val `$isNumber` = "\$isNumber"
-const val `$isoDayOfWeek` = "\$isoDayOfWeek"
-const val `$isoWeek` = "\$isoWeek"
-const val `$isoWeekYear` = "\$isoWeekYear"
-const val `$last` = "\$last"
-const val `$lastN` = "\$lastN"
+const val `$cmp` = $$"$cmp"
+const val `$concat` = $$"$concat"
+const val `$concatArrays` = $$"$concatArrays"
+const val `$cond` = $$"$cond"
+const val `$convert` = $$"$convert"
+const val `$cos` = $$"$cos"
+const val `$cosh` = $$"$cosh"
+const val `$covariancePop` = $$"$covariancePop"
+const val `$covarianceSamp` = $$"$covarianceSamp"
+const val `$dateAdd` = $$"$dateAdd"
+const val `$dateDiff` = $$"$dateDiff"
+const val `$dateFromParts` = $$"$dateFromParts"
+const val `$dateSubtract` = $$"$dateSubtract"
+const val `$dateTrunc` = $$"$dateTrunc"
+const val `$dateToParts` = $$"$dateToParts"
+const val `$dateFromString` = $$"$dateFromString"
+const val `$dateToString` = $$"$dateToString"
+const val `$dayOfMonth` = $$"$dayOfMonth"
+const val `$dayOfWeek` = $$"$dayOfWeek"
+const val `$dayOfYear` = $$"$dayOfYear"
+const val `$degreesToRadians` = $$"$degreesToRadians"
+const val `$denseRank` = $$"$denseRank"
+const val `$derivative` = $$"$derivative"
+const val `$divide` = $$"$divide"
+const val `$documentNumber` = $$"$documentNumber"
+const val `$exp` = $$"$exp"
+const val `$expMovingAvg` = $$"$expMovingAvg"
+const val `$filter` = $$"$filter"
+const val `$first` = $$"$first"
+const val `$firstN` = $$"$firstN"
+const val `$floor` = $$"$floor"
+const val `$function` = $$"$function"
+const val `$getField` = $$"$getField"
+const val `$hour` = $$"$hour"
+const val `$ifNull` = $$"$ifNull"
+const val `$indexOfArray` = $$"$indexOfArray"
+const val `$indexOfBytes` = $$"$indexOfBytes"
+const val `$indexOfCP` = $$"$indexOfCP"
+const val `$integral` = $$"$integral"
+const val `$isArray` = $$"$isArray"
+const val `$isNumber` = $$"$isNumber"
+const val `$isoDayOfWeek` = $$"$isoDayOfWeek"
+const val `$isoWeek` = $$"$isoWeek"
+const val `$isoWeekYear` = $$"$isoWeekYear"
+const val `$last` = $$"$last"
+const val `$lastN` = $$"$lastN"
 
 /**
  * Defines variables for use within the scope of a subexpression and returns the result of the subexpression. Accepts named parameters.
@@ -1069,90 +1069,90 @@ const val `$lastN` = "\$lastN"
  * [$let](https://www.mongodb.com/docs/manual/reference/operator/aggregation/let/#mongodb-expression-exp.-let)
  * @since 2.0.0
  */
-const val `$let` = "\$let"
+const val `$let` = $$"$let"
 
-const val `$linearFill` = "\$linearFill"
-const val `$literal` = "\$literal"
-const val `$ln` = "\$ln"
-const val `$locf` = "\$locf"
-const val `$log` = "\$log"
-const val `$log10` = "\$log10"
-const val `$ltrim` = "\$ltrim"
-const val `$map` = "\$map"
-const val `$maxN` = "\$maxN"
-const val `$mergeObjects` = "\$mergeObjects"
-const val `$minN` = "\$minN"
-const val `$millisecond` = "\$millisecond"
-const val `$minute` = "\$minute"
-const val `$month` = "\$month"
-const val `$multiply` = "\$multiply"
-const val `$objectToArray` = "\$objectToArray"
-const val `$pow` = "\$pow"
-const val `$radiansToDegrees` = "\$radiansToDegrees"
-const val `$range` = "\$range"
-const val `$rank` = "\$rank"
-const val `$reduce` = "\$reduce"
-const val `$regexFind` = "\$regexFind"
-const val `$regexFindAll` = "\$regexFindAll"
-const val `$regexMatch` = "\$regexMatch"
-const val `$replaceOne` = "\$replaceOne"
-const val `$replaceAll` = "\$replaceAll"
-const val `$reverseArray` = "\$reverseArray"
-const val `$round` = "\$round"
-const val `$rtrim` = "\$rtrim"
-const val `$sampleRate` = "\$sampleRate"
-const val `$second` = "\$second"
-const val `$setDifference` = "\$setDifference"
-const val `$setEquals` = "\$setEquals"
-const val `$setField` = "\$setField"
-const val `$setIntersection` = "\$setIntersection"
-const val `$setIsSubset` = "\$setIsSubset"
-const val `$setUnion` = "\$setUnion"
-const val `$shift` = "\$shift"
-const val `$sin` = "\$sin"
-const val `$sinh` = "\$sinh"
-const val `$sortArray` = "\$sortArray"
-const val `$split` = "\$split"
-const val `$sqrt` = "\$sqrt"
-const val `$stdDevPop` = "\$stdDevPop"
-const val `$stdDevSamp` = "\$stdDevSamp"
-const val `$strcasecmp` = "\$strcasecmp"
-const val `$strLenBytes` = "\$strLenBytes"
-const val `$strLenCP` = "\$strLenCP"
-const val `$substr` = "\$substr"
-const val `$substrBytes` = "\$substrBytes"
-const val `$substrCP` = "\$substrCP"
-const val `$subtract` = "\$subtract"
-const val `$sum` = "\$sum"
-const val `$switch` = "\$switch"
-const val `$tan` = "\$tan"
-const val `$tanh` = "\$tanh"
-const val `$toBool` = "\$toBool"
-const val `$toDate` = "\$toDate"
-const val `$toDecimal` = "\$toDecimal"
-const val `$toDouble` = "\$toDouble"
-const val `$toInt` = "\$toInt"
-const val `$toLong` = "\$toLong"
-const val `$toObjectId` = "\$toObjectId"
-const val `$top` = "\$top"
-const val `$topN` = "\$topN"
-const val `$toString` = "\$toString"
-const val `$toLower` = "\$toLower"
-const val `$toUpper` = "\$toUpper"
-const val `$trim` = "\$trim"
-const val `$trunc` = "\$trunc"
-const val `$tsIncrement` = "\$tsIncrement"
-const val `$tsSecond` = "\$tsSecond"
-const val `$unsetField` = "\$unsetField"
-const val `$week` = "\$week"
-const val `$year` = "\$year"
-const val `$zip` = "\$zip"
-const val `$toUUID` = "\$toUUID"
-const val `$bitAnd` = "\$bitAnd"
-const val `$bitNot` = "\$bitNot"
-const val `$bitOr` = "\$bitOr"
-const val `$bitXor` = "\$bitXor"
-const val `$toHashedIndexKey` = "\$toHashedIndexKey"
+const val `$linearFill` = $$"$linearFill"
+const val `$literal` = $$"$literal"
+const val `$ln` = $$"$ln"
+const val `$locf` = $$"$locf"
+const val `$log` = $$"$log"
+const val `$log10` = $$"$log10"
+const val `$ltrim` = $$"$ltrim"
+const val `$map` = $$"$map"
+const val `$maxN` = $$"$maxN"
+const val `$mergeObjects` = $$"$mergeObjects"
+const val `$minN` = $$"$minN"
+const val `$millisecond` = $$"$millisecond"
+const val `$minute` = $$"$minute"
+const val `$month` = $$"$month"
+const val `$multiply` = $$"$multiply"
+const val `$objectToArray` = $$"$objectToArray"
+const val `$pow` = $$"$pow"
+const val `$radiansToDegrees` = $$"$radiansToDegrees"
+const val `$range` = $$"$range"
+const val `$rank` = $$"$rank"
+const val `$reduce` = $$"$reduce"
+const val `$regexFind` = $$"$regexFind"
+const val `$regexFindAll` = $$"$regexFindAll"
+const val `$regexMatch` = $$"$regexMatch"
+const val `$replaceOne` = $$"$replaceOne"
+const val `$replaceAll` = $$"$replaceAll"
+const val `$reverseArray` = $$"$reverseArray"
+const val `$round` = $$"$round"
+const val `$rtrim` = $$"$rtrim"
+const val `$sampleRate` = $$"$sampleRate"
+const val `$second` = $$"$second"
+const val `$setDifference` = $$"$setDifference"
+const val `$setEquals` = $$"$setEquals"
+const val `$setField` = $$"$setField"
+const val `$setIntersection` = $$"$setIntersection"
+const val `$setIsSubset` = $$"$setIsSubset"
+const val `$setUnion` = $$"$setUnion"
+const val `$shift` = $$"$shift"
+const val `$sin` = $$"$sin"
+const val `$sinh` = $$"$sinh"
+const val `$sortArray` = $$"$sortArray"
+const val `$split` = $$"$split"
+const val `$sqrt` = $$"$sqrt"
+const val `$stdDevPop` = $$"$stdDevPop"
+const val `$stdDevSamp` = $$"$stdDevSamp"
+const val `$strcasecmp` = $$"$strcasecmp"
+const val `$strLenBytes` = $$"$strLenBytes"
+const val `$strLenCP` = $$"$strLenCP"
+const val `$substr` = $$"$substr"
+const val `$substrBytes` = $$"$substrBytes"
+const val `$substrCP` = $$"$substrCP"
+const val `$subtract` = $$"$subtract"
+const val `$sum` = $$"$sum"
+const val `$switch` = $$"$switch"
+const val `$tan` = $$"$tan"
+const val `$tanh` = $$"$tanh"
+const val `$toBool` = $$"$toBool"
+const val `$toDate` = $$"$toDate"
+const val `$toDecimal` = $$"$toDecimal"
+const val `$toDouble` = $$"$toDouble"
+const val `$toInt` = $$"$toInt"
+const val `$toLong` = $$"$toLong"
+const val `$toObjectId` = $$"$toObjectId"
+const val `$top` = $$"$top"
+const val `$topN` = $$"$topN"
+const val `$toString` = $$"$toString"
+const val `$toLower` = $$"$toLower"
+const val `$toUpper` = $$"$toUpper"
+const val `$trim` = $$"$trim"
+const val `$trunc` = $$"$trunc"
+const val `$tsIncrement` = $$"$tsIncrement"
+const val `$tsSecond` = $$"$tsSecond"
+const val `$unsetField` = $$"$unsetField"
+const val `$week` = $$"$week"
+const val `$year` = $$"$year"
+const val `$zip` = $$"$zip"
+const val `$toUUID` = $$"$toUUID"
+const val `$bitAnd` = $$"$bitAnd"
+const val `$bitNot` = $$"$bitNot"
+const val `$bitOr` = $$"$bitOr"
+const val `$bitXor` = $$"$bitXor"
+const val `$toHashedIndexKey` = $$"$toHashedIndexKey"
 
 const val `$$NOW` = $$$"$$NOW"
 const val `$$CLUSTER_TIME` = $$$"$$CLUSTER_TIME"
