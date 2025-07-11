@@ -12,7 +12,6 @@ import org.cufy.mongodb.expr.buildExpr
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/expr */
-@ExperimentalMongodbApi
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
 fun expr(expression: BsonDocument) =
@@ -28,14 +27,12 @@ fun expr(expression: context(ExprScope) () -> Expr<_Boolean>) =
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/jsonSchema */
-@ExperimentalMongodbApi
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
 fun jsonSchema(expression: BsonDocumentBlock) =
     `$jsonSchema` by expression
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/jsonSchema */
-@ExperimentalMongodbApi
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
 fun jsonSchema(expression: BsonDocument) =
@@ -58,8 +55,8 @@ fun mod(divisor: Long, remainder: Long) =
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/regex */
-@ExperimentalMongodbApi
 @BsonMarker2
+@JvmName("regex_String_String")
 context(_: /* Operator */BsonDocumentBuilder)
 fun regex(regex: String, options: String? = null) {
     `$regex` by regex
@@ -67,7 +64,6 @@ fun regex(regex: String, options: String? = null) {
 }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/regex */
-@ExperimentalMongodbApi
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
 fun regex(regex: BsonRegExp, options: String? = null) {
@@ -77,6 +73,7 @@ fun regex(regex: BsonRegExp, options: String? = null) {
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/regex */
 @BsonMarker2
+@JvmName("String_regex_String")
 context(_: /* Query */BsonDocumentBuilder)
 infix fun String.regex(regex: String) =
     this by { `$regex` by regex }
@@ -90,7 +87,6 @@ infix fun String.regex(regex: BsonRegExp) =
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/text */
-@ExperimentalMongodbApi
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
 fun text(
