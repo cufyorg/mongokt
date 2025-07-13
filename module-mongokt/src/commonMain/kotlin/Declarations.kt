@@ -15,9 +15,7 @@
  */
 package org.cufy.mongodb
 
-import org.cufy.bson.BsonArray
-import org.cufy.bson.BsonDocument
-import org.cufy.bson.BsonElement
+import org.cufy.bson.*
 import kotlin.time.Duration
 
 /* ============= ------------------ ============= */
@@ -204,6 +202,14 @@ data class MongoNamespace(
     override fun toString() =
         "$database.$collection"
 }
+
+fun CreateIndexModel(
+    keys: BsonDocumentBlock,
+    options: CreateIndexOptions.() -> Unit = {},
+) = CreateIndexModel(
+    keys = BsonDocument(keys),
+    options = CreateIndexOptions(options),
+)
 
 /**
  * A model describing the creation of a single index.
@@ -934,6 +940,14 @@ data class TimeSeriesOptions(
  */
 sealed interface WriteModel
 
+fun DeleteOneModel(
+    filter: BsonDocumentBlock,
+    options: DeleteOptions.() -> Unit = {},
+) = DeleteOneModel(
+    filter = BsonDocument(filter),
+    options = DeleteOptions(options),
+)
+
 /**
  * A model describing the removal of at most one
  * document matching the query filter.
@@ -957,6 +971,14 @@ data class DeleteOneModel(
      */
     val options: DeleteOptions = DeleteOptions(),
 ) : WriteModel
+
+fun DeleteManyModel(
+    filter: BsonDocumentBlock,
+    options: DeleteOptions.() -> Unit = {},
+) = DeleteManyModel(
+    filter = BsonDocument(filter),
+    options = DeleteOptions(options),
+)
 
 /**
  * A model describing the removal of all documents
@@ -982,6 +1004,12 @@ data class DeleteManyModel(
     val options: DeleteOptions = DeleteOptions(),
 ) : WriteModel
 
+fun InsertOneModel(
+    document: BsonDocumentBlock,
+) = InsertOneModel(
+    document = BsonDocument(document),
+)
+
 /**
  * A model describing an insert of a single document.
  *
@@ -997,6 +1025,16 @@ data class InsertOneModel(
      */
     val document: BsonDocument,
 ) : WriteModel
+
+fun ReplaceOneModel(
+    filter: BsonDocumentBlock,
+    replacement: BsonDocumentBlock,
+    options: ReplaceOptions.() -> Unit = {},
+) = ReplaceOneModel(
+    filter = BsonDocument(filter),
+    replacement = BsonDocument(replacement),
+    options = ReplaceOptions(options),
+)
 
 /**
  * A model describing the replacement of at most
@@ -1029,6 +1067,26 @@ data class ReplaceOneModel(
      */
     val options: ReplaceOptions = ReplaceOptions(),
 ) : WriteModel
+
+fun UpdateOneModel(
+    filter: BsonDocumentBlock,
+    update: BsonDocumentBlock,
+    options: UpdateOptions.() -> Unit = {},
+) = UpdateOneModel(
+    filter = BsonDocument(filter),
+    update = BsonDocument(update),
+    options = UpdateOptions(options),
+)
+
+fun UpdateOneModel(
+    filter: BsonDocumentBlock,
+    update: List<BsonDocumentBlock>,
+    options: UpdateOptions.() -> Unit = {},
+) = UpdateOneModel(
+    filter = BsonDocument(filter),
+    update = BsonArray { update.forEach { by(it) } },
+    options = UpdateOptions(options),
+)
 
 /**
  * A model describing an update to at most one
@@ -1071,6 +1129,26 @@ data class UpdateOneModel(
      */
     val options: UpdateOptions = UpdateOptions(),
 ) : WriteModel
+
+fun UpdateManyModel(
+    filter: BsonDocumentBlock,
+    update: BsonDocumentBlock,
+    options: UpdateOptions.() -> Unit = {},
+) = UpdateManyModel(
+    filter = BsonDocument(filter),
+    update = BsonDocument(update),
+    options = UpdateOptions(options),
+)
+
+fun UpdateManyModel(
+    filter: BsonDocumentBlock,
+    update: List<BsonDocumentBlock>,
+    options: UpdateOptions.() -> Unit = {},
+) = UpdateManyModel(
+    filter = BsonDocument(filter),
+    update = BsonArray { update.forEach { by(it) } },
+    options = UpdateOptions(options),
+)
 
 /**
  * A model describing an update to all documents
