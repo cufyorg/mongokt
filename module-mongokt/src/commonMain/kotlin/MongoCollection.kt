@@ -70,6 +70,8 @@ expect val MongoCollection.readConcern: ReadConcern
 
 /* ============= ------------------ ============= */
 
+// ===============[ deleteOne ]
+
 /**
  * Removes at most one document from the
  * collection that matches the given filter.
@@ -118,7 +120,7 @@ suspend fun MongoCollection.deleteOne(
     )
 }
 
-//
+// ===============[ deleteMany ]
 
 /**
  * Removes all documents from the collection that
@@ -168,7 +170,7 @@ suspend fun MongoCollection.deleteMany(
     )
 }
 
-//
+// ===============[ insertOne ]
 
 /**
  * Inserts the provided document. If the document
@@ -216,7 +218,7 @@ suspend fun MongoCollection.insertOne(
     )
 }
 
-//
+// ===============[ insertMany ]
 
 /**
  * Inserts a batch of documents.
@@ -260,7 +262,7 @@ suspend fun MongoCollection.insertMany(
     )
 }
 
-//
+// ===============[ updateOne ]
 
 /**
  * Update a single document in the collection
@@ -433,7 +435,7 @@ suspend fun MongoCollection.updateOne(
     }
 }
 
-//
+// ===============[ updateMany ]
 
 /**
  * Update all documents in the collection
@@ -594,7 +596,7 @@ suspend fun MongoCollection.updateMany(
     }
 }
 
-//
+// ===============[ replaceOne ]
 
 /**
  * Replace a document in the collection according
@@ -641,7 +643,7 @@ suspend fun MongoCollection.replaceOne(
     )
 }
 
-//
+// ===============[ bulkWrite ]
 
 /**
  * Executes a mix of inserts, updates, replaces,
@@ -683,7 +685,7 @@ suspend fun MongoCollection.bulkWrite(
     )
 }
 
-//
+// ===============[ count ]
 
 /**
  * Counts the number of documents in the collection
@@ -725,7 +727,7 @@ suspend fun MongoCollection.count(
     )
 }
 
-//
+// ===============[ estimatedCount ]
 
 /**
  * Gets an estimate of the count of documents in a
@@ -757,7 +759,7 @@ suspend fun MongoCollection.estimatedCount(
     )
 }
 
-//
+// ===============[ findOneAndDelete ]
 
 /**
  * Atomically find a document and remove it.
@@ -799,7 +801,7 @@ suspend fun MongoCollection.findOneAndDelete(
     )
 }
 
-//
+// ===============[ findOneAndReplace ]
 
 /**
  * Atomically find a document and replace it.
@@ -850,7 +852,7 @@ suspend fun MongoCollection.findOneAndReplace(
     )
 }
 
-//
+// ===============[ findOneAndUpdate ]
 
 /**
  * Atomically find a document and update it.
@@ -1035,7 +1037,7 @@ suspend fun MongoCollection.findOneAndUpdate(
     }
 }
 
-//
+// ===============[ find ]
 
 /**
  * Finds all documents in the collection.
@@ -1075,7 +1077,7 @@ suspend fun MongoCollection.find(
     )
 }
 
-//
+// ===============[ aggregate ]
 
 /**
  * Aggregates documents according to the specified
@@ -1117,7 +1119,7 @@ suspend fun MongoCollection.aggregate(
     )
 }
 
-//
+// ===============[ distinct ]
 
 /**
  * Gets the distinct values of the specified
@@ -1164,11 +1166,11 @@ suspend fun MongoCollection.distinct(
     )
 }
 
-//
+// ===============[ watch ]
 
 /* TODO MongoCollection.watch(pipeline, options, session) */
 
-//
+// ===============[ listIndexes ]
 
 /**
  * Get all the indexes in this collection.
@@ -1203,7 +1205,7 @@ suspend fun MongoCollection.listIndexes(
     )
 }
 
-//
+// ===============[ createIndex ]
 
 /**
  * Creates an index.
@@ -1241,7 +1243,7 @@ suspend fun MongoCollection.createIndex(
     )
 }
 
-//
+// ===============[ createIndexes ]
 
 /**
  * Create multiple indexes.
@@ -1279,7 +1281,7 @@ suspend fun MongoCollection.createIndexes(
     )
 }
 
-//
+// ===============[ dropIndex ]
 
 /**
  * Drops the given index.
@@ -1292,6 +1294,21 @@ suspend fun MongoCollection.createIndexes(
  */
 expect suspend fun MongoCollection.dropIndex(
     name: String,
+    options: DropIndexOptions = DropIndexOptions(),
+    session: ClientSession? = null,
+)
+
+/**
+ * Drops the index given the keys used to create it.
+ *
+ * @param session the client session with which to associate this operation.
+ * @param keys the keys of the index to remove.
+ * @param options options to use when dropping indexes.
+ * @since 2.0.0
+ * @see com.mongodb.client.MongoCollection.dropIndex
+ */
+expect suspend fun MongoCollection.dropIndex(
+    keys: BsonDocument,
     options: DropIndexOptions = DropIndexOptions(),
     session: ClientSession? = null,
 )
@@ -1317,23 +1334,6 @@ suspend fun MongoCollection.dropIndex(
     )
 }
 
-//
-
-/**
- * Drops the index given the keys used to create it.
- *
- * @param session the client session with which to associate this operation.
- * @param keys the keys of the index to remove.
- * @param options options to use when dropping indexes.
- * @since 2.0.0
- * @see com.mongodb.client.MongoCollection.dropIndex
- */
-expect suspend fun MongoCollection.dropIndex(
-    keys: BsonDocument,
-    options: DropIndexOptions = DropIndexOptions(),
-    session: ClientSession? = null,
-)
-
 /**
  * Drops the index given the keys used to create it.
  *
@@ -1355,7 +1355,7 @@ suspend fun MongoCollection.dropIndex(
     )
 }
 
-//
+// ===============[ dropIndexes ]
 
 /**
  * Drop all the indexes on this collection, except
@@ -1390,7 +1390,7 @@ suspend fun MongoCollection.dropIndexes(
     )
 }
 
-//
+// ===============[ renameCollection ]
 
 /**
  * Rename the collection with oldCollectionName to
@@ -1430,7 +1430,7 @@ suspend fun MongoCollection.renameCollection(
     )
 }
 
-//
+// ===============[ drop ]
 
 /**
  * Drops this collection from the Database.
