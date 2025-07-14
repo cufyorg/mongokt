@@ -449,6 +449,108 @@ suspend fun MongoCollection.updateOneByIdGet(
     )
 }
 
+// ===============[ updateOne: upsertOne ]
+
+/**
+ * Atomically create a document if it doesn't exist.
+ *
+ * @param session the client session with which to associate this operation.
+ * @param filter a document describing the query filter, which may not be null.
+ * @param update  a document describing the update, which may not be null.
+ *                The update to apply must include only update operators.
+ * @param options the options to apply to the operation.
+ * @see com.mongodb.client.MongoCollection.updateOne
+ */
+suspend fun MongoCollection.upsertOne(
+    filter: BsonDocument,
+    update: BsonDocument,
+    options: UpdateOptions = UpdateOptions(),
+    session: ClientSession? = null,
+): UpdateResult {
+    return updateOne(
+        filter = filter,
+        update = update,
+        options = options.copy(upsert = true),
+        session = session
+    )
+}
+
+/**
+ * Atomically create a document if it doesn't exist.
+ *
+ * @param session the client session with which to associate this operation.
+ * @param filter a document describing the query filter, which may not be null.
+ * @param update  a document describing the update, which may not be null.
+ *                The update to apply must include only update operators.
+ * @param options the options to apply to the operation.
+ * @see com.mongodb.client.MongoCollection.updateOne
+ */
+suspend fun MongoCollection.upsertOne(
+    filter: BsonDocumentBlock,
+    update: BsonDocumentBlock,
+    session: ClientSession? = null,
+    options: UpdateOptions.() -> Unit = {},
+): UpdateResult {
+    return updateOne(
+        filter = BsonDocument(filter),
+        update = BsonDocument(update),
+        options = UpdateOptions(options)
+            .apply { upsert = true },
+        session = session
+    )
+}
+
+// ===============[ findOneAndUpdate: upsertOneGet ]
+
+/**
+ * Atomically create a document if it doesn't exist and return the current or new document.
+ *
+ * @param session the client session with which to associate this operation.
+ * @param filter a document describing the query filter, which may not be null.
+ * @param update  a document describing the update, which may not be null.
+ *                The update to apply must include only update operators.
+ * @param options the options to apply to the operation.
+ * @see com.mongodb.client.MongoCollection.findOneAndUpdate
+ */
+suspend fun MongoCollection.upsertOneGet(
+    filter: BsonDocument,
+    update: BsonDocument,
+    options: FindOneAndUpdateOptions = FindOneAndUpdateOptions(),
+    session: ClientSession? = null,
+): BsonDocument {
+    return findOneAndUpdate(
+        filter = filter,
+        update = update,
+        options = options.copy(upsert = true, returnDocument = ReturnDocument.After),
+        session = session
+    )!!
+}
+
+/**
+ * Atomically create a document if it doesn't exist and return the current or new document.
+ *
+ * @param session the client session with which to associate this operation.
+ * @param filter a document describing the query filter, which may not be null.
+ * @param update  a document describing the update, which may not be null.
+ *                The update to apply must include only update operators.
+ * @param options the options to apply to the operation.
+ * @see com.mongodb.client.MongoCollection.findOneAndUpdate
+ */
+suspend fun MongoCollection.upsertOneGet(
+    filter: BsonDocumentBlock,
+    update: BsonDocumentBlock,
+    session: ClientSession? = null,
+    options: FindOneAndUpdateOptions.() -> Unit = {},
+): BsonDocument {
+    return findOneAndUpdate(
+        filter = BsonDocument(filter),
+        update = BsonDocument(update),
+        options = FindOneAndUpdateOptions(options)
+            .apply { upsert = true; returnDocument = ReturnDocument.After },
+        session = session
+    )!!
+}
+
 // ===============[ find: findOne ]
 
 /**
