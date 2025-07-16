@@ -134,19 +134,19 @@ fun `$sqrt`(number: Expr<_Number>): Expr<_Number> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/subtract/ */
 @BsonMarker2
-@JvmName("subtract_Number_Number")
+@JvmName($$"$subtract_Number_Number")
 fun `$subtract`(expression1: Expr<_Number>, expression2: Expr<_Number>): Expr<_Number> =
     Expr { `$subtract` by array(expression1.element, expression2.element) }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/subtract/ */
 @BsonMarker2
-@JvmName("subtract_DateTime_Number")
+@JvmName($$"$subtract_DateTime_Number")
 fun `$subtract`(expression1: Expr<_DateTime>, expression2: Expr<_Number>): Expr<_DateTime> =
     Expr { `$subtract` by array(expression1.element, expression2.element) }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/subtract/ */
 @BsonMarker2
-@JvmName("subtract_DateTime_DateTime")
+@JvmName($$"$subtract_DateTime_DateTime")
 fun `$subtract`(expression1: Expr<_DateTime>, expression2: Expr<_DateTime>): Expr<_Number> =
     Expr { `$subtract` by array(expression1.element, expression2.element) }
 

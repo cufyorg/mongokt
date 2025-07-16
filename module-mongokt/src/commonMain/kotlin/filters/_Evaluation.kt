@@ -57,7 +57,7 @@ fun `$mod`(divisor: Long, remainder: Long) =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/regex */
 @BsonMarker2
-@JvmName("regex_String_String")
+@JvmName($$"$regex_String_String")
 context(_: /* Operator */BsonDocumentBuilder)
 fun `$regex`(regex: String, options: String? = null) {
     `$regex` by regex
@@ -74,7 +74,7 @@ fun `$regex`(regex: BsonRegExp, options: String? = null) {
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/regex */
 @BsonMarker2
-@JvmName("String_regex_String")
+@JvmName($$"String_$regex_String")
 context(_: /* Query */BsonDocumentBuilder)
 infix fun String.`$regex`(regex: String) =
     this by { `$regex` by regex }

@@ -240,13 +240,13 @@ fun `$slice`(array: Expr<_Array>, position: Expr<_Number>, n: Expr<_Number>): Ex
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortArray/ */
 @BsonMarker2
-@JvmName("sortArray_Array_Number")
+@JvmName($$"$sortArray_Array_Number")
 fun `$sortArray`(input: Expr<_Array>, sortBy: Expr<_Number>): Expr<_Array> =
     Expr { `$sortArray` by { "input" by input.element; "sortBy" by sortBy.element } }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortArray/ */
 @BsonMarker2
-@JvmName("sortArray_Array_Document")
+@JvmName($$"$sortArray_Array_Document")
 fun `$sortArray`(input: Expr<_Array>, sortBy: Expr<_Document>): Expr<_Array> =
     Expr { `$sortArray` by { "input" by input.element; "sortBy" by sortBy.element } }
 

@@ -16,13 +16,13 @@ import org.cufy.mongodb.expr.Expr.*
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/binarySize/ */
 @BsonMarker2
-@JvmName("binarySize_String")
+@JvmName($$"$binarySize_String")
 fun `$binarySize`(string: Expr<_String>): Expr<_Number> =
     Expr { `$binarySize` by string.element }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/binarySize/ */
 @BsonMarker2
-@JvmName("binarySize_Binary")
+@JvmName($$"$binarySize_Binary")
 fun `$binarySize`(binary: Expr<_Binary>): Expr<_Number> =
     Expr { `$binarySize` by binary.element }
 

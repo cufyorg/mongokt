@@ -52,21 +52,18 @@ infix fun String.`$gte`(value: BsonElement) =
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/in */
-@Suppress("FunctionName")
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
 fun `$in`(vararg values: BsonElement) =
     `$in` by array(*values)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/in */
-@Suppress("FunctionName")
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
 fun `$in`(values: List<BsonElement>) =
     `$in` by values
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/in */
-@Suppress("FunctionName")
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
 infix fun String.`$in`(values: List<BsonElement>) =

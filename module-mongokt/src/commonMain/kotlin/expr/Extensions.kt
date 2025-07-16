@@ -31,7 +31,7 @@ operator fun Expr<_Number>.div(other: Expr<_Number>): Expr<_Number> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/mod/ */
 @BsonMarker2
-@JvmName("Number_mod_Number")
+@JvmName($$"Number_$mod_Number")
 infix fun Expr<_Number>.`$mod`(other: Expr<_Number>): Expr<_Number> =
     `$mod`(this, other)
 
@@ -43,7 +43,7 @@ operator fun Expr<_Number>.times(other: Expr<_Number>): Expr<_Number> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/pow/ */
 @BsonMarker2
-@JvmName("Number_pow_Number")
+@JvmName($$"Number_$pow_Number")
 infix fun Expr<_Number>.`$pow`(other: Expr<_Number>): Expr<_Number> =
     `$pow`(this, other)
 
@@ -82,9 +82,8 @@ operator fun Expr<_Array>.plus(other: Expr<_Array>): Expr<_Array> =
     `$concatArrays`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/in/ */
-@Suppress("FunctionName")
 @BsonMarker2
-@JvmName("Element_in_Array")
+@JvmName($$"Element_$in_Array")
 infix fun Expr<_Element>.`$in`(other: Expr<_Array>): Expr<_Boolean> =
     `$in`(this, other)
 
@@ -94,19 +93,19 @@ infix fun Expr<_Element>.`$in`(other: Expr<_Array>): Expr<_Boolean> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/bitAnd/ */
 @BsonMarker2
-@JvmName("Number_bitAnd_Number")
+@JvmName($$"Number_$bitAnd_Number")
 infix fun Expr<_Number>.`$bitAnd`(other: Expr<_Number>): Expr<_Number> =
     `$bitAnd`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/bitOr/ */
 @BsonMarker2
-@JvmName("Number_bitOr_Number")
+@JvmName($$"Number_$bitOr_Number")
 infix fun Expr<_Number>.`$bitOr`(other: Expr<_Number>): Expr<_Number> =
     `$bitOr`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/bitXor/ */
 @BsonMarker2
-@JvmName("Number_bitXor_Number")
+@JvmName($$"Number_$bitXor_Number")
 infix fun Expr<_Number>.`$bitXor`(other: Expr<_Number>): Expr<_Number> =
     `$bitXor`(this, other)
 
@@ -116,13 +115,13 @@ infix fun Expr<_Number>.`$bitXor`(other: Expr<_Number>): Expr<_Number> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/and/ */
 @BsonMarker2
-@JvmName("Element_and_Element")
+@JvmName($$"Element_$and_Element")
 infix fun Expr<_Element>.`$and`(other: Expr<_Element>): Expr<_Boolean> =
     `$and`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/or/ */
 @BsonMarker2
-@JvmName("Element_or_Element")
+@JvmName($$"Element_$or_Element")
 infix fun Expr<_Element>.`$or`(other: Expr<_Element>): Expr<_Boolean> =
     `$or`(this, other)
 
@@ -132,43 +131,43 @@ infix fun Expr<_Element>.`$or`(other: Expr<_Element>): Expr<_Boolean> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/cmp/ */
 @BsonMarker2
-@JvmName("Element_cmp_Element")
+@JvmName($$"Element_$cmp_Element")
 infix fun Expr<_Element>.`$cmp`(other: Expr<_Element>): Expr<_Number> =
     `$cmp`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/eq/ */
 @BsonMarker2
-@JvmName("Element_eq_Element")
+@JvmName($$"Element_$eq_Element")
 infix fun Expr<_Element>.`$eq`(other: Expr<_Element>): Expr<_Boolean> =
     `$eq`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/gt/ */
 @BsonMarker2
-@JvmName("Element_gt_Element")
+@JvmName($$"Element_$gt_Element")
 infix fun Expr<_Element>.`$gt`(other: Expr<_Element>): Expr<_Boolean> =
     `$gt`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/gte/ */
 @BsonMarker2
-@JvmName("Element_gte_Element")
+@JvmName($$"Element_$gte_Element")
 infix fun Expr<_Element>.`$gte`(other: Expr<_Element>): Expr<_Boolean> =
     `$gte`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/lt/ */
 @BsonMarker2
-@JvmName("Element_lt_Element")
+@JvmName($$"Element_$lt_Element")
 infix fun Expr<_Element>.`$lt`(other: Expr<_Element>): Expr<_Boolean> =
     `$lt`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/lte/ */
 @BsonMarker2
-@JvmName("Element_lte_Element")
+@JvmName($$"Element_$lte_Element")
 infix fun Expr<_Element>.`$lte`(other: Expr<_Element>): Expr<_Boolean> =
     `$lte`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/ne/ */
 @BsonMarker2
-@JvmName("Element_ne_Element")
+@JvmName($$"Element_$ne_Element")
 infix fun Expr<_Element>.`$ne`(other: Expr<_Element>): Expr<_Boolean> =
     `$ne`(this, other)
 
@@ -178,7 +177,7 @@ infix fun Expr<_Element>.`$ne`(other: Expr<_Element>): Expr<_Boolean> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/ifNull/ */
 @BsonMarker2
-@JvmName("T_ifNull_T")
+@JvmName($$"T_$ifNull_T")
 infix fun <T : _Element> Expr<T>.`$ifNull`(other: Expr<T>): Expr<T> =
     `$ifNull`(this, other)
 
@@ -208,31 +207,31 @@ operator fun Expr<_Document>.plus(other: Expr<_Document>): Expr<_Document> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/setDifference/ */
 @BsonMarker2
-@JvmName("Array_setDifference_Array")
+@JvmName($$"Array_$setDifference_Array")
 infix fun Expr<_Array>.`$setDifference`(other: Expr<_Array>): Expr<_Array> =
     `$setDifference`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/setEquals/ */
 @BsonMarker2
-@JvmName("Array_setEquals_Array")
+@JvmName($$"Array_$setEquals_Array")
 infix fun Expr<_Array>.`$setEquals`(other: Expr<_Array>): Expr<_Boolean> =
     `$setEquals`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/setIntersection/ */
 @BsonMarker2
-@JvmName("Array_setIntersection_Array")
+@JvmName($$"Array_$setIntersection_Array")
 infix fun Expr<_Array>.`$setIntersection`(other: Expr<_Array>): Expr<_Array> =
     `$setIntersection`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/setIsSubset/ */
 @BsonMarker2
-@JvmName("Array_setIsSubset_Array")
+@JvmName($$"Array_$setIsSubset_Array")
 infix fun Expr<_Array>.`$setIsSubset`(other: Expr<_Array>): Expr<_Boolean> =
     `$setIsSubset`(this, other)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/setUnion/ */
 @BsonMarker2
-@JvmName("Array_setUnion_Array")
+@JvmName($$"Array_$setUnion_Array")
 infix fun Expr<_Array>.`$setUnion`(other: Expr<_Array>): Expr<_Array> =
     `$setUnion`(this, other)
 
@@ -248,13 +247,13 @@ operator fun Expr<_String>.plus(other: Expr<_String>): Expr<_String> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexMatch/ */
 @BsonMarker2
-@JvmName("String_regexMatch_Element")
+@JvmName($$"String_$regexMatch_Element")
 infix fun Expr<_String>.`$regexMatch`(regex: Expr<_Element /* String | RegExp */>): Expr<_Boolean> =
     `$regexMatch`(this, regex)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/strcasecmp/ */
 @BsonMarker2
-@JvmName("String_strcasecmp_String")
+@JvmName($$"String_$strcasecmp_String")
 infix fun Expr<_String>.`$strcasecmp`(regex: Expr<_String>): Expr<_Number> =
     `$strcasecmp`(this, regex)
 
