@@ -19,7 +19,7 @@ fun `$exists`(value: Boolean) =
 /** https://www.mongodb.com/docs/manual/reference/operator/query/exists */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-infix fun String.`$exists`(value: BsonElement) =
+infix fun String.`$exists`(value: Boolean) =
     this by { `$exists` by value }
 
 /* ============= ------------------ ============= */
