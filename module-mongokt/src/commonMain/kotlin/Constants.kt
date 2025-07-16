@@ -1167,3 +1167,6 @@ const val `$$PRUNE` = $$$"$$PRUNE"
 const val `$$KEEP` = $$$"$$KEEP"
 const val `$$SEARCH_META` = $$$"$$SEARCH_META"
 const val `$$USER_ROLES` = $$$"$$USER_ROLES"
+
+inline infix fun String.dot(other: String) = "$this.$other"
+inline infix fun String.dollar(other: String) = "$this.$.$other"
