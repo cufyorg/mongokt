@@ -13,7 +13,7 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-@file:Suppress("ObjectPropertyName", "FunctionName", "unused")
+@file:Suppress("ObjectPropertyName", "FunctionName", "unused", "NOTHING_TO_INLINE")
 
 package org.cufy.mongodb
 
@@ -497,7 +497,7 @@ const val `$setOnInsert` = $$"$setOnInsert"
  * [$&#x5B;&#x5D;](https://www.mongodb.com/docs/manual/reference/operator/update/positional-all/#mongodb-update-up.---)
  * @since 2.0.0
  */
-fun `$`() = "$[]"
+inline fun `$~`() = "$[]"
 
 /**
  * Acts as a placeholder to update all elements
@@ -507,7 +507,7 @@ fun `$`() = "$[]"
  * [$&#x5B;&#x3C;identifier&#x3E;&#x5D;](https://www.mongodb.com/docs/manual/reference/operator/update/positional-filtered/#mongodb-update-up.---identifier--)
  * @since 2.0.0
  */
-fun `$`(identifier: String) = $$"$[$$identifier]"
+inline fun `$~`(identifier: String) = $$"$[$$identifier]"
 
 /**
  * Adds elements to an array only if they do not
