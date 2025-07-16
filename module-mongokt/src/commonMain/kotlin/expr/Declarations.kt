@@ -1,4 +1,5 @@
 @file:OptIn(ExperimentalMongodbApi::class)
+@file:Suppress("FunctionName")
 
 package org.cufy.mongodb.expr
 
@@ -8,8 +9,6 @@ import org.cufy.mongodb.expr.Expr.*
 import kotlin.time.Instant
 
 /* ============= ------------------ ============= */
-
-data object ExprScope
 
 @Suppress("ClassName")
 @BsonMarker2
@@ -31,53 +30,42 @@ data class Expr<out T : _Element>(val element: BsonElement) {
 fun <T : _Element> Expr(block: BsonDocumentBlock) =
     Expr<T>(BsonDocument(block))
 
-fun <T : _Element> buildExpr(block: context(ExprScope) () -> Expr<T>) =
-    context(ExprScope, block).element
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.by(expr: Expr<*>) =
+    this by expr.element
 
 /* ============= ------------------ ============= */
 
 @BsonMarker2
-context(_: ExprScope)
-fun <T : _Element> ref(name: String) = Expr<T>("$$name".bson)
+fun <T : _Element> `$`(path: String) = Expr<T>("$${path}".bson)
 
 @Suppress("UNCHECKED_CAST")
 @BsonMarker2
-context(_: ExprScope)
-fun <T : _Element> cast(expr: Expr<*>) = expr as Expr<T>
+fun <T : _Element> Expr<*>.unsafeCast() = this as Expr<T>
 
 /* ============= ------------------ ============= */
 
-/**
- * Static (pure) utility function to prettify
- * creating arrays within the dsl.
- *
- * @return an array built with the given [block].
- */
 @BsonMarker2
-context(_: ExprScope)
-fun array(block: BsonArrayBlock) = BsonArray(block)
-
-/**
- * Static (pure) utility function to prettify
- * creating arrays within the dsl.
- *
- * @return an array with the given [elements].
- */
+fun arrayExpr() = Expr<_Array>(BsonArray())
 @BsonMarker2
-context(_: ExprScope)
-fun array(vararg elements: BsonElement) = BsonArray(*elements)
-
-/**
- * Static (pure) utility function to prettify
- * creating documents within the dsl.
- *
- * @return a document built with the given [block].
- */
+fun arrayExpr(block: BsonArrayBlock) = Expr<_Array>(BsonArray(block))
 @BsonMarker2
-context(_: ExprScope)
-fun document(block: BsonDocumentBlock) = BsonDocument(block)
+fun arrayExpr(vararg items: BsonElement) = Expr<_Array>(BsonArray(*items))
 
-/* ============= ------------------ ============= */
+@BsonMarker2
+fun documentExpr() = Expr<_Document>(BsonDocument())
+@BsonMarker2
+fun documentExpr(block: BsonDocumentBlock) = Expr<_Document>(BsonDocument(block))
+@BsonMarker2
+fun documentExpr(vararg pairs: Pair<String, BsonElement>) = Expr<_Document>(BsonDocument(*pairs))
+
+@BsonMarker2
+val BsonArray?.exprUnsafe get() = Expr<_Array>(this ?: null.bson)
+@BsonMarker2
+val BsonDocument?.exprUnsafe get() = Expr<_Document>(this ?: null.bson)
+
+//
 
 @BsonMarker2
 val Nothing?.expr get() = Expr<_Element>(null.bson)

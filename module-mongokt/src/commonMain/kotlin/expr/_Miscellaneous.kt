@@ -17,8 +17,7 @@ import org.cufy.mongodb.expr.Expr.*
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/getField/ */
 @BsonMarker2
-context(_: ExprScope)
-fun getField(
+fun `$getField`(
     field: Expr<_String>,
     input: Expr<_Document>? = null,
 ): Expr<_Element> = Expr {
@@ -32,8 +31,7 @@ fun getField(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/rand/ */
 @BsonMarker2
-context(_: ExprScope)
-fun rand(): Expr<_Number> =
+fun `$rand`(): Expr<_Number> =
     Expr { `$rand` by {} }
 
 /* ============= ------------------ ============= */
@@ -44,8 +42,7 @@ fun rand(): Expr<_Number> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/toHashedIndexKey/ */
 @BsonMarker2
-context(_: ExprScope)
-fun toHashedIndexKey(stringToHash: Expr<_String>): Expr<_Number> =
+fun `$toHashedIndexKey`(stringToHash: Expr<_String>): Expr<_Number> =
     Expr { `$toHashedIndexKey` by stringToHash.element }
 
 /* ============= ------------------ ============= */

@@ -17,11 +17,10 @@ import org.cufy.mongodb.expr.Expr._Element
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/let/ */
 @Suppress("LocalVariableName")
 @BsonMarker2
-context(_: ExprScope)
-fun <T : _Element> let(
+fun <T : _Element> `$let`(
     vararg vars: Pair<String, Expr<_Element>>,
     _in: Expr<T>,
-): Expr<T> = let(
+): Expr<T> = `$let`(
     vars.asList(),
     _in,
 )
@@ -29,8 +28,7 @@ fun <T : _Element> let(
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/let/ */
 @Suppress("LocalVariableName")
 @BsonMarker2
-context(_: ExprScope)
-fun <T : _Element> let(
+fun <T : _Element> `$let`(
     vars: List<Pair<String, Expr<_Element>>>,
     _in: Expr<T>,
 ): Expr<T> = Expr {

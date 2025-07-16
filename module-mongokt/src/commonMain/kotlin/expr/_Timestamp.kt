@@ -17,16 +17,14 @@ import org.cufy.mongodb.expr.Expr._Timestamp
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/tsIncrement/ */
 @BsonMarker2
-context(_: ExprScope)
-fun tsIncrement(expression: Expr<_Timestamp>): Expr<_Number> =
+fun `$tsIncrement`(expression: Expr<_Timestamp>): Expr<_Number> =
     Expr { `$tsIncrement` by expression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/tsSecond/ */
 @BsonMarker2
-context(_: ExprScope)
-fun tsSecond(expression: Expr<_Timestamp>): Expr<_Number> =
+fun `$tsSecond`(expression: Expr<_Timestamp>): Expr<_Number> =
     Expr { `$tsSecond` by expression.element }
 
 /* ============= ------------------ ============= */

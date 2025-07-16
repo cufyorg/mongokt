@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package org.cufy.mongodb.filters
 
 import org.cufy.bson.*
@@ -13,13 +15,13 @@ import org.cufy.mongodb.`$or`
 /** https://www.mongodb.com/docs/manual/reference/operator/query/and */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-fun and(vararg expressions: /* Query */BsonDocumentBlock) =
+fun `$and`(vararg expressions: /* Query */BsonDocumentBlock) =
     `$and` by array { expressions.forEach { by(it) } }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/and */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-fun and(expressions: List</* Query */BsonDocument>) =
+fun `$and`(expressions: List</* Query */BsonDocument>) =
     `$and` by array { expressions.forEach { by(it) } }
 
 /* ============= ------------------ ============= */
@@ -27,13 +29,13 @@ fun and(expressions: List</* Query */BsonDocument>) =
 /** https://www.mongodb.com/docs/manual/reference/operator/query/not */
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
-fun not(operatorExpression: /* Operator */BsonDocumentBlock) =
+fun `$not`(operatorExpression: /* Operator */BsonDocumentBlock) =
     `$not` by operatorExpression
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/not */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-infix fun String.not(operatorExpression: /* Operator */BsonDocumentBlock) =
+infix fun String.`$not`(operatorExpression: /* Operator */BsonDocumentBlock) =
     this by { `$not` by operatorExpression }
 
 /* ============= ------------------ ============= */
@@ -41,13 +43,13 @@ infix fun String.not(operatorExpression: /* Operator */BsonDocumentBlock) =
 /** https://www.mongodb.com/docs/manual/reference/operator/query/nor */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-fun nor(vararg expressions: /* Query */BsonDocumentBlock) =
+fun `$nor`(vararg expressions: /* Query */BsonDocumentBlock) =
     `$nor` by array { expressions.forEach { by(it) } }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/nor */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-fun nor(expressions: List</* Query */BsonDocument>) =
+fun `$nor`(expressions: List</* Query */BsonDocument>) =
     `$nor` by array { expressions.forEach { by(it) } }
 
 /* ============= ------------------ ============= */
@@ -55,13 +57,13 @@ fun nor(expressions: List</* Query */BsonDocument>) =
 /** https://www.mongodb.com/docs/manual/reference/operator/query/or */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-fun or(vararg expressions: /* Query */BsonDocumentBlock) =
+fun `$or`(vararg expressions: /* Query */BsonDocumentBlock) =
     `$or` by array { expressions.forEach { by(it) } }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/or */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-fun or(expressions: List</* Query */BsonDocument>) =
+fun `$or`(expressions: List</* Query */BsonDocument>) =
     `$or` by array { expressions.forEach { by(it) } }
 
 /* ============= ------------------ ============= */

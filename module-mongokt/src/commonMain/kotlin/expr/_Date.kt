@@ -14,8 +14,7 @@ import org.cufy.mongodb.expr.Expr.*
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateAdd/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dateAdd(
+fun `$dateAdd`(
     startDate: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     unit: Expr<_String>,
     amount: Expr<_Number>,
@@ -33,8 +32,7 @@ fun dateAdd(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateDiff/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dateDiff(
+fun `$dateDiff`(
     startDate: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     endDate: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     unit: Expr<_String>,
@@ -54,8 +52,7 @@ fun dateDiff(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateFromParts/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dateFromParts(
+fun `$dateFromParts`(
     year: Expr<_Number>,
     month: Expr<_Number>? = null,
     day: Expr<_Number>? = null,
@@ -79,8 +76,7 @@ fun dateFromParts(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateFromParts/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dateFromParts_IsoWeek(
+fun `$dateFromParts`(
     isoWeekYear: Expr<_Number>,
     isoWeek: Expr<_Number>? = null,
     isoDayOfWeek: Expr<_Number>? = null,
@@ -89,6 +85,7 @@ fun dateFromParts_IsoWeek(
     second: Expr<_Number>? = null,
     millisecond: Expr<_Number>? = null,
     timezone: Expr<_String>? = null,
+    dummy: Nothing? = null,
 ): Expr<_DateTime> = Expr {
     `$dateFromParts` by {
         "isoWeekYear" by isoWeekYear.element
@@ -106,8 +103,7 @@ fun dateFromParts_IsoWeek(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateFromString/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dateFromString(
+fun `$dateFromString`(
     dateString: Expr<_String>,
     format: Expr<_String>? = null,
     timezone: Expr<_String>? = null,
@@ -127,8 +123,7 @@ fun dateFromString(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateSubtract/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dateSubtract(
+fun `$dateSubtract`(
     startDate: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     unit: Expr<_String>,
     amount: Expr<_Number>,
@@ -146,8 +141,7 @@ fun dateSubtract(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateToParts/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dateToParts(
+fun `$dateToParts`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
     iso8601: Boolean? = null,
@@ -163,8 +157,7 @@ fun dateToParts(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateToString/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dateToString(
+fun `$dateToString`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     format: Expr<_String>? = null,
     timezone: Expr<_String>? = null,
@@ -182,8 +175,7 @@ fun dateToString(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateTrunc/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dateTrunc(
+fun `$dateTrunc`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     unit: Expr<_String>,
     binSize: Expr<_Number>? = null,
@@ -203,8 +195,7 @@ fun dateTrunc(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dayOfMonth/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dayOfMonth(
+fun `$dayOfMonth`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
 ): Expr<_Number> = Expr {
     `$dayOfMonth` by date.element
@@ -212,8 +203,7 @@ fun dayOfMonth(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dayOfMonth/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dayOfMonth(
+fun `$dayOfMonth`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
 ): Expr<_Number> = Expr {
@@ -227,8 +217,7 @@ fun dayOfMonth(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dayOfWeek/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dayOfWeek(
+fun `$dayOfWeek`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
 ): Expr<_Number> = Expr {
     `$dayOfWeek` by date.element
@@ -236,8 +225,7 @@ fun dayOfWeek(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dayOfWeek/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dayOfWeek(
+fun `$dayOfWeek`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
 ): Expr<_Number> = Expr {
@@ -251,8 +239,7 @@ fun dayOfWeek(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dayOfYear/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dayOfYear(
+fun `$dayOfYear`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
 ): Expr<_Number> = Expr {
     `$dayOfYear` by date.element
@@ -260,8 +247,7 @@ fun dayOfYear(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/dayOfYear/ */
 @BsonMarker2
-context(_: ExprScope)
-fun dayOfYear(
+fun `$dayOfYear`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
 ): Expr<_Number> = Expr {
@@ -275,8 +261,7 @@ fun dayOfYear(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/hour/ */
 @BsonMarker2
-context(_: ExprScope)
-fun hour(
+fun `$hour`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
 ): Expr<_Number> = Expr {
     `$hour` by date.element
@@ -284,8 +269,7 @@ fun hour(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/hour/ */
 @BsonMarker2
-context(_: ExprScope)
-fun hour(
+fun `$hour`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
 ): Expr<_Number> = Expr {
@@ -299,8 +283,7 @@ fun hour(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/isoDayOfWeek/ */
 @BsonMarker2
-context(_: ExprScope)
-fun isoDayOfWeek(
+fun `$isoDayOfWeek`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
 ): Expr<_Number> = Expr {
     `$isoDayOfWeek` by date.element
@@ -308,8 +291,7 @@ fun isoDayOfWeek(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/isoDayOfWeek/ */
 @BsonMarker2
-context(_: ExprScope)
-fun isoDayOfWeek(
+fun `$isoDayOfWeek`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
 ): Expr<_Number> = Expr {
@@ -323,8 +305,7 @@ fun isoDayOfWeek(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/isoWeek/ */
 @BsonMarker2
-context(_: ExprScope)
-fun isoWeek(
+fun `$isoWeek`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
 ): Expr<_Number> = Expr {
     `$isoWeek` by date.element
@@ -332,8 +313,7 @@ fun isoWeek(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/isoWeek/ */
 @BsonMarker2
-context(_: ExprScope)
-fun isoWeek(
+fun `$isoWeek`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
 ): Expr<_Number> = Expr {
@@ -347,8 +327,7 @@ fun isoWeek(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/isoWeekYear/ */
 @BsonMarker2
-context(_: ExprScope)
-fun isoWeekYear(
+fun `$isoWeekYear`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
 ): Expr<_Number> = Expr {
     `$isoWeekYear` by date.element
@@ -356,8 +335,7 @@ fun isoWeekYear(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/isoWeekYear/ */
 @BsonMarker2
-context(_: ExprScope)
-fun isoWeekYear(
+fun `$isoWeekYear`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
 ): Expr<_Number> = Expr {
@@ -371,8 +349,7 @@ fun isoWeekYear(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/millisecond/ */
 @BsonMarker2
-context(_: ExprScope)
-fun millisecond(
+fun `$millisecond`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
 ): Expr<_Number> = Expr {
     `$millisecond` by date.element
@@ -380,8 +357,7 @@ fun millisecond(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/millisecond/ */
 @BsonMarker2
-context(_: ExprScope)
-fun millisecond(
+fun `$millisecond`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
 ): Expr<_Number> = Expr {
@@ -395,8 +371,7 @@ fun millisecond(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/minute/ */
 @BsonMarker2
-context(_: ExprScope)
-fun minute(
+fun `$minute`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
 ): Expr<_Number> = Expr {
     `$minute` by date.element
@@ -404,8 +379,7 @@ fun minute(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/minute/ */
 @BsonMarker2
-context(_: ExprScope)
-fun minute(
+fun `$minute`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
 ): Expr<_Number> = Expr {
@@ -419,8 +393,7 @@ fun minute(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/month/ */
 @BsonMarker2
-context(_: ExprScope)
-fun month(
+fun `$month`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
 ): Expr<_Number> = Expr {
     `$month` by date.element
@@ -428,8 +401,7 @@ fun month(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/month/ */
 @BsonMarker2
-context(_: ExprScope)
-fun month(
+fun `$month`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
 ): Expr<_Number> = Expr {
@@ -443,8 +415,7 @@ fun month(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/second/ */
 @BsonMarker2
-context(_: ExprScope)
-fun second(
+fun `$second`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
 ): Expr<_Number> = Expr {
     `$second` by date.element
@@ -452,8 +423,7 @@ fun second(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/second/ */
 @BsonMarker2
-context(_: ExprScope)
-fun second(
+fun `$second`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
 ): Expr<_Number> = Expr {
@@ -467,16 +437,14 @@ fun second(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/toDate/ */
 @BsonMarker2
-context(_: ExprScope)
-fun toDate(expression: Expr<_Element>): Expr<_DateTime> =
+fun `$toDate`(expression: Expr<_Element>): Expr<_DateTime> =
     Expr { `$toDate` by expression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/week/ */
 @BsonMarker2
-context(_: ExprScope)
-fun week(
+fun `$week`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
 ): Expr<_Number> = Expr {
     `$week` by date.element
@@ -484,8 +452,7 @@ fun week(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/week/ */
 @BsonMarker2
-context(_: ExprScope)
-fun week(
+fun `$week`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
 ): Expr<_Number> = Expr {
@@ -499,8 +466,7 @@ fun week(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/year/ */
 @BsonMarker2
-context(_: ExprScope)
-fun year(
+fun `$year`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
 ): Expr<_Number> = Expr {
     `$year` by date.element
@@ -508,8 +474,7 @@ fun year(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/year/ */
 @BsonMarker2
-context(_: ExprScope)
-fun year(
+fun `$year`(
     date: Expr<_Element /* DateTime | Timestamp | ObjectId */>,
     timezone: Expr<_String>? = null,
 ): Expr<_Number> = Expr {

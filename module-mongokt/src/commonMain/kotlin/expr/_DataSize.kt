@@ -17,15 +17,13 @@ import org.cufy.mongodb.expr.Expr.*
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/binarySize/ */
 @BsonMarker2
 @JvmName("binarySize_String")
-context(_: ExprScope)
-fun binarySize(string: Expr<_String>): Expr<_Number> =
+fun `$binarySize`(string: Expr<_String>): Expr<_Number> =
     Expr { `$binarySize` by string.element }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/binarySize/ */
 @BsonMarker2
 @JvmName("binarySize_Binary")
-context(_: ExprScope)
-fun binarySize(binary: Expr<_Binary>): Expr<_Number> =
+fun `$binarySize`(binary: Expr<_Binary>): Expr<_Number> =
     Expr { `$binarySize` by binary.element }
 
 /* ============= ------------------ ============= */
@@ -33,8 +31,7 @@ fun binarySize(binary: Expr<_Binary>): Expr<_Number> =
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/bsonSize/ */
 @Suppress("LocalVariableName")
 @BsonMarker2
-context(_: ExprScope)
-fun bsonSize(_object: Expr<_Document>): Expr<_Number> =
+fun `$bsonSize`(_object: Expr<_Document>): Expr<_Number> =
     Expr { `$bsonSize` by _object.element }
 
 /* ============= ------------------ ============= */

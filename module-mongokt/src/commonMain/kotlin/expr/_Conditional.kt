@@ -20,41 +20,36 @@ import org.cufy.mongodb.expr.Expr._Boolean
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/cond/ */
 @Suppress("LocalVariableName")
 @BsonMarker2
-context(_: ExprScope)
-fun <T : _Element> cond(_if: Expr<_Boolean>, then: Expr<T>, _else: Expr<T>): Expr<T> =
+fun <T : _Element> `$cond`(_if: Expr<_Boolean>, then: Expr<T>, _else: Expr<T>): Expr<T> =
     Expr { `$cond` by array(_if.element, then.element, _else.element) }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/ifNull/ */
 @BsonMarker2
-context(_: ExprScope)
-fun <T : _Element> ifNull(vararg expressions: Expr<T>): Expr<T> =
-    ifNull(expressions.asList())
+fun <T : _Element> `$ifNull`(vararg expressions: Expr<T>): Expr<T> =
+    `$ifNull`(expressions.asList())
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/ifNull/ */
 @BsonMarker2
-context(_: ExprScope)
-fun <T : _Element> ifNull(expressions: List<Expr<T>>): Expr<T> =
+fun <T : _Element> `$ifNull`(expressions: List<Expr<T>>): Expr<T> =
     Expr { `$ifNull` by array { expressions.forEach { by(it.element) } } }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/switch/ */
 @BsonMarker2
-context(_: ExprScope)
-fun <T : _Element> switch(
+fun <T : _Element> `$switch`(
     vararg branches: Pair<Expr<_Boolean>, Expr<T>>,
     default: Expr<T>? = null,
-): Expr<T> = switch(
+): Expr<T> = `$switch`(
     branches.asList(),
     default,
 )
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/switch/ */
 @BsonMarker2
-context(_: ExprScope)
-fun <T : _Element> switch(
+fun <T : _Element> `$switch`(
     branches: List<Pair<Expr<_Boolean>, Expr<T>>>,
     default: Expr<T>? = null,
 ): Expr<T> = Expr {

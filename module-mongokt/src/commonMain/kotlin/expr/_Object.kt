@@ -17,14 +17,12 @@ import org.cufy.mongodb.expr.Expr.*
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/mergeObjects/ */
 @BsonMarker2
-context(_: ExprScope)
-fun mergeObjects(vararg documents: Expr<_Document>): Expr<_Document> =
-    mergeObjects(documents.asList())
+fun `$mergeObjects`(vararg documents: Expr<_Document>): Expr<_Document> =
+    `$mergeObjects`(documents.asList())
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/mergeObjects/ */
 @BsonMarker2
-context(_: ExprScope)
-fun mergeObjects(documents: List<Expr<_Document>>): Expr<_Document> =
+fun `$mergeObjects`(documents: List<Expr<_Document>>): Expr<_Document> =
     Expr { `$mergeObjects` by array { documents.forEach { by(it.element) } } }
 
 /* ============= ------------------ ============= */
@@ -35,8 +33,7 @@ fun mergeObjects(documents: List<Expr<_Document>>): Expr<_Document> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/setField/ */
 @BsonMarker2
-context(_: ExprScope)
-fun setField(
+fun `$setField`(
     field: Expr<_String>,
     input: Expr<_Document>,
     value: Expr<_Element>,

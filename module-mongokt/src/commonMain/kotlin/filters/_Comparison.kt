@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package org.cufy.mongodb.filters
 
 import org.cufy.bson.*
@@ -10,13 +12,13 @@ import org.cufy.mongodb.*
 /** https://www.mongodb.com/docs/manual/reference/operator/query/eq */
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
-fun eq(value: BsonElement) =
+fun `$eq`(value: BsonElement) =
     `$eq` by value
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/eq */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-infix fun String.eq(value: BsonElement) =
+infix fun String.`$eq`(value: BsonElement) =
     this by { `$eq` by value }
 
 /* ============= ------------------ ============= */
@@ -24,13 +26,13 @@ infix fun String.eq(value: BsonElement) =
 /** https://www.mongodb.com/docs/manual/reference/operator/query/gt */
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
-fun gt(value: BsonElement) =
+fun `$gt`(value: BsonElement) =
     `$gt` by value
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/gt */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-infix fun String.gt(value: BsonElement) =
+infix fun String.`$gt`(value: BsonElement) =
     this by { `$gt` by value }
 
 /* ============= ------------------ ============= */
@@ -38,13 +40,13 @@ infix fun String.gt(value: BsonElement) =
 /** https://www.mongodb.com/docs/manual/reference/operator/query/gte */
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
-fun gte(value: BsonElement) =
+fun `$gte`(value: BsonElement) =
     `$gte` by value
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/gte */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-infix fun String.gte(value: BsonElement) =
+infix fun String.`$gte`(value: BsonElement) =
     this by { `$gte` by value }
 
 /* ============= ------------------ ============= */
@@ -53,21 +55,21 @@ infix fun String.gte(value: BsonElement) =
 @Suppress("FunctionName")
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
-fun _in(vararg values: BsonElement) =
+fun `$in`(vararg values: BsonElement) =
     `$in` by array(*values)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/in */
 @Suppress("FunctionName")
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
-fun _in(values: List<BsonElement>) =
+fun `$in`(values: List<BsonElement>) =
     `$in` by values
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/in */
 @Suppress("FunctionName")
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-infix fun String._in(values: List<BsonElement>) =
+infix fun String.`$in`(values: List<BsonElement>) =
     this by { `$in` by values }
 
 /* ============= ------------------ ============= */
@@ -75,13 +77,13 @@ infix fun String._in(values: List<BsonElement>) =
 /** https://www.mongodb.com/docs/manual/reference/operator/query/lt */
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
-fun lt(value: BsonElement) =
+fun `$lt`(value: BsonElement) =
     `$lt` by value
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/lt */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-infix fun String.lt(value: BsonElement) =
+infix fun String.`$lt`(value: BsonElement) =
     this by { `$lt` by value }
 
 /* ============= ------------------ ============= */
@@ -89,13 +91,13 @@ infix fun String.lt(value: BsonElement) =
 /** https://www.mongodb.com/docs/manual/reference/operator/query/lte */
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
-fun lte(value: BsonElement) =
+fun `$lte`(value: BsonElement) =
     `$lte` by value
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/lte */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-infix fun String.lte(value: BsonElement) =
+infix fun String.`$lte`(value: BsonElement) =
     this by { `$lte` by value }
 
 /* ============= ------------------ ============= */
@@ -103,13 +105,13 @@ infix fun String.lte(value: BsonElement) =
 /** https://www.mongodb.com/docs/manual/reference/operator/query/ne */
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
-fun ne(value: BsonElement) =
+fun `$ne`(value: BsonElement) =
     `$ne` by value
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/ne */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-infix fun String.ne(value: BsonElement) =
+infix fun String.`$ne`(value: BsonElement) =
     this by { `$ne` by value }
 
 /* ============= ------------------ ============= */
@@ -117,19 +119,19 @@ infix fun String.ne(value: BsonElement) =
 /** https://www.mongodb.com/docs/manual/reference/operator/query/nin */
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
-fun nin(vararg values: BsonElement) =
+fun `$nin`(vararg values: BsonElement) =
     `$nin` by array(*values)
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/nin */
 @BsonMarker2
 context(_: /* Operator */BsonDocumentBuilder)
-fun nin(values: List<BsonElement>) =
+fun `$nin`(values: List<BsonElement>) =
     `$nin` by values
 
 /** https://www.mongodb.com/docs/manual/reference/operator/query/nin */
 @BsonMarker2
 context(_: /* Query */BsonDocumentBuilder)
-infix fun String.nin(values: List<BsonElement>) =
+infix fun String.`$nin`(values: List<BsonElement>) =
     this by { `$nin` by values }
 
 /* ============= ------------------ ============= */
