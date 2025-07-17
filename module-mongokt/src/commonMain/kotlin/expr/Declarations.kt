@@ -40,6 +40,9 @@ infix fun String.by(expr: Expr<*>) =
 @BsonMarker2
 fun <T : _Element> `$`(path: String) = Expr<T>("$${path}".bson)
 
+@BsonMarker2
+fun <T : _Element> `$$`(path: String) = Expr<T>("$$${path}".bson)
+
 @Suppress("UNCHECKED_CAST")
 @BsonMarker2
 fun <T : _Element> Expr<*>.unsafeCast() = this as Expr<T>
