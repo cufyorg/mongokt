@@ -254,6 +254,23 @@ infix fun String.by(block: BsonDocumentBlock) {
     builder[this] = BsonDocument(block)
 }
 
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.flatBy(value: BsonDocumentLike?) {
+    value ?: return run { builder[this] = null.bson }
+    value.forEach { (name, value) ->
+        builder["${this}.${name}"] = value
+    }
+}
+
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.flatBy(block: BsonDocumentBlock) {
+    BsonDocument(block).forEach { (name, value) ->
+        builder["${this}.${name}"] = value
+    }
+}
+
 /* ============= ------------------ ============= */
 
 /**
