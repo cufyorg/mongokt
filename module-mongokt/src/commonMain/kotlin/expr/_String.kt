@@ -3,7 +3,7 @@
 
 package org.cufy.mongodb.expr
 
-import org.cufy.bson.BsonMarker2
+import org.cufy.bson.BsonMarker4
 import org.cufy.bson.array
 import org.cufy.bson.by
 import org.cufy.mongodb.*
@@ -14,12 +14,12 @@ import org.cufy.mongodb.expr.Expr.*
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/concat/ */
-@BsonMarker2
+@BsonMarker4
 fun `$concat`(vararg expressions: Expr<_String>): Expr<_String> =
     `$concat`(expressions.asList())
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/concat/ */
-@BsonMarker2
+@BsonMarker4
 fun `$concat`(expressions: List<Expr<_String>>): Expr<_String> =
     Expr { `$concat` by array { expressions.forEach { by(it.element) } } }
 
@@ -34,7 +34,7 @@ fun `$concat`(expressions: List<Expr<_String>>): Expr<_String> =
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexOfBytes/ */
-@BsonMarker2
+@BsonMarker4
 fun `$indexOfBytes`(
     stringExpression: Expr<_String>,
     substringExpression: Expr<_String>,
@@ -55,7 +55,7 @@ fun `$indexOfBytes`(
 }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexOfBytes/ */
-@BsonMarker2
+@BsonMarker4
 fun `$indexOfBytes`(
     stringExpression: Expr<_String>,
     substringExpression: Expr<_String>,
@@ -81,7 +81,7 @@ fun `$indexOfBytes`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexOfCP/ */
-@BsonMarker2
+@BsonMarker4
 fun `$indexOfCP`(
     stringExpression: Expr<_String>,
     substringExpression: Expr<_String>,
@@ -102,7 +102,7 @@ fun `$indexOfCP`(
 }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexOfCP/ */
-@BsonMarker2
+@BsonMarker4
 fun `$indexOfCP`(
     stringExpression: Expr<_String>,
     substringExpression: Expr<_String>,
@@ -128,14 +128,14 @@ fun `$indexOfCP`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/ltrim/ */
-@BsonMarker2
+@BsonMarker4
 fun `$ltrim`(input: Expr<_String>, chars: Expr<_String>? = null): Expr<_String> =
     Expr { `$ltrim` by { "input" by input.element; if (chars != null) "chars" by chars.element } }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexFind/ */
-@BsonMarker2
+@BsonMarker4
 fun `$regexFind`(
     input: Expr<_String>,
     regex: Expr<_Element /* String | RegExp */>,
@@ -151,7 +151,7 @@ fun `$regexFind`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexFindAll/ */
-@BsonMarker2
+@BsonMarker4
 fun `$regexFindAll`(
     input: Expr<_String>,
     regex: Expr<_Element /* String | RegExp */>,
@@ -167,7 +167,7 @@ fun `$regexFindAll`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexMatch/ */
-@BsonMarker2
+@BsonMarker4
 fun `$regexMatch`(
     input: Expr<_String>,
     regex: Expr<_Element /* String | RegExp */>,
@@ -183,7 +183,7 @@ fun `$regexMatch`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceOne/ */
-@BsonMarker2
+@BsonMarker4
 fun `$replaceOne`(
     input: Expr<_String>,
     find: Expr<_String>,
@@ -199,7 +199,7 @@ fun `$replaceOne`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceAll/ */
-@BsonMarker2
+@BsonMarker4
 fun `$replaceAll`(
     input: Expr<_String>,
     find: Expr<_String>,
@@ -215,42 +215,42 @@ fun `$replaceAll`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/rtrim/ */
-@BsonMarker2
+@BsonMarker4
 fun `$rtrim`(input: Expr<_String>, chars: Expr<_String>? = null): Expr<_String> =
     Expr { `$rtrim` by { "input" by input.element; if (chars != null) "chars" by chars.element } }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/split/ */
-@BsonMarker2
+@BsonMarker4
 fun `$split`(stringExpression: Expr<_String>, delimiter: Expr<_String>): Expr<_Array> =
     Expr { `$split` by array(stringExpression.element, delimiter.element) }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/strLenBytes/ */
-@BsonMarker2
+@BsonMarker4
 fun `$strLenBytes`(stringExpression: Expr<_String>): Expr<_Number> =
     Expr { `$strLenBytes` by stringExpression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/strLenCP/ */
-@BsonMarker2
+@BsonMarker4
 fun `$strLenCP`(stringExpression: Expr<_String>): Expr<_Number> =
     Expr { `$strLenCP` by stringExpression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/strcasecmp/ */
-@BsonMarker2
+@BsonMarker4
 fun `$strcasecmp`(expression1: Expr<_String>, expression2: Expr<_String>): Expr<_Number> =
     Expr { `$strcasecmp` by array(expression1.element, expression2.element) }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/substr/ */
-@BsonMarker2
+@BsonMarker4
 fun `$substr`(
     string: Expr<_String>,
     start: Expr<_Number>,
@@ -266,7 +266,7 @@ fun `$substr`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/substrBytes/ */
-@BsonMarker2
+@BsonMarker4
 fun `$substrBytes`(
     stringExpression: Expr<_String>,
     byteIndex: Expr<_Number>,
@@ -282,7 +282,7 @@ fun `$substrBytes`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/substrCP/ */
-@BsonMarker2
+@BsonMarker4
 fun `$substrCP`(
     stringExpression: Expr<_String>,
     codePointIndex: Expr<_Number>,
@@ -298,28 +298,28 @@ fun `$substrCP`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/toLower/ */
-@BsonMarker2
+@BsonMarker4
 fun `$toLower`(expression: Expr<_String>): Expr<_String> =
     Expr { `$toLower` by expression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/toString/ */
-@BsonMarker2
+@BsonMarker4
 fun `$toString`(expression: Expr<_Element>): Expr<_String> =
     Expr { `$toString` by expression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/trim/ */
-@BsonMarker2
+@BsonMarker4
 fun `$trim`(input: Expr<_String>, chars: Expr<_String>? = null): Expr<_String> =
     Expr { `$trim` by { "input" by input.element; if (chars != null) "chars" by chars.element } }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/toUpper/ */
-@BsonMarker2
+@BsonMarker4
 fun `$toUpper`(expression: Expr<_String>): Expr<_String> =
     Expr { `$toUpper` by expression.element }
 

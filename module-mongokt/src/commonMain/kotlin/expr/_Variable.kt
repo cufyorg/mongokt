@@ -3,7 +3,7 @@
 
 package org.cufy.mongodb.expr
 
-import org.cufy.bson.BsonMarker2
+import org.cufy.bson.BsonMarker4
 import org.cufy.bson.array
 import org.cufy.bson.by
 import org.cufy.mongodb.`$let`
@@ -16,7 +16,7 @@ import org.cufy.mongodb.expr.Expr._Element
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/let/ */
 @Suppress("LocalVariableName")
-@BsonMarker2
+@BsonMarker4
 fun <T : _Element> `$let`(
     vararg vars: Pair<String, Expr<_Element>>,
     _in: Expr<T>,
@@ -27,7 +27,7 @@ fun <T : _Element> `$let`(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/let/ */
 @Suppress("LocalVariableName")
-@BsonMarker2
+@BsonMarker4
 fun <T : _Element> `$let`(
     vars: List<Pair<String, Expr<_Element>>>,
     _in: Expr<T>,

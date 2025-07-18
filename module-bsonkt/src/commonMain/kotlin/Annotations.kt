@@ -34,7 +34,7 @@ package org.cufy.bson
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.TYPEALIAS,
 )
-annotation class BsonMarker2
+annotation class BsonMarker2 // style 4
 
 /**
  * A marker for bson keywords.
@@ -43,7 +43,16 @@ annotation class BsonMarker2
  * @since 2.0.0
  */
 @DslMarker
-annotation class BsonMarker1
+annotation class BsonMarker1 // style 1
+
+/**
+ * INTERNAL: A marker for bson expression composition functions.
+ *
+ * @author LSafer
+ * @since 2.0.0
+ */
+@DslMarker
+annotation class BsonMarker4 // style 2
 
 /**
  * Marks the annotated component as experimental.

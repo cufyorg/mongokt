@@ -3,7 +3,7 @@
 
 package org.cufy.mongodb.expr
 
-import org.cufy.bson.BsonMarker2
+import org.cufy.bson.BsonMarker4
 import org.cufy.bson.by
 import org.cufy.mongodb.`$tsIncrement`
 import org.cufy.mongodb.`$tsSecond`
@@ -16,14 +16,14 @@ import org.cufy.mongodb.expr.Expr._Timestamp
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/tsIncrement/ */
-@BsonMarker2
+@BsonMarker4
 fun `$tsIncrement`(expression: Expr<_Timestamp>): Expr<_Number> =
     Expr { `$tsIncrement` by expression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/tsSecond/ */
-@BsonMarker2
+@BsonMarker4
 fun `$tsSecond`(expression: Expr<_Timestamp>): Expr<_Number> =
     Expr { `$tsSecond` by expression.element }
 

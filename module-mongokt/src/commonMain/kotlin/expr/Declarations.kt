@@ -11,7 +11,6 @@ import kotlin.time.Instant
 /* ============= ------------------ ============= */
 
 @Suppress("ClassName")
-@BsonMarker2
 @ExperimentalMongodbApi
 data class Expr<out T : _Element>(val element: BsonElement) {
     interface _Element
@@ -37,85 +36,85 @@ infix fun String.by(expr: Expr<*>) =
 
 /* ============= ------------------ ============= */
 
-@BsonMarker2
+@BsonMarker4
 fun <T : _Element> `$`(path: String) = Expr<T>("$${path}".bson)
 
-@BsonMarker2
+@BsonMarker4
 fun <T : _Element> `$$`(path: String) = Expr<T>("$$${path}".bson)
 
 @Suppress("UNCHECKED_CAST")
-@BsonMarker2
+@BsonMarker4
 fun <T : _Element> Expr<*>.unsafeCast() = this as Expr<T>
 
 /* ============= ------------------ ============= */
 
-@BsonMarker2
+@BsonMarker4
 fun arrayExpr() = Expr<_Array>(BsonArray())
-@BsonMarker2
+@BsonMarker4
 fun arrayExpr(block: BsonArrayBlock) = Expr<_Array>(BsonArray(block))
-@BsonMarker2
+@BsonMarker4
 fun arrayExpr(vararg items: BsonElement) = Expr<_Array>(BsonArray(*items))
 
-@BsonMarker2
+@BsonMarker4
 fun documentExpr() = Expr<_Document>(BsonDocument())
-@BsonMarker2
+@BsonMarker4
 fun documentExpr(block: BsonDocumentBlock) = Expr<_Document>(BsonDocument(block))
-@BsonMarker2
+@BsonMarker4
 fun documentExpr(vararg pairs: Pair<String, BsonElement>) = Expr<_Document>(BsonDocument(*pairs))
 
-@BsonMarker2
+@BsonMarker4
 val BsonArray?.exprUnsafe get() = Expr<_Array>(this ?: null.bson)
-@BsonMarker2
+@BsonMarker4
 val BsonDocument?.exprUnsafe get() = Expr<_Document>(this ?: null.bson)
 
 //
 
-@BsonMarker2
+@BsonMarker4
 val Nothing?.expr get() = Expr<_Element>(null.bson)
-@BsonMarker2
+@BsonMarker4
 val BsonElement?.expr get() = Expr<_Element>(this ?: null.bson)
-@BsonMarker2
+@BsonMarker4
 val BsonDouble?.expr get() = Expr<_Number>(this ?: null.bson)
-@BsonMarker2
+@BsonMarker4
 val BsonInt32?.expr get() = Expr<_Number>(this ?: null.bson)
-@BsonMarker2
+@BsonMarker4
 val BsonInt64?.expr get() = Expr<_Number>(this ?: null.bson)
-@BsonMarker2
+@BsonMarker4
 val BsonDecimal128?.expr get() = Expr<_Number>(this ?: null.bson)
-@BsonMarker2
+@BsonMarker4
 val BsonBoolean?.expr get() = Expr<_Boolean>(this ?: null.bson)
-@BsonMarker2
+@BsonMarker4
 val BsonDateTime?.expr get() = Expr<_DateTime>(this ?: null.bson)
-@BsonMarker2
+@BsonMarker4
 val BsonObjectId?.expr get() = Expr<_ObjectId>(this ?: null.bson)
-@BsonMarker2
+@BsonMarker4
 val BsonString?.expr get() = Expr<_String>(this ?: null.bson)
-@BsonMarker2
+@BsonMarker4
 val BsonRegExp?.expr get() = Expr<_RegExp>(this ?: null.bson)
-@BsonMarker2
+@BsonMarker4
 val BsonBinary?.expr get() = Expr<_Binary>(this ?: null.bson)
-@BsonMarker2
+@BsonMarker4
 val BsonTimestamp?.expr get() = Expr<_Timestamp>(this ?: null.bson)
 
 //
 
-@BsonMarker2
+@BsonMarker4
 val Double?.expr get() = Expr<_Number>(bson)
-@BsonMarker2
+@BsonMarker4
 val Int?.expr get() = Expr<_Number>(bson)
-@BsonMarker2
+@BsonMarker4
 val Long?.expr get() = Expr<_Number>(bson)
-@BsonMarker2
+@BsonMarker4
 val Decimal128?.expr get() = Expr<_Number>(bson)
-@BsonMarker2
+@BsonMarker4
 val Boolean?.expr get() = Expr<_Boolean>(bson)
-@BsonMarker2
+@BsonMarker4
 val Instant?.expr get() = Expr<_DateTime>(bson)
-@BsonMarker2
+@BsonMarker4
 val ObjectId?.expr get() = Expr<_ObjectId>(bson)
-@BsonMarker2
+@BsonMarker4
 val AnyID?.expr get() = Expr<_Element>(bson)
-@BsonMarker2
+@BsonMarker4
 val String?.expr get() = Expr<_String>(bson)
 
 /* ============= ------------------ ============= */

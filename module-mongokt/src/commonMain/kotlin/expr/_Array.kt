@@ -3,7 +3,7 @@
 
 package org.cufy.mongodb.expr
 
-import org.cufy.bson.BsonMarker2
+import org.cufy.bson.BsonMarker4
 import org.cufy.bson.array
 import org.cufy.bson.by
 import org.cufy.mongodb.*
@@ -14,26 +14,26 @@ import org.cufy.mongodb.expr.Expr.*
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/arrayElemAt/ */
-@BsonMarker2
+@BsonMarker4
 fun `$arrayElemAt`(array: Expr<_Array>, idx: Expr<_Number>): Expr<_Element> =
     Expr { `$arrayElemAt` by array(array.element, idx.element) }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/arrayToObject/ */
-@BsonMarker2
+@BsonMarker4
 fun `$arrayToObject`(expression: Expr<_Array>): Expr<_Document> =
     Expr { `$arrayToObject` by array(expression.element) }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/concatArrays/ */
-@BsonMarker2
+@BsonMarker4
 fun `$concatArrays`(vararg arrays: Expr<_Array>): Expr<_Array> =
     `$concatArrays`(arrays.asList())
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/concatArrays/ */
-@BsonMarker2
+@BsonMarker4
 fun `$concatArrays`(arrays: List<Expr<_Array>>): Expr<_Array> =
     Expr { `$concatArrays` by array { arrays.forEach { by(it.element) } } }
 
@@ -41,7 +41,7 @@ fun `$concatArrays`(arrays: List<Expr<_Array>>): Expr<_Array> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/filter/ */
 @Suppress("LocalVariableName")
-@BsonMarker2
+@BsonMarker4
 fun `$filter`(
     input: Expr<_Array>,
     _as: String? = null,
@@ -59,21 +59,21 @@ fun `$filter`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/firstN/ */
-@BsonMarker2
+@BsonMarker4
 fun `$firstN`(input: Expr<_Array>, n: Expr<_Number>): Expr<_Array> =
     Expr { `$firstN` by { "input" by input.element; "n" by n.element } }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/in/ */
-@BsonMarker2
+@BsonMarker4
 fun `$in`(expression: Expr<_Element>, arrayExpression: Expr<_Array>): Expr<_Boolean> =
     Expr { `$in` by array(expression.element, arrayExpression.element) }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexOfArray/ */
-@BsonMarker2
+@BsonMarker4
 fun `$indexOfArray`(
     arrayExpression: Expr<_Array>,
     searchExpression: Expr<_Element>,
@@ -94,7 +94,7 @@ fun `$indexOfArray`(
 }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexOfArray/ */
-@BsonMarker2
+@BsonMarker4
 fun `$indexOfArray`(
     arrayExpression: Expr<_Array>,
     searchExpression: Expr<_Element>,
@@ -120,14 +120,14 @@ fun `$indexOfArray`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/isArray/ */
-@BsonMarker2
+@BsonMarker4
 fun `$isArray`(expression: Expr<_Element>): Expr<_Boolean> =
     Expr { `$isArray` by array(expression.element) }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/lastN/ */
-@BsonMarker2
+@BsonMarker4
 fun `$lastN`(input: Expr<_Array>, n: Expr<_Number>): Expr<_Array> =
     Expr { `$lastN` by { "input" by input.element; "n" by n.element } }
 
@@ -135,7 +135,7 @@ fun `$lastN`(input: Expr<_Array>, n: Expr<_Number>): Expr<_Array> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/map/ */
 @Suppress("LocalVariableName")
-@BsonMarker2
+@BsonMarker4
 fun `$map`(
     input: Expr<_Array>,
     _as: String? = null,
@@ -151,14 +151,14 @@ fun `$map`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/maxN/ */
-@BsonMarker2
+@BsonMarker4
 fun `$maxN`(input: Expr<_Array>, n: Expr<_Number>): Expr<_Array> =
     Expr { `$maxN` by { "input" by input.element; "n" by n.element } }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/minN/ */
-@BsonMarker2
+@BsonMarker4
 fun `$minN`(input: Expr<_Array>, n: Expr<_Number>): Expr<_Array> =
     Expr { `$minN` by { "input" by input.element; "n" by n.element } }
 
@@ -166,14 +166,14 @@ fun `$minN`(input: Expr<_Array>, n: Expr<_Number>): Expr<_Array> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/objectToArray/ */
 @Suppress("LocalVariableName")
-@BsonMarker2
+@BsonMarker4
 fun `$objectToArray`(_object: Expr<_Document>): Expr<_Array> =
     Expr { `$objectToArray` by _object.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/range/ */
-@BsonMarker2
+@BsonMarker4
 fun `$range`(
     start: Expr<_Number>,
     end: Expr<_Number>,
@@ -197,7 +197,7 @@ fun `$range`(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/reduce/ */
 @Suppress("LocalVariableName")
-@BsonMarker2
+@BsonMarker4
 fun <T : _Element> `$reduce`(
     input: Expr<_Array>,
     initialValue: Expr<_Element>,
@@ -213,39 +213,39 @@ fun <T : _Element> `$reduce`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/reverseArray/ */
-@BsonMarker2
+@BsonMarker4
 fun `$reverseArray`(arrayExpression: Expr<_Array>): Expr<_Array> =
     Expr { `$reverseArray` by arrayExpression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/size/ */
-@BsonMarker2
+@BsonMarker4
 fun `$size`(expression: Expr<_Array>): Expr<_Number> =
     Expr { `$size` by expression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/slice/ */
-@BsonMarker2
+@BsonMarker4
 fun `$slice`(array: Expr<_Array>, n: Expr<_Number>): Expr<_Array> =
     Expr { `$slice` by array(array.element, n.element) }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/slice/ */
-@BsonMarker2
+@BsonMarker4
 fun `$slice`(array: Expr<_Array>, position: Expr<_Number>, n: Expr<_Number>): Expr<_Array> =
     Expr { `$slice` by array(array.element, position.element, n.element) }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortArray/ */
-@BsonMarker2
+@BsonMarker4
 @JvmName($$"$sortArray_Array_Number")
 fun `$sortArray`(input: Expr<_Array>, sortBy: Expr<_Number>): Expr<_Array> =
     Expr { `$sortArray` by { "input" by input.element; "sortBy" by sortBy.element } }
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortArray/ */
-@BsonMarker2
+@BsonMarker4
 @JvmName($$"$sortArray_Array_Document")
 fun `$sortArray`(input: Expr<_Array>, sortBy: Expr<_Document>): Expr<_Array> =
     Expr { `$sortArray` by { "input" by input.element; "sortBy" by sortBy.element } }
@@ -253,7 +253,7 @@ fun `$sortArray`(input: Expr<_Array>, sortBy: Expr<_Document>): Expr<_Array> =
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/zip/ */
-@BsonMarker2
+@BsonMarker4
 fun `$zip`(
     vararg inputs: Expr<_Array>,
     useLongestLength: Expr<_Boolean>? = null,
@@ -265,7 +265,7 @@ fun `$zip`(
 )
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/zip/ */
-@BsonMarker2
+@BsonMarker4
 fun `$zip`(
     inputs: List<Expr<_Array>>,
     useLongestLength: Expr<_Boolean>? = null,

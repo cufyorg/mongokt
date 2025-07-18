@@ -3,7 +3,7 @@
 
 package org.cufy.mongodb.expr
 
-import org.cufy.bson.BsonMarker2
+import org.cufy.bson.BsonMarker4
 import org.cufy.bson.by
 import org.cufy.mongodb.*
 import org.cufy.mongodb.expr.Expr.*
@@ -13,7 +13,7 @@ import org.cufy.mongodb.expr.Expr.*
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/convert/ */
-@BsonMarker2
+@BsonMarker4
 fun `$convert`(
     input: Expr<_Element>,
     to: Expr<_Element>,
@@ -33,14 +33,14 @@ fun `$convert`(
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/isNumber/ */
-@BsonMarker2
+@BsonMarker4
 fun `$isNumber`(expression: Expr<_Number>): Expr<_Boolean> =
     Expr { `$isNumber` by expression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/toBool/ */
-@BsonMarker2
+@BsonMarker4
 fun `$toBool`(expression: Expr<_Element>): Expr<_Boolean> =
     Expr { `$toBool` by expression.element }
 
@@ -51,35 +51,35 @@ fun `$toBool`(expression: Expr<_Element>): Expr<_Boolean> =
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/toDecimal/ */
-@BsonMarker2
+@BsonMarker4
 fun `$toDecimal`(expression: Expr<_Element>): Expr<_Number> =
     Expr { `$toDecimal` by expression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/toDouble/ */
-@BsonMarker2
+@BsonMarker4
 fun `$toDouble`(expression: Expr<_Element>): Expr<_Number> =
     Expr { `$toDouble` by expression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/toInt/ */
-@BsonMarker2
+@BsonMarker4
 fun `$toInt`(expression: Expr<_Element>): Expr<_Number> =
     Expr { `$toInt` by expression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/toLong/ */
-@BsonMarker2
+@BsonMarker4
 fun `$toLong`(expression: Expr<_Element>): Expr<_Number> =
     Expr { `$toLong` by expression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/toObjectId/ */
-@BsonMarker2
+@BsonMarker4
 fun `$toObjectId`(expression: Expr<_Element>): Expr<_ObjectId> =
     Expr { `$toObjectId` by expression.element }
 
@@ -90,14 +90,14 @@ fun `$toObjectId`(expression: Expr<_Element>): Expr<_ObjectId> =
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/type/ */
-@BsonMarker2
+@BsonMarker4
 fun `$type`(expression: Expr<_Element>): Expr<_String> =
     Expr { `$type` by expression.element }
 
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/toUUID/ */
-@BsonMarker2
+@BsonMarker4
 fun `$toUUID`(expression: Expr<_String>): Expr<_Binary> =
     Expr { `$toUUID` by expression.element }
 

@@ -3,7 +3,7 @@
 
 package org.cufy.mongodb.expr
 
-import org.cufy.bson.BsonMarker2
+import org.cufy.bson.BsonMarker4
 import org.cufy.bson.array
 import org.cufy.bson.by
 import org.cufy.mongodb.`$mergeObjects`
@@ -16,12 +16,12 @@ import org.cufy.mongodb.expr.Expr.*
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/mergeObjects/ */
-@BsonMarker2
+@BsonMarker4
 fun `$mergeObjects`(vararg documents: Expr<_Document>): Expr<_Document> =
     `$mergeObjects`(documents.asList())
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/mergeObjects/ */
-@BsonMarker2
+@BsonMarker4
 fun `$mergeObjects`(documents: List<Expr<_Document>>): Expr<_Document> =
     Expr { `$mergeObjects` by array { documents.forEach { by(it.element) } } }
 
@@ -32,7 +32,7 @@ fun `$mergeObjects`(documents: List<Expr<_Document>>): Expr<_Document> =
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/setField/ */
-@BsonMarker2
+@BsonMarker4
 fun `$setField`(
     field: Expr<_String>,
     input: Expr<_Document>,
