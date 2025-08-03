@@ -121,6 +121,6 @@ inline val BsonElement?.orNull: BsonElement get() = this ?: BsonNull
 @Suppress("UnusedReceiverParameter")
 inline val Unit.bson: BsonUndefined get() = BsonUndefined
 
-inline val BsonElement?.orUndefined: BsonUndefined get() = BsonUndefined
+inline val BsonElement?.orUndefined: BsonElement get() = this ?: BsonUndefined
 
 /* ============= ------------------ ============= */
