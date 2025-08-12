@@ -41,6 +41,11 @@ infix fun Expr<_Number>.`$mod`(other: Expr<_Number>): Expr<_Number> =
 operator fun Expr<_Number>.times(other: Expr<_Number>): Expr<_Number> =
     `$multiply`(this, other)
 
+@BsonMarker4
+@JvmName("Number_unaryMinus")
+operator fun Expr<_Number>.unaryMinus(): Expr<_Number> =
+    this * (-1).expr
+
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/pow/ */
 @BsonMarker4
 @JvmName($$"Number_$pow_Number")
