@@ -133,7 +133,7 @@ suspend fun MongoCollection.existsById(
  * @since 2.0.0
  * @see com.mongodb.client.MongoCollection.insertOne
  */
-suspend fun MongoCollection.createOneGet(
+suspend fun MongoCollection.insertOneGet(
     document: BsonDocument,
     options: InsertOneOptions = InsertOneOptions(),
     session: ClientSession? = null,
@@ -160,7 +160,7 @@ suspend fun MongoCollection.createOneGet(
  * @since 2.0.0
  * @see com.mongodb.client.MongoCollection.insertOne
  */
-suspend fun MongoCollection.createOneGet(
+suspend fun MongoCollection.insertOneGet(
     document: BsonDocumentBlock,
     session: ClientSession? = null,
     options: InsertOneOptions.() -> Unit = {},
