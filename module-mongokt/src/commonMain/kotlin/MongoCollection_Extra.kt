@@ -19,10 +19,7 @@
 package org.cufy.mongodb
 
 import com.mongodb.MongoCommandException
-import org.cufy.bson.AnyID
-import org.cufy.bson.BsonDocument
-import org.cufy.bson.BsonDocumentBlock
-import org.cufy.bson.by
+import org.cufy.bson.*
 
 /* ============= ------------------ ============= */
 
@@ -118,6 +115,63 @@ suspend fun MongoCollection.existsById(
             .apply { limit = 1 },
         session = session,
     ) > 0L
+}
+
+// ===============[ insertOne: updateOneGet ]
+
+/**
+ * Inserts the provided document. If the document
+ * is missing an identifier, the driver should
+ * generate one.
+ *
+ * @param session the client session with which to associate this operation.
+ * @param document the document to insert.
+ * @param options the options to apply to the operation.
+ * @return the inserted document
+ * @throws com.mongodb.DuplicateKeyException
+ * @throws com.mongodb.MongoException
+ * @since 2.0.0
+ * @see com.mongodb.client.MongoCollection.insertOne
+ */
+suspend fun MongoCollection.createOneGet(
+    document: BsonDocument,
+    options: InsertOneOptions = InsertOneOptions(),
+    session: ClientSession? = null,
+): BsonDocument {
+    val newDoc = when {
+        "_id" in document -> document
+        else -> document + { "_id" by ObjectId() }
+    }
+    insertOne(newDoc, options, session)
+    return newDoc
+}
+
+/**
+ * Inserts the provided document. If the document
+ * is missing an identifier, the driver should
+ * generate one.
+ *
+ * @param session the client session with which to associate this operation.
+ * @param document the document to insert.
+ * @param options the options to apply to the operation.
+ * @return the inserted document
+ * @throws com.mongodb.DuplicateKeyException
+ * @throws com.mongodb.MongoException
+ * @since 2.0.0
+ * @see com.mongodb.client.MongoCollection.insertOne
+ */
+suspend fun MongoCollection.createOneGet(
+    document: BsonDocumentBlock,
+    session: ClientSession? = null,
+    options: InsertOneOptions.() -> Unit = {},
+): BsonDocument {
+    val newDoc = BsonDocument {
+        document()
+        if ("_id" !in contextOf())
+            "_id" by ObjectId()
+    }
+    insertOne(newDoc, InsertOneOptions(options), session)
+    return newDoc
 }
 
 // ===============[ findOneAndReplace: replaceOneGet ]
