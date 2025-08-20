@@ -40,6 +40,20 @@ fun `$concatArrays`(arrays: List<Expr<_Array>>): Expr<_Array> =
 /* ============= ------------------ ============= */
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/filter/ */
+@BsonMarker4
+fun `$filter`(
+    input: Expr<_Array>,
+    cond: Expr<_Boolean>,
+    limit: Expr<_Number>? = null,
+): Expr<_Array> = Expr {
+    `$filter` by {
+        "input" by input.element
+        "cond" by cond.element
+        if (limit != null) "limit" by limit.element
+    }
+}
+
+/** https://www.mongodb.com/docs/manual/reference/operator/aggregation/filter/ */
 @Suppress("LocalVariableName")
 @BsonMarker4
 fun `$filter`(
@@ -132,6 +146,19 @@ fun `$lastN`(input: Expr<_Array>, n: Expr<_Number>): Expr<_Array> =
     Expr { `$lastN` by { "input" by input.element; "n" by n.element } }
 
 /* ============= ------------------ ============= */
+
+/** https://www.mongodb.com/docs/manual/reference/operator/aggregation/map/ */
+@Suppress("LocalVariableName")
+@BsonMarker4
+fun `$map`(
+    input: Expr<_Array>,
+    _in: Expr<_Element>,
+): Expr<_Array> = Expr {
+    `$map` by {
+        "input" by input.element
+        "in" by _in.element
+    }
+}
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/map/ */
 @Suppress("LocalVariableName")
