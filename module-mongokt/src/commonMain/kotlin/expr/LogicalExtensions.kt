@@ -12,12 +12,16 @@ import org.cufy.mongodb.expr.Expr.*
 // _Boolean.kt
 
 @BsonMarker4
-infix fun Expr<_Element>.and(other: Expr<_Element>): Expr<_Boolean> =
-    `$and`(this, other)
+operator fun Expr<_Element>.not(): Expr<_Boolean> =
+    `$not`(this)
+
+/* ============= ------------------ ============= */
+
+// _Boolean.kt
 
 @BsonMarker4
-fun Expr<_Element>.not(): Expr<_Boolean> =
-    `$not`(this)
+infix fun Expr<_Element>.and(other: Expr<_Element>): Expr<_Boolean> =
+    `$and`(this, other)
 
 @BsonMarker4
 infix fun Expr<_Element>.or(other: Expr<_Element>): Expr<_Boolean> =
