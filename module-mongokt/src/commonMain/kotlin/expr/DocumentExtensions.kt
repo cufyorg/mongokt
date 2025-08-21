@@ -65,4 +65,9 @@ operator fun Expr<_Document>.plus(other: Pair<Expr<_String>, Expr<_Element>>): E
 operator fun Expr<_Document>.get(field: Expr<_String>): Expr<_Element> =
     `$getField`(field, this)
 
+@BsonMarker4
+@JvmName("Document_get_String")
+operator fun Expr<_Document>.get(field: String): Expr<_Element> =
+    `$getField`(field.expr, this)
+
 /* ============= ------------------ ============= */

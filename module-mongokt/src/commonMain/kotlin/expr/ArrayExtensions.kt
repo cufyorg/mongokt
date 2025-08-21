@@ -54,6 +54,11 @@ operator fun <T : _Element> Expr<_Array<T>>.get(idx: Expr<_Number>): Expr<T> =
     `$arrayElemAt`(this, idx)
 
 @BsonMarker4
+@JvmName("Array_get_Number")
+operator fun <T : _Element> Expr<_Array<T>>.get(idx: Int): Expr<T> =
+    `$arrayElemAt`(this, idx.expr)
+
+@BsonMarker4
 @JvmName("Array_plus_Array")
 operator fun <T : _Element> Expr<_Array<T>>.plus(other: Expr<_Array<T>>): Expr<_Array<T>> =
     `$concatArrays`(this, other)
