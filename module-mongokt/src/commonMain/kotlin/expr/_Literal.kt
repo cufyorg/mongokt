@@ -24,17 +24,7 @@ fun `$literal`(value: BsonDocument): Expr<_Document> =
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/literal/ */
 @BsonMarker4
-fun `$literal`(value: BsonArray): Expr<_Array> =
+fun `$literal`(value: BsonArray): Expr<_Array<_Element>> =
     Expr { `$literal` by value }
-
-/** https://www.mongodb.com/docs/manual/reference/operator/aggregation/literal/ */
-@BsonMarker4
-fun `$literal`(value: BsonDocumentBlock): Expr<_Document> =
-    Expr { `$literal` by document(value) }
-
-@BsonMarker4
-val BsonArray.exprLiteral get() = `$literal`(this)
-@BsonMarker4
-val BsonDocument.exprLiteral get() = `$literal`(this)
 
 /* ============= ------------------ ============= */

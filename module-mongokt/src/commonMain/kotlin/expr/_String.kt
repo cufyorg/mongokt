@@ -156,7 +156,7 @@ fun `$regexFindAll`(
     input: Expr<_String>,
     regex: Expr<_Element /* String | RegExp */>,
     options: String? = null,
-): Expr<_Array> = Expr {
+): Expr<_Array<_Document>> = Expr {
     `$regexFindAll` by {
         "input" by input.element
         "regex" by regex.element
@@ -223,7 +223,7 @@ fun `$rtrim`(input: Expr<_String>, chars: Expr<_String>? = null): Expr<_String> 
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/split/ */
 @BsonMarker4
-fun `$split`(stringExpression: Expr<_String>, delimiter: Expr<_String>): Expr<_Array> =
+fun `$split`(stringExpression: Expr<_String>, delimiter: Expr<_String>): Expr<_Array<_String>> =
     Expr { `$split` by array(stringExpression.element, delimiter.element) }
 
 /* ============= ------------------ ============= */

@@ -19,7 +19,7 @@ data class Expr<out T : _Element>(val element: BsonElement) {
     interface _DateTime : _Element
     interface _String : _Element
     interface _RegExp : _Element
-    interface _Array : _Element
+    interface _Array<out T : _Element> : _Element
     interface _Document : _Element
     interface _ObjectId : _Element
     interface _Binary : _Element
@@ -37,10 +37,10 @@ infix fun String.by(expr: Expr<*>) =
 /* ============= ------------------ ============= */
 
 @BsonMarker4
-fun <T : _Element> `$`(path: String) = Expr<T>("$${path}".bson)
+fun `$`(path: String) = Expr<_Element>("$${path}".bson)
 
 @BsonMarker4
-fun <T : _Element> `$$`(path: String) = Expr<T>("$$${path}".bson)
+fun `$$`(path: String) = Expr<_Element>("$$${path}".bson)
 
 @Suppress("UNCHECKED_CAST")
 @BsonMarker4
@@ -49,21 +49,7 @@ fun <T : _Element> Expr<*>.unsafeCast() = this as Expr<T>
 /* ============= ------------------ ============= */
 
 @BsonMarker4
-fun arrayExpr() = Expr<_Array>(BsonArray())
-@BsonMarker4
-fun arrayExpr(block: BsonArrayBlock) = Expr<_Array>(BsonArray(block))
-@BsonMarker4
-fun arrayExpr(vararg items: BsonElement) = Expr<_Array>(BsonArray(*items))
-
-@BsonMarker4
-fun documentExpr() = Expr<_Document>(BsonDocument())
-@BsonMarker4
-fun documentExpr(block: BsonDocumentBlock) = Expr<_Document>(BsonDocument(block))
-@BsonMarker4
-fun documentExpr(vararg pairs: Pair<String, BsonElement>) = Expr<_Document>(BsonDocument(*pairs))
-
-@BsonMarker4
-val BsonArray?.exprUnsafe get() = Expr<_Array>(this ?: null.bson)
+val BsonArray?.exprUnsafe get() = Expr<_Array<_Element>>(this ?: null.bson)
 @BsonMarker4
 val BsonDocument?.exprUnsafe get() = Expr<_Document>(this ?: null.bson)
 

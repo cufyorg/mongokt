@@ -34,7 +34,7 @@ fun `$convert`(
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/isNumber/ */
 @BsonMarker4
-fun `$isNumber`(expression: Expr<_Number>): Expr<_Boolean> =
+fun `$isNumber`(expression: Expr<*>): Expr<_Boolean> =
     Expr { `$isNumber` by expression.element }
 
 /* ============= ------------------ ============= */
