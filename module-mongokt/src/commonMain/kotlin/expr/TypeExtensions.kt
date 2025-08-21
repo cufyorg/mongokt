@@ -46,11 +46,17 @@ fun Expr<*>.type(): Expr<_String> =
 // _Array.kt
 
 @BsonMarker4
-fun Expr<_Array<*>>.exprToObject(): Expr<_Document> =
+@JvmName($$"ArrayDocument_$arrayToObject")
+fun Expr<_Array<_Document>>.exprToObject(): Expr<_Document> =
     `$arrayToObject`(this)
 
 @BsonMarker4
-fun Expr<_Document>.exprToArray(): Expr<_Array<_Element>> =
+@JvmName($$"ArrayArray_$arrayToObject")
+fun Expr<_Array<_Array<*>>>.exprToObject(): Expr<_Document> =
+    `$arrayToObject`(this)
+
+@BsonMarker4
+fun Expr<_Document>.exprToArray(): Expr<_Array<_Document>> =
     `$objectToArray`(this)
 
 // _Date.kt

@@ -20,7 +20,14 @@ fun <T : _Element> `$arrayElemAt`(array: Expr<_Array<T>>, idx: Expr<_Number>): E
 
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/arrayToObject/ */
 @BsonMarker4
-fun `$arrayToObject`(expression: Expr<_Array<*>>): Expr<_Document> =
+@JvmName($$"$arrayToObject_ArrayDocument")
+fun `$arrayToObject`(expression: Expr<_Array<_Document>>): Expr<_Document> =
+    Expr { `$arrayToObject` by array(expression.element) }
+
+/** https://www.mongodb.com/docs/manual/reference/operator/aggregation/arrayToObject/ */
+@BsonMarker4
+@JvmName($$"$arrayToObject_ArrayArray")
+fun `$arrayToObject`(expression: Expr<_Array<_Array<*>>>): Expr<_Document> =
     Expr { `$arrayToObject` by array(expression.element) }
 
 /* ============= ------------------ ============= */
@@ -192,7 +199,7 @@ fun <T : _Element> `$minN`(input: Expr<_Array<T>>, n: Expr<_Number>): Expr<_Arra
 /** https://www.mongodb.com/docs/manual/reference/operator/aggregation/objectToArray/ */
 @Suppress("LocalVariableName")
 @BsonMarker4
-fun `$objectToArray`(_object: Expr<_Document>): Expr<_Array<_Element>> =
+fun `$objectToArray`(_object: Expr<_Document>): Expr<_Array<_Document>> =
     Expr { `$objectToArray` by _object.element }
 
 /* ============= ------------------ ============= */
