@@ -240,8 +240,18 @@ fun by(value: BsonArrayLike?) {
  * Put all the items in the given [list].
  */
 @BsonMarker2
+@Deprecated("Use byOf instead.", ReplaceWith("byOf(list)"))
 context(builder: BsonArrayBuilder)
 fun byAll(list: BsonArrayLike) {
+    builder += list
+}
+
+/**
+ * Put all the items in the given [list].
+ */
+@BsonMarker2
+context(builder: BsonArrayBuilder)
+fun byOf(list: BsonArrayLike) {
     builder += list
 }
 

@@ -105,20 +105,14 @@ fun Map<String, BsonElement>.toBsonDocument(): BsonDocument {
  * Create a new document from combining this document with the given [map].
  */
 operator fun BsonDocument.plus(map: BsonDocumentLike): BsonDocument {
-    return BsonDocument {
-        byAll(this)
-        byAll(map)
-    }
+    return BsonDocument { byOf(this); byOf(map) }
 }
 
 /**
  * Create a new document from combining this document with the given [block].
  */
 inline operator fun BsonDocument.plus(block: BsonDocumentBlock): BsonDocument {
-    return BsonDocument {
-        byAll(this)
-        block()
-    }
+    return BsonDocument { byOf(this); block() }
 }
 
 /* ============= ------------------ ============= */

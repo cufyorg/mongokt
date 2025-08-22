@@ -240,9 +240,28 @@ infix fun String.by(value: BsonArrayLike?) {
  * Put all the mappings in the given [map].
  */
 @BsonMarker2
+@Deprecated("Use byOf instead.", ReplaceWith("byOf(map)"))
 context(builder: BsonDocumentBuilder)
 fun byAll(map: BsonDocumentLike) {
     builder += map
+}
+
+/**
+ * Put all the mappings in the given [map].
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+fun byOf(map: BsonDocumentLike) {
+    builder += map
+}
+
+/**
+ * Set the field with the name [this] to the value at the field [this] in the given [map].
+ */
+@BsonMarker2
+context(builder: BsonDocumentBuilder)
+infix fun String.byOf(map: BsonDocumentLike) {
+    builder[this] = map[this] ?: return
 }
 
 /**

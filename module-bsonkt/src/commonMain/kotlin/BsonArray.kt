@@ -103,20 +103,14 @@ fun Iterable<BsonElement>.toBsonArray(): BsonArray {
  * Create a new array from combining this array with the given [list].
  */
 operator fun BsonArray.plus(list: BsonArrayLike): BsonArray {
-    return BsonArray {
-        byAll(this)
-        byAll(list)
-    }
+    return BsonArray { byOf(this); byOf(list) }
 }
 
 /**
  * Create a new array from combining this array with the given [block].
  */
 inline operator fun BsonArray.plus(block: BsonArrayBlock): BsonArray {
-    return BsonArray {
-        byAll(this)
-        block()
-    }
+    return BsonArray { byOf(this); block() }
 }
 
 /* ============= ------------------ ============= */
